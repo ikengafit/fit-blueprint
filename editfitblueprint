@@ -1,0 +1,1875 @@
+{
+  "name": "fitblueprint-form",
+  "version": "1.0.0",
+  "lockfileVersion": 3,
+  "requires": true,
+  "packages": {
+    "": {
+      "name": "fitblueprint-form",
+      "version": "1.0.0",
+      "license": "ISC",
+      "dependencies": {
+        "cors": "^2.8.6",
+        "express": "^5.2.1",
+        "multer": "^2.1.1",
+        "nodemailer": "^8.0.5",
+        "pptxgenjs": "^4.0.1"
+      }
+    },
+    "node_modules/@types/node": {
+      "version": "22.19.17",
+      "resolved": "https://registry.npmjs.org/@types/node/-/node-22.19.17.tgz",
+      "integrity": "sha512-wGdMcf+vPYM6jikpS/qhg6WiqSV/OhG+jeeHT/KlVqxYfD40iYJf9/AE1uQxVWFvU7MipKRkRv8NSHiCGgPr8Q==",
+      "license": "MIT",
+      "dependencies": {
+        "undici-types": "~6.21.0"
+      }
+    },
+    "node_modules/accepts": {
+      "version": "2.0.0",
+      "resolved": "https://registry.npmjs.org/accepts/-/accepts-2.0.0.tgz",
+      "integrity": "sha512-5cvg6CtKwfgdmVqY1WIiXKc3Q1bkRqGLi+2W/6ao+6Y7gu/RCwRuAhGEzh5B4KlszSuTLgZYuqFqo5bImjNKng==",
+      "license": "MIT",
+      "dependencies": {
+        "mime-types": "^3.0.0",
+        "negotiator": "^1.0.0"
+      },
+      "engines": {
+        "node": ">= 0.6"
+      }
+    },
+    "node_modules/append-field": {
+      "version": "1.0.0",
+      "resolved": "https://registry.npmjs.org/append-field/-/append-field-1.0.0.tgz",
+      "integrity": "sha512-klpgFSWLW1ZEs8svjfb7g4qWY0YS5imI82dTg+QahUvJ8YqAY0P10Uk8tTyh9ZGuYEZEMaeJYCF5BFuX552hsw==",
+      "license": "MIT"
+    },
+    "node_modules/body-parser": {
+      "version": "2.2.2",
+      "resolved": "https://registry.npmjs.org/body-parser/-/body-parser-2.2.2.tgz",
+      "integrity": "sha512-oP5VkATKlNwcgvxi0vM0p/D3n2C3EReYVX+DNYs5TjZFn/oQt2j+4sVJtSMr18pdRr8wjTcBl6LoV+FUwzPmNA==",
+      "license": "MIT",
+      "dependencies": {
+        "bytes": "^3.1.2",
+        "content-type": "^1.0.5",
+        "debug": "^4.4.3",
+        "http-errors": "^2.0.0",
+        "iconv-lite": "^0.7.0",
+        "on-finished": "^2.4.1",
+        "qs": "^6.14.1",
+        "raw-body": "^3.0.1",
+        "type-is": "^2.0.1"
+      },
+      "engines": {
+        "node": ">=18"
+      },
+      "funding": {
+        "type": "opencollective",
+        "url": "https://opencollective.com/express"
+      }
+    },
+    "node_modules/buffer-from": {
+      "version": "1.1.2",
+      "resolved": "https://registry.npmjs.org/buffer-from/-/buffer-from-1.1.2.tgz",
+      "integrity": "sha512-E+XQCRwSbaaiChtv6k6Dwgc+bx+Bs6vuKJHHl5kox/BaKbhiXzqQOwK4cO22yElGp2OCmjwVhT3HmxgyPGnJfQ==",
+      "license": "MIT"
+    },
+    "node_modules/busboy": {
+      "version": "1.6.0",
+      "resolved": "https://registry.npmjs.org/busboy/-/busboy-1.6.0.tgz",
+      "integrity": "sha512-8SFQbg/0hQ9xy3UNTB0YEnsNBbWfhf7RtnzpL7TkBiTBRfrQ9Fxcnz7VJsleJpyp6rVLvXiuORqjlHi5q+PYuA==",
+      "dependencies": {
+        "streamsearch": "^1.1.0"
+      },
+      "engines": {
+        "node": ">=10.16.0"
+      }
+    },
+    "node_modules/bytes": {
+      "version": "3.1.2",
+      "resolved": "https://registry.npmjs.org/bytes/-/bytes-3.1.2.tgz",
+      "integrity": "sha512-/Nf7TyzTx6S3yRJObOAV7956r8cr2+Oj8AC5dt8wSP3BQAoeX58NoHyCU8P8zGkNXStjTSi6fzO6F0pBdcYbEg==",
+      "license": "MIT",
+      "engines": {
+        "node": ">= 0.8"
+      }
+    },
+    "node_modules/call-bind-apply-helpers": {
+      "version": "1.0.2",
+      "resolved": "https://registry.npmjs.org/call-bind-apply-helpers/-/call-bind-apply-helpers-1.0.2.tgz",
+      "integrity": "sha512-Sp1ablJ0ivDkSzjcaJdxEunN5/XvksFJ2sMBFfq6x0ryhQV/2b/KwFe21cMpmHtPOSij8K99/wSfoEuTObmuMQ==",
+      "license": "MIT",
+      "dependencies": {
+        "es-errors": "^1.3.0",
+        "function-bind": "^1.1.2"
+      },
+      "engines": {
+        "node": ">= 0.4"
+      }
+    },
+    "node_modules/call-bound": {
+      "version": "1.0.4",
+      "resolved": "https://registry.npmjs.org/call-bound/-/call-bound-1.0.4.tgz",
+      "integrity": "sha512-+ys997U96po4Kx/ABpBCqhA9EuxJaQWDQg7295H4hBphv3IZg0boBKuwYpt4YXp6MZ5AmZQnU/tyMTlRpaSejg==",
+      "license": "MIT",
+      "dependencies": {
+        "call-bind-apply-helpers": "^1.0.2",
+        "get-intrinsic": "^1.3.0"
+      },
+      "engines": {
+        "node": ">= 0.4"
+      },
+      "funding": {
+        "url": "https://github.com/sponsors/ljharb"
+      }
+    },
+    "node_modules/concat-stream": {
+      "version": "2.0.0",
+      "resolved": "https://registry.npmjs.org/concat-stream/-/concat-stream-2.0.0.tgz",
+      "integrity": "sha512-MWufYdFw53ccGjCA+Ol7XJYpAlW6/prSMzuPOTRnJGcGzuhLn4Scrz7qf6o8bROZ514ltazcIFJZevcfbo0x7A==",
+      "engines": [
+        "node >= 6.0"
+      ],
+      "license": "MIT",
+      "dependencies": {
+        "buffer-from": "^1.0.0",
+        "inherits": "^2.0.3",
+        "readable-stream": "^3.0.2",
+        "typedarray": "^0.0.6"
+      }
+    },
+    "node_modules/content-disposition": {
+      "version": "1.1.0",
+      "resolved": "https://registry.npmjs.org/content-disposition/-/content-disposition-1.1.0.tgz",
+      "integrity": "sha512-5jRCH9Z/+DRP7rkvY83B+yGIGX96OYdJmzngqnw2SBSxqCFPd0w2km3s5iawpGX8krnwSGmF0FW5Nhr0Hfai3g==",
+      "license": "MIT",
+      "engines": {
+        "node": ">=18"
+      },
+      "funding": {
+        "type": "opencollective",
+        "url": "https://opencollective.com/express"
+      }
+    },
+    "node_modules/content-type": {
+      "version": "1.0.5",
+      "resolved": "https://registry.npmjs.org/content-type/-/content-type-1.0.5.tgz",
+      "integrity": "sha512-nTjqfcBFEipKdXCv4YDQWCfmcLZKm81ldF0pAopTvyrFGVbcR6P/VAAd5G7N+0tTr8QqiU0tFadD6FK4NtJwOA==",
+      "license": "MIT",
+      "engines": {
+        "node": ">= 0.6"
+      }
+    },
+    "node_modules/cookie": {
+      "version": "0.7.2",
+      "resolved": "https://registry.npmjs.org/cookie/-/cookie-0.7.2.tgz",
+      "integrity": "sha512-yki5XnKuf750l50uGTllt6kKILY4nQ1eNIQatoXEByZ5dWgnKqbnqmTrBE5B4N7lrMJKQ2ytWMiTO2o0v6Ew/w==",
+      "license": "MIT",
+      "engines": {
+        "node": ">= 0.6"
+      }
+    },
+    "node_modules/cookie-signature": {
+      "version": "1.2.2",
+      "resolved": "https://registry.npmjs.org/cookie-signature/-/cookie-signature-1.2.2.tgz",
+      "integrity": "sha512-D76uU73ulSXrD1UXF4KE2TMxVVwhsnCgfAyTg9k8P6KGZjlXKrOLe4dJQKI3Bxi5wjesZoFXJWElNWBjPZMbhg==",
+      "license": "MIT",
+      "engines": {
+        "node": ">=6.6.0"
+      }
+    },
+    "node_modules/core-util-is": {
+      "version": "1.0.3",
+      "resolved": "https://registry.npmjs.org/core-util-is/-/core-util-is-1.0.3.tgz",
+      "integrity": "sha512-ZQBvi1DcpJ4GDqanjucZ2Hj3wEO5pZDS89BWbkcrvdxksJorwUDDZamX9ldFkp9aw2lmBDLgkObEA4DWNJ9FYQ==",
+      "license": "MIT"
+    },
+    "node_modules/cors": {
+      "version": "2.8.6",
+      "resolved": "https://registry.npmjs.org/cors/-/cors-2.8.6.tgz",
+      "integrity": "sha512-tJtZBBHA6vjIAaF6EnIaq6laBBP9aq/Y3ouVJjEfoHbRBcHBAHYcMh/w8LDrk2PvIMMq8gmopa5D4V8RmbrxGw==",
+      "license": "MIT",
+      "dependencies": {
+        "object-assign": "^4",
+        "vary": "^1"
+      },
+      "engines": {
+        "node": ">= 0.10"
+      },
+      "funding": {
+        "type": "opencollective",
+        "url": "https://opencollective.com/express"
+      }
+    },
+    "node_modules/debug": {
+      "version": "4.4.3",
+      "resolved": "https://registry.npmjs.org/debug/-/debug-4.4.3.tgz",
+      "integrity": "sha512-RGwwWnwQvkVfavKVt22FGLw+xYSdzARwm0ru6DhTVA3umU5hZc28V3kO4stgYryrTlLpuvgI9GiijltAjNbcqA==",
+      "license": "MIT",
+      "dependencies": {
+        "ms": "^2.1.3"
+      },
+      "engines": {
+        "node": ">=6.0"
+      },
+      "peerDependenciesMeta": {
+        "supports-color": {
+          "optional": true
+        }
+      }
+    },
+    "node_modules/depd": {
+      "version": "2.0.0",
+      "resolved": "https://registry.npmjs.org/depd/-/depd-2.0.0.tgz",
+      "integrity": "sha512-g7nH6P6dyDioJogAAGprGpCtVImJhpPk/roCzdb3fIh61/s/nPsfR6onyMwkCAR/OlC3yBC0lESvUoQEAssIrw==",
+      "license": "MIT",
+      "engines": {
+        "node": ">= 0.8"
+      }
+    },
+    "node_modules/dunder-proto": {
+      "version": "1.0.1",
+      "resolved": "https://registry.npmjs.org/dunder-proto/-/dunder-proto-1.0.1.tgz",
+      "integrity": "sha512-KIN/nDJBQRcXw0MLVhZE9iQHmG68qAVIBg9CqmUYjmQIhgij9U5MFvrqkUL5FbtyyzZuOeOt0zdeRe4UY7ct+A==",
+      "license": "MIT",
+      "dependencies": {
+        "call-bind-apply-helpers": "^1.0.1",
+        "es-errors": "^1.3.0",
+        "gopd": "^1.2.0"
+      },
+      "engines": {
+        "node": ">= 0.4"
+      }
+    },
+    "node_modules/ee-first": {
+      "version": "1.1.1",
+      "resolved": "https://registry.npmjs.org/ee-first/-/ee-first-1.1.1.tgz",
+      "integrity": "sha512-WMwm9LhRUo+WUaRN+vRuETqG89IgZphVSNkdFgeb6sS/E4OrDIN7t48CAewSHXc6C8lefD8KKfr5vY61brQlow==",
+      "license": "MIT"
+    },
+    "node_modules/encodeurl": {
+      "version": "2.0.0",
+      "resolved": "https://registry.npmjs.org/encodeurl/-/encodeurl-2.0.0.tgz",
+      "integrity": "sha512-Q0n9HRi4m6JuGIV1eFlmvJB7ZEVxu93IrMyiMsGC0lrMJMWzRgx6WGquyfQgZVb31vhGgXnfmPNNXmxnOkRBrg==",
+      "license": "MIT",
+      "engines": {
+        "node": ">= 0.8"
+      }
+    },
+    "node_modules/es-define-property": {
+      "version": "1.0.1",
+      "resolved": "https://registry.npmjs.org/es-define-property/-/es-define-property-1.0.1.tgz",
+      "integrity": "sha512-e3nRfgfUZ4rNGL232gUgX06QNyyez04KdjFrF+LTRoOXmrOgFKDg4BCdsjW8EnT69eqdYGmRpJwiPVYNrCaW3g==",
+      "license": "MIT",
+      "engines": {
+        "node": ">= 0.4"
+      }
+    },
+    "node_modules/es-errors": {
+      "version": "1.3.0",
+      "resolved": "https://registry.npmjs.org/es-errors/-/es-errors-1.3.0.tgz",
+      "integrity": "sha512-Zf5H2Kxt2xjTvbJvP2ZWLEICxA6j+hAmMzIlypy4xcBg1vKVnx89Wy0GbS+kf5cwCVFFzdCFh2XSCFNULS6csw==",
+      "license": "MIT",
+      "engines": {
+        "node": ">= 0.4"
+      }
+    },
+    "node_modules/es-object-atoms": {
+      "version": "1.1.1",
+      "resolved": "https://registry.npmjs.org/es-object-atoms/-/es-object-atoms-1.1.1.tgz",
+      "integrity": "sha512-FGgH2h8zKNim9ljj7dankFPcICIK9Cp5bm+c2gQSYePhpaG5+esrLODihIorn+Pe6FGJzWhXQotPv73jTaldXA==",
+      "license": "MIT",
+      "dependencies": {
+        "es-errors": "^1.3.0"
+      },
+      "engines": {
+        "node": ">= 0.4"
+      }
+    },
+    "node_modules/escape-html": {
+      "version": "1.0.3",
+      "resolved": "https://registry.npmjs.org/escape-html/-/escape-html-1.0.3.tgz",
+      "integrity": "sha512-NiSupZ4OeuGwr68lGIeym/ksIZMJodUGOSCZ/FSnTxcrekbvqrgdUxlJOMpijaKZVjAJrWrGs/6Jy8OMuyj9ow==",
+      "license": "MIT"
+    },
+    "node_modules/etag": {
+      "version": "1.8.1",
+      "resolved": "https://registry.npmjs.org/etag/-/etag-1.8.1.tgz",
+      "integrity": "sha512-aIL5Fx7mawVa300al2BnEE4iNvo1qETxLrPI/o05L7z6go7fCw1J6EQmbK4FmJ2AS7kgVF/KEZWufBfdClMcPg==",
+      "license": "MIT",
+      "engines": {
+        "node": ">= 0.6"
+      }
+    },
+    "node_modules/express": {
+      "version": "5.2.1",
+      "resolved": "https://registry.npmjs.org/express/-/express-5.2.1.tgz",
+      "integrity": "sha512-hIS4idWWai69NezIdRt2xFVofaF4j+6INOpJlVOLDO8zXGpUVEVzIYk12UUi2JzjEzWL3IOAxcTubgz9Po0yXw==",
+      "license": "MIT",
+      "dependencies": {
+        "accepts": "^2.0.0",
+        "body-parser": "^2.2.1",
+        "content-disposition": "^1.0.0",
+        "content-type": "^1.0.5",
+        "cookie": "^0.7.1",
+        "cookie-signature": "^1.2.1",
+        "debug": "^4.4.0",
+        "depd": "^2.0.0",
+        "encodeurl": "^2.0.0",
+        "escape-html": "^1.0.3",
+        "etag": "^1.8.1",
+        "finalhandler": "^2.1.0",
+        "fresh": "^2.0.0",
+        "http-errors": "^2.0.0",
+        "merge-descriptors": "^2.0.0",
+        "mime-types": "^3.0.0",
+        "on-finished": "^2.4.1",
+        "once": "^1.4.0",
+        "parseurl": "^1.3.3",
+        "proxy-addr": "^2.0.7",
+        "qs": "^6.14.0",
+        "range-parser": "^1.2.1",
+        "router": "^2.2.0",
+        "send": "^1.1.0",
+        "serve-static": "^2.2.0",
+        "statuses": "^2.0.1",
+        "type-is": "^2.0.1",
+        "vary": "^1.1.2"
+      },
+      "engines": {
+        "node": ">= 18"
+      },
+      "funding": {
+        "type": "opencollective",
+        "url": "https://opencollective.com/express"
+      }
+    },
+    "node_modules/finalhandler": {
+      "version": "2.1.1",
+      "resolved": "https://registry.npmjs.org/finalhandler/-/finalhandler-2.1.1.tgz",
+      "integrity": "sha512-S8KoZgRZN+a5rNwqTxlZZePjT/4cnm0ROV70LedRHZ0p8u9fRID0hJUZQpkKLzro8LfmC8sx23bY6tVNxv8pQA==",
+      "license": "MIT",
+      "dependencies": {
+        "debug": "^4.4.0",
+        "encodeurl": "^2.0.0",
+        "escape-html": "^1.0.3",
+        "on-finished": "^2.4.1",
+        "parseurl": "^1.3.3",
+        "statuses": "^2.0.1"
+      },
+      "engines": {
+        "node": ">= 18.0.0"
+      },
+      "funding": {
+        "type": "opencollective",
+        "url": "https://opencollective.com/express"
+      }
+    },
+    "node_modules/forwarded": {
+      "version": "0.2.0",
+      "resolved": "https://registry.npmjs.org/forwarded/-/forwarded-0.2.0.tgz",
+      "integrity": "sha512-buRG0fpBtRHSTCOASe6hD258tEubFoRLb4ZNA6NxMVHNw2gOcwHo9wyablzMzOA5z9xA9L1KNjk/Nt6MT9aYow==",
+      "license": "MIT",
+      "engines": {
+        "node": ">= 0.6"
+      }
+    },
+    "node_modules/fresh": {
+      "version": "2.0.0",
+      "resolved": "https://registry.npmjs.org/fresh/-/fresh-2.0.0.tgz",
+      "integrity": "sha512-Rx/WycZ60HOaqLKAi6cHRKKI7zxWbJ31MhntmtwMoaTeF7XFH9hhBp8vITaMidfljRQ6eYWCKkaTK+ykVJHP2A==",
+      "license": "MIT",
+      "engines": {
+        "node": ">= 0.8"
+      }
+    },
+    "node_modules/function-bind": {
+      "version": "1.1.2",
+      "resolved": "https://registry.npmjs.org/function-bind/-/function-bind-1.1.2.tgz",
+      "integrity": "sha512-7XHNxH7qX9xG5mIwxkhumTox/MIRNcOgDrxWsMt2pAr23WHp6MrRlN7FBSFpCpr+oVO0F744iUgR82nJMfG2SA==",
+      "license": "MIT",
+      "funding": {
+        "url": "https://github.com/sponsors/ljharb"
+      }
+    },
+    "node_modules/get-intrinsic": {
+      "version": "1.3.0",
+      "resolved": "https://registry.npmjs.org/get-intrinsic/-/get-intrinsic-1.3.0.tgz",
+      "integrity": "sha512-9fSjSaos/fRIVIp+xSJlE6lfwhES7LNtKaCBIamHsjr2na1BiABJPo0mOjjz8GJDURarmCPGqaiVg5mfjb98CQ==",
+      "license": "MIT",
+      "dependencies": {
+        "call-bind-apply-helpers": "^1.0.2",
+        "es-define-property": "^1.0.1",
+        "es-errors": "^1.3.0",
+        "es-object-atoms": "^1.1.1",
+        "function-bind": "^1.1.2",
+        "get-proto": "^1.0.1",
+        "gopd": "^1.2.0",
+        "has-symbols": "^1.1.0",
+        "hasown": "^2.0.2",
+        "math-intrinsics": "^1.1.0"
+      },
+      "engines": {
+        "node": ">= 0.4"
+      },
+      "funding": {
+        "url": "https://github.com/sponsors/ljharb"
+      }
+    },
+    "node_modules/get-proto": {
+      "version": "1.0.1",
+      "resolved": "https://registry.npmjs.org/get-proto/-/get-proto-1.0.1.tgz",
+      "integrity": "sha512-sTSfBjoXBp89JvIKIefqw7U2CCebsc74kiY6awiGogKtoSGbgjYE/G/+l9sF3MWFPNc9IcoOC4ODfKHfxFmp0g==",
+      "license": "MIT",
+      "dependencies": {
+        "dunder-proto": "^1.0.1",
+        "es-object-atoms": "^1.0.0"
+      },
+      "engines": {
+        "node": ">= 0.4"
+      }
+    },
+    "node_modules/gopd": {
+      "version": "1.2.0",
+      "resolved": "https://registry.npmjs.org/gopd/-/gopd-1.2.0.tgz",
+      "integrity": "sha512-ZUKRh6/kUFoAiTAtTYPZJ3hw9wNxx+BIBOijnlG9PnrJsCcSjs1wyyD6vJpaYtgnzDrKYRSqf3OO6Rfa93xsRg==",
+      "license": "MIT",
+      "engines": {
+        "node": ">= 0.4"
+      },
+      "funding": {
+        "url": "https://github.com/sponsors/ljharb"
+      }
+    },
+    "node_modules/has-symbols": {
+      "version": "1.1.0",
+      "resolved": "https://registry.npmjs.org/has-symbols/-/has-symbols-1.1.0.tgz",
+      "integrity": "sha512-1cDNdwJ2Jaohmb3sg4OmKaMBwuC48sYni5HUw2DvsC8LjGTLK9h+eb1X6RyuOHe4hT0ULCW68iomhjUoKUqlPQ==",
+      "license": "MIT",
+      "engines": {
+        "node": ">= 0.4"
+      },
+      "funding": {
+        "url": "https://github.com/sponsors/ljharb"
+      }
+    },
+    "node_modules/hasown": {
+      "version": "2.0.2",
+      "resolved": "https://registry.npmjs.org/hasown/-/hasown-2.0.2.tgz",
+      "integrity": "sha512-0hJU9SCPvmMzIBdZFqNPXWa6dqh7WdH0cII9y+CyS8rG3nL48Bclra9HmKhVVUHyPWNH5Y7xDwAB7bfgSjkUMQ==",
+      "license": "MIT",
+      "dependencies": {
+        "function-bind": "^1.1.2"
+      },
+      "engines": {
+        "node": ">= 0.4"
+      }
+    },
+    "node_modules/http-errors": {
+      "version": "2.0.1",
+      "resolved": "https://registry.npmjs.org/http-errors/-/http-errors-2.0.1.tgz",
+      "integrity": "sha512-4FbRdAX+bSdmo4AUFuS0WNiPz8NgFt+r8ThgNWmlrjQjt1Q7ZR9+zTlce2859x4KSXrwIsaeTqDoKQmtP8pLmQ==",
+      "license": "MIT",
+      "dependencies": {
+        "depd": "~2.0.0",
+        "inherits": "~2.0.4",
+        "setprototypeof": "~1.2.0",
+        "statuses": "~2.0.2",
+        "toidentifier": "~1.0.1"
+      },
+      "engines": {
+        "node": ">= 0.8"
+      },
+      "funding": {
+        "type": "opencollective",
+        "url": "https://opencollective.com/express"
+      }
+    },
+    "node_modules/https": {
+      "version": "1.0.0",
+      "resolved": "https://registry.npmjs.org/https/-/https-1.0.0.tgz",
+      "integrity": "sha512-4EC57ddXrkaF0x83Oj8sM6SLQHAWXw90Skqu2M4AEWENZ3F02dFJE/GARA8igO79tcgYqGrD7ae4f5L3um2lgg==",
+      "license": "ISC"
+    },
+    "node_modules/iconv-lite": {
+      "version": "0.7.2",
+      "resolved": "https://registry.npmjs.org/iconv-lite/-/iconv-lite-0.7.2.tgz",
+      "integrity": "sha512-im9DjEDQ55s9fL4EYzOAv0yMqmMBSZp6G0VvFyTMPKWxiSBHUj9NW/qqLmXUwXrrM7AvqSlTCfvqRb0cM8yYqw==",
+      "license": "MIT",
+      "dependencies": {
+        "safer-buffer": ">= 2.1.2 < 3.0.0"
+      },
+      "engines": {
+        "node": ">=0.10.0"
+      },
+      "funding": {
+        "type": "opencollective",
+        "url": "https://opencollective.com/express"
+      }
+    },
+    "node_modules/image-size": {
+      "version": "1.2.1",
+      "resolved": "https://registry.npmjs.org/image-size/-/image-size-1.2.1.tgz",
+      "integrity": "sha512-rH+46sQJ2dlwfjfhCyNx5thzrv+dtmBIhPHk0zgRUukHzZ/kRueTJXoYYsclBaKcSMBWuGbOFXtioLpzTb5euw==",
+      "license": "MIT",
+      "dependencies": {
+        "queue": "6.0.2"
+      },
+      "bin": {
+        "image-size": "bin/image-size.js"
+      },
+      "engines": {
+        "node": ">=16.x"
+      }
+    },
+    "node_modules/immediate": {
+      "version": "3.0.6",
+      "resolved": "https://registry.npmjs.org/immediate/-/immediate-3.0.6.tgz",
+      "integrity": "sha512-XXOFtyqDjNDAQxVfYxuF7g9Il/IbWmmlQg2MYKOH8ExIT1qg6xc4zyS3HaEEATgs1btfzxq15ciUiY7gjSXRGQ==",
+      "license": "MIT"
+    },
+    "node_modules/inherits": {
+      "version": "2.0.4",
+      "resolved": "https://registry.npmjs.org/inherits/-/inherits-2.0.4.tgz",
+      "integrity": "sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==",
+      "license": "ISC"
+    },
+    "node_modules/ipaddr.js": {
+      "version": "1.9.1",
+      "resolved": "https://registry.npmjs.org/ipaddr.js/-/ipaddr.js-1.9.1.tgz",
+      "integrity": "sha512-0KI/607xoxSToH7GjN1FfSbLoU0+btTicjsQSWQlh/hZykN8KpmMf7uYwPW3R+akZ6R/w18ZlXSHBYXiYUPO3g==",
+      "license": "MIT",
+      "engines": {
+        "node": ">= 0.10"
+      }
+    },
+    "node_modules/is-promise": {
+      "version": "4.0.0",
+      "resolved": "https://registry.npmjs.org/is-promise/-/is-promise-4.0.0.tgz",
+      "integrity": "sha512-hvpoI6korhJMnej285dSg6nu1+e6uxs7zG3BYAm5byqDsgJNWwxzM6z6iZiAgQR4TJ30JmBTOwqZUw3WlyH3AQ==",
+      "license": "MIT"
+    },
+    "node_modules/isarray": {
+      "version": "1.0.0",
+      "resolved": "https://registry.npmjs.org/isarray/-/isarray-1.0.0.tgz",
+      "integrity": "sha512-VLghIWNM6ELQzo7zwmcg0NmTVyWKYjvIeM83yjp0wRDTmUnrM678fQbcKBo6n2CJEF0szoG//ytg+TKla89ALQ==",
+      "license": "MIT"
+    },
+    "node_modules/jszip": {
+      "version": "3.10.1",
+      "resolved": "https://registry.npmjs.org/jszip/-/jszip-3.10.1.tgz",
+      "integrity": "sha512-xXDvecyTpGLrqFrvkrUSoxxfJI5AH7U8zxxtVclpsUtMCq4JQ290LY8AW5c7Ggnr/Y/oK+bQMbqK2qmtk3pN4g==",
+      "license": "(MIT OR GPL-3.0-or-later)",
+      "dependencies": {
+        "lie": "~3.3.0",
+        "pako": "~1.0.2",
+        "readable-stream": "~2.3.6",
+        "setimmediate": "^1.0.5"
+      }
+    },
+    "node_modules/jszip/node_modules/readable-stream": {
+      "version": "2.3.8",
+      "resolved": "https://registry.npmjs.org/readable-stream/-/readable-stream-2.3.8.tgz",
+      "integrity": "sha512-8p0AUk4XODgIewSi0l8Epjs+EVnWiK7NoDIEGU0HhE7+ZyY8D1IMY7odu5lRrFXGg71L15KG8QrPmum45RTtdA==",
+      "license": "MIT",
+      "dependencies": {
+        "core-util-is": "~1.0.0",
+        "inherits": "~2.0.3",
+        "isarray": "~1.0.0",
+        "process-nextick-args": "~2.0.0",
+        "safe-buffer": "~5.1.1",
+        "string_decoder": "~1.1.1",
+        "util-deprecate": "~1.0.1"
+      }
+    },
+    "node_modules/jszip/node_modules/safe-buffer": {
+      "version": "5.1.2",
+      "resolved": "https://registry.npmjs.org/safe-buffer/-/safe-buffer-5.1.2.tgz",
+      "integrity": "sha512-Gd2UZBJDkXlY7GbJxfsE8/nvKkUEU1G38c1siN6QP6a9PT9MmHB8GnpscSmMJSoF8LOIrt8ud/wPtojys4G6+g==",
+      "license": "MIT"
+    },
+    "node_modules/jszip/node_modules/string_decoder": {
+      "version": "1.1.1",
+      "resolved": "https://registry.npmjs.org/string_decoder/-/string_decoder-1.1.1.tgz",
+      "integrity": "sha512-n/ShnvDi6FHbbVfviro+WojiFzv+s8MPMHBczVePfUpDJLwoLT0ht1l4YwBCbi8pJAveEEdnkHyPyTP/mzRfwg==",
+      "license": "MIT",
+      "dependencies": {
+        "safe-buffer": "~5.1.0"
+      }
+    },
+    "node_modules/lie": {
+      "version": "3.3.0",
+      "resolved": "https://registry.npmjs.org/lie/-/lie-3.3.0.tgz",
+      "integrity": "sha512-UaiMJzeWRlEujzAuw5LokY1L5ecNQYZKfmyZ9L7wDHb/p5etKaxXhohBcrw0EYby+G/NA52vRSN4N39dxHAIwQ==",
+      "license": "MIT",
+      "dependencies": {
+        "immediate": "~3.0.5"
+      }
+    },
+    "node_modules/math-intrinsics": {
+      "version": "1.1.0",
+      "resolved": "https://registry.npmjs.org/math-intrinsics/-/math-intrinsics-1.1.0.tgz",
+      "integrity": "sha512-/IXtbwEk5HTPyEwyKX6hGkYXxM9nbj64B+ilVJnC/R6B0pH5G4V3b0pVbL7DBj4tkhBAppbQUlf6F6Xl9LHu1g==",
+      "license": "MIT",
+      "engines": {
+        "node": ">= 0.4"
+      }
+    },
+    "node_modules/media-typer": {
+      "version": "1.1.0",
+      "resolved": "https://registry.npmjs.org/media-typer/-/media-typer-1.1.0.tgz",
+      "integrity": "sha512-aisnrDP4GNe06UcKFnV5bfMNPBUw4jsLGaWwWfnH3v02GnBuXX2MCVn5RbrWo0j3pczUilYblq7fQ7Nw2t5XKw==",
+      "license": "MIT",
+      "engines": {
+        "node": ">= 0.8"
+      }
+    },
+    "node_modules/merge-descriptors": {
+      "version": "2.0.0",
+      "resolved": "https://registry.npmjs.org/merge-descriptors/-/merge-descriptors-2.0.0.tgz",
+      "integrity": "sha512-Snk314V5ayFLhp3fkUREub6WtjBfPdCPY1Ln8/8munuLuiYhsABgBVWsozAG+MWMbVEvcdcpbi9R7ww22l9Q3g==",
+      "license": "MIT",
+      "engines": {
+        "node": ">=18"
+      },
+      "funding": {
+        "url": "https://github.com/sponsors/sindresorhus"
+      }
+    },
+    "node_modules/mime-db": {
+      "version": "1.54.0",
+      "resolved": "https://registry.npmjs.org/mime-db/-/mime-db-1.54.0.tgz",
+      "integrity": "sha512-aU5EJuIN2WDemCcAp2vFBfp/m4EAhWJnUNSSw0ixs7/kXbd6Pg64EmwJkNdFhB8aWt1sH2CTXrLxo/iAGV3oPQ==",
+      "license": "MIT",
+      "engines": {
+        "node": ">= 0.6"
+      }
+    },
+    "node_modules/mime-types": {
+      "version": "3.0.2",
+      "resolved": "https://registry.npmjs.org/mime-types/-/mime-types-3.0.2.tgz",
+      "integrity": "sha512-Lbgzdk0h4juoQ9fCKXW4by0UJqj+nOOrI9MJ1sSj4nI8aI2eo1qmvQEie4VD1glsS250n15LsWsYtCugiStS5A==",
+      "license": "MIT",
+      "dependencies": {
+        "mime-db": "^1.54.0"
+      },
+      "engines": {
+        "node": ">=18"
+      },
+      "funding": {
+        "type": "opencollective",
+        "url": "https://opencollective.com/express"
+      }
+    },
+    "node_modules/ms": {
+      "version": "2.1.3",
+      "resolved": "https://registry.npmjs.org/ms/-/ms-2.1.3.tgz",
+      "integrity": "sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==",
+      "license": "MIT"
+    },
+    "node_modules/multer": {
+      "version": "2.1.1",
+      "resolved": "https://registry.npmjs.org/multer/-/multer-2.1.1.tgz",
+      "integrity": "sha512-mo+QTzKlx8R7E5ylSXxWzGoXoZbOsRMpyitcht8By2KHvMbf3tjwosZ/Mu/XYU6UuJ3VZnODIrak5ZrPiPyB6A==",
+      "license": "MIT",
+      "dependencies": {
+        "append-field": "^1.0.0",
+        "busboy": "^1.6.0",
+        "concat-stream": "^2.0.0",
+        "type-is": "^1.6.18"
+      },
+      "engines": {
+        "node": ">= 10.16.0"
+      },
+      "funding": {
+        "type": "opencollective",
+        "url": "https://opencollective.com/express"
+      }
+    },
+    "node_modules/multer/node_modules/media-typer": {
+      "version": "0.3.0",
+      "resolved": "https://registry.npmjs.org/media-typer/-/media-typer-0.3.0.tgz",
+      "integrity": "sha512-dq+qelQ9akHpcOl/gUVRTxVIOkAJ1wR3QAvb4RsVjS8oVoFjDGTc679wJYmUmknUF5HwMLOgb5O+a3KxfWapPQ==",
+      "license": "MIT",
+      "engines": {
+        "node": ">= 0.6"
+      }
+    },
+    "node_modules/multer/node_modules/mime-db": {
+      "version": "1.52.0",
+      "resolved": "https://registry.npmjs.org/mime-db/-/mime-db-1.52.0.tgz",
+      "integrity": "sha512-sPU4uV7dYlvtWJxwwxHD0PuihVNiE7TyAbQ5SWxDCB9mUYvOgroQOwYQQOKPJ8CIbE+1ETVlOoK1UC2nU3gYvg==",
+      "license": "MIT",
+      "engines": {
+        "node": ">= 0.6"
+      }
+    },
+    "node_modules/multer/node_modules/mime-types": {
+      "version": "2.1.35",
+      "resolved": "https://registry.npmjs.org/mime-types/-/mime-types-2.1.35.tgz",
+      "integrity": "sha512-ZDY+bPm5zTTF+YpCrAU9nK0UgICYPT0QtT1NZWFv4s++TNkcgVaT0g6+4R2uI4MjQjzysHB1zxuWL50hzaeXiw==",
+      "license": "MIT",
+      "dependencies": {
+        "mime-db": "1.52.0"
+      },
+      "engines": {
+        "node": ">= 0.6"
+      }
+    },
+    "node_modules/multer/node_modules/type-is": {
+      "version": "1.6.18",
+      "resolved": "https://registry.npmjs.org/type-is/-/type-is-1.6.18.tgz",
+      "integrity": "sha512-TkRKr9sUTxEH8MdfuCSP7VizJyzRNMjj2J2do2Jr3Kym598JVdEksuzPQCnlFPW4ky9Q+iA+ma9BGm06XQBy8g==",
+      "license": "MIT",
+      "dependencies": {
+        "media-typer": "0.3.0",
+        "mime-types": "~2.1.24"
+      },
+      "engines": {
+        "node": ">= 0.6"
+      }
+    },
+    "node_modules/negotiator": {
+      "version": "1.0.0",
+      "resolved": "https://registry.npmjs.org/negotiator/-/negotiator-1.0.0.tgz",
+      "integrity": "sha512-8Ofs/AUQh8MaEcrlq5xOX0CQ9ypTF5dl78mjlMNfOK08fzpgTHQRQPBxcPlEtIw0yRpws+Zo/3r+5WRby7u3Gg==",
+      "license": "MIT",
+      "engines": {
+        "node": ">= 0.6"
+      }
+    },
+    "node_modules/nodemailer": {
+      "version": "8.0.5",
+      "resolved": "https://registry.npmjs.org/nodemailer/-/nodemailer-8.0.5.tgz",
+      "integrity": "sha512-0PF8Yb1yZuQfQbq+5/pZJrtF6WQcjTd5/S4JOHs9PGFxuTqoB/icwuB44pOdURHJbRKX1PPoJZtY7R4VUoCC8w==",
+      "license": "MIT-0",
+      "engines": {
+        "node": ">=6.0.0"
+      }
+    },
+    "node_modules/object-assign": {
+      "version": "4.1.1",
+      "resolved": "https://registry.npmjs.org/object-assign/-/object-assign-4.1.1.tgz",
+      "integrity": "sha512-rJgTQnkUnH1sFw8yT6VSU3zD3sWmu6sZhIseY8VX+GRu3P6F7Fu+JNDoXfklElbLJSnc3FUQHVe4cU5hj+BcUg==",
+      "license": "MIT",
+      "engines": {
+        "node": ">=0.10.0"
+      }
+    },
+    "node_modules/object-inspect": {
+      "version": "1.13.4",
+      "resolved": "https://registry.npmjs.org/object-inspect/-/object-inspect-1.13.4.tgz",
+      "integrity": "sha512-W67iLl4J2EXEGTbfeHCffrjDfitvLANg0UlX3wFUUSTx92KXRFegMHUVgSqE+wvhAbi4WqjGg9czysTV2Epbew==",
+      "license": "MIT",
+      "engines": {
+        "node": ">= 0.4"
+      },
+      "funding": {
+        "url": "https://github.com/sponsors/ljharb"
+      }
+    },
+    "node_modules/on-finished": {
+      "version": "2.4.1",
+      "resolved": "https://registry.npmjs.org/on-finished/-/on-finished-2.4.1.tgz",
+      "integrity": "sha512-oVlzkg3ENAhCk2zdv7IJwd/QUD4z2RxRwpkcGY8psCVcCYZNq4wYnVWALHM+brtuJjePWiYF/ClmuDr8Ch5+kg==",
+      "license": "MIT",
+      "dependencies": {
+        "ee-first": "1.1.1"
+      },
+      "engines": {
+        "node": ">= 0.8"
+      }
+    },
+    "node_modules/once": {
+      "version": "1.4.0",
+      "resolved": "https://registry.npmjs.org/once/-/once-1.4.0.tgz",
+      "integrity": "sha512-lNaJgI+2Q5URQBkccEKHTQOPaXdUxnZZElQTZY0MFUAuaEqe1E+Nyvgdz/aIyNi6Z9MzO5dv1H8n58/GELp3+w==",
+      "license": "ISC",
+      "dependencies": {
+        "wrappy": "1"
+      }
+    },
+    "node_modules/pako": {
+      "version": "1.0.11",
+      "resolved": "https://registry.npmjs.org/pako/-/pako-1.0.11.tgz",
+      "integrity": "sha512-4hLB8Py4zZce5s4yd9XzopqwVv/yGNhV1Bl8NTmCq1763HeK2+EwVTv+leGeL13Dnh2wfbqowVPXCIO0z4taYw==",
+      "license": "(MIT AND Zlib)"
+    },
+    "node_modules/parseurl": {
+      "version": "1.3.3",
+      "resolved": "https://registry.npmjs.org/parseurl/-/parseurl-1.3.3.tgz",
+      "integrity": "sha512-CiyeOxFT/JZyN5m0z9PfXw4SCBJ6Sygz1Dpl0wqjlhDEGGBP1GnsUVEL0p63hoG1fcj3fHynXi9NYO4nWOL+qQ==",
+      "license": "MIT",
+      "engines": {
+        "node": ">= 0.8"
+      }
+    },
+    "node_modules/path-to-regexp": {
+      "version": "8.4.2",
+      "resolved": "https://registry.npmjs.org/path-to-regexp/-/path-to-regexp-8.4.2.tgz",
+      "integrity": "sha512-qRcuIdP69NPm4qbACK+aDogI5CBDMi1jKe0ry5rSQJz8JVLsC7jV8XpiJjGRLLol3N+R5ihGYcrPLTno6pAdBA==",
+      "license": "MIT",
+      "funding": {
+        "type": "opencollective",
+        "url": "https://opencollective.com/express"
+      }
+    },
+    "node_modules/pptxgenjs": {
+      "version": "4.0.1",
+      "resolved": "https://registry.npmjs.org/pptxgenjs/-/pptxgenjs-4.0.1.tgz",
+      "integrity": "sha512-TeJISr8wouAuXw4C1F/mC33xbZs/FuEG6nH9FG1Zj+nuPcGMP5YRHl6X+j3HSUnS1f3at6k75ZZXPMZlA5Lj9A==",
+      "license": "MIT",
+      "dependencies": {
+        "@types/node": "^22.8.1",
+        "https": "^1.0.0",
+        "image-size": "^1.2.1",
+        "jszip": "^3.10.1"
+      }
+    },
+    "node_modules/process-nextick-args": {
+      "version": "2.0.1",
+      "resolved": "https://registry.npmjs.org/process-nextick-args/-/process-nextick-args-2.0.1.tgz",
+      "integrity": "sha512-3ouUOpQhtgrbOa17J7+uxOTpITYWaGP7/AhoR3+A+/1e9skrzelGi/dXzEYyvbxubEF6Wn2ypscTKiKJFFn1ag==",
+      "license": "MIT"
+    },
+    "node_modules/proxy-addr": {
+      "version": "2.0.7",
+      "resolved": "https://registry.npmjs.org/proxy-addr/-/proxy-addr-2.0.7.tgz",
+      "integrity": "sha512-llQsMLSUDUPT44jdrU/O37qlnifitDP+ZwrmmZcoSKyLKvtZxpyV0n2/bD/N4tBAAZ/gJEdZU7KMraoK1+XYAg==",
+      "license": "MIT",
+      "dependencies": {
+        "forwarded": "0.2.0",
+        "ipaddr.js": "1.9.1"
+      },
+      "engines": {
+        "node": ">= 0.10"
+      }
+    },
+    "node_modules/qs": {
+      "version": "6.15.1",
+      "resolved": "https://registry.npmjs.org/qs/-/qs-6.15.1.tgz",
+      "integrity": "sha512-6YHEFRL9mfgcAvql/XhwTvf5jKcOiiupt2FiJxHkiX1z4j7WL8J/jRHYLluORvc1XxB5rV20KoeK00gVJamspg==",
+      "license": "BSD-3-Clause",
+      "dependencies": {
+        "side-channel": "^1.1.0"
+      },
+      "engines": {
+        "node": ">=0.6"
+      },
+      "funding": {
+        "url": "https://github.com/sponsors/ljharb"
+      }
+    },
+    "node_modules/queue": {
+      "version": "6.0.2",
+      "resolved": "https://registry.npmjs.org/queue/-/queue-6.0.2.tgz",
+      "integrity": "sha512-iHZWu+q3IdFZFX36ro/lKBkSvfkztY5Y7HMiPlOUjhupPcG2JMfst2KKEpu5XndviX/3UhFbRngUPNKtgvtZiA==",
+      "license": "MIT",
+      "dependencies": {
+        "inherits": "~2.0.3"
+      }
+    },
+    "node_modules/range-parser": {
+      "version": "1.2.1",
+      "resolved": "https://registry.npmjs.org/range-parser/-/range-parser-1.2.1.tgz",
+      "integrity": "sha512-Hrgsx+orqoygnmhFbKaHE6c296J+HTAQXoxEF6gNupROmmGJRoyzfG3ccAveqCBrwr/2yxQ5BVd/GTl5agOwSg==",
+      "license": "MIT",
+      "engines": {
+        "node": ">= 0.6"
+      }
+    },
+    "node_modules/raw-body": {
+      "version": "3.0.2",
+      "resolved": "https://registry.npmjs.org/raw-body/-/raw-body-3.0.2.tgz",
+      "integrity": "sha512-K5zQjDllxWkf7Z5xJdV0/B0WTNqx6vxG70zJE4N0kBs4LovmEYWJzQGxC9bS9RAKu3bgM40lrd5zoLJ12MQ5BA==",
+      "license": "MIT",
+      "dependencies": {
+        "bytes": "~3.1.2",
+        "http-errors": "~2.0.1",
+        "iconv-lite": "~0.7.0",
+        "unpipe": "~1.0.0"
+      },
+      "engines": {
+        "node": ">= 0.10"
+      }
+    },
+    "node_modules/readable-stream": {
+      "version": "3.6.2",
+      "resolved": "https://registry.npmjs.org/readable-stream/-/readable-stream-3.6.2.tgz",
+      "integrity": "sha512-9u/sniCrY3D5WdsERHzHE4G2YCXqoG5FTHUiCC4SIbr6XcLZBY05ya9EKjYek9O5xOAwjGq+1JdGBAS7Q9ScoA==",
+      "license": "MIT",
+      "dependencies": {
+        "inherits": "^2.0.3",
+        "string_decoder": "^1.1.1",
+        "util-deprecate": "^1.0.1"
+      },
+      "engines": {
+        "node": ">= 6"
+      }
+    },
+    "node_modules/router": {
+      "version": "2.2.0",
+      "resolved": "https://registry.npmjs.org/router/-/router-2.2.0.tgz",
+      "integrity": "sha512-nLTrUKm2UyiL7rlhapu/Zl45FwNgkZGaCpZbIHajDYgwlJCOzLSk+cIPAnsEqV955GjILJnKbdQC1nVPz+gAYQ==",
+      "license": "MIT",
+      "dependencies": {
+        "debug": "^4.4.0",
+        "depd": "^2.0.0",
+        "is-promise": "^4.0.0",
+        "parseurl": "^1.3.3",
+        "path-to-regexp": "^8.0.0"
+      },
+      "engines": {
+        "node": ">= 18"
+      }
+    },
+    "node_modules/safe-buffer": {
+      "version": "5.2.1",
+      "resolved": "https://registry.npmjs.org/safe-buffer/-/safe-buffer-5.2.1.tgz",
+      "integrity": "sha512-rp3So07KcdmmKbGvgaNxQSJr7bGVSVk5S9Eq1F+ppbRo70+YeaDxkw5Dd8NPN+GD6bjnYm2VuPuCXmpuYvmCXQ==",
+      "funding": [
+        {
+          "type": "github",
+          "url": "https://github.com/sponsors/feross"
+        },
+        {
+          "type": "patreon",
+          "url": "https://www.patreon.com/feross"
+        },
+        {
+          "type": "consulting",
+          "url": "https://feross.org/support"
+        }
+      ],
+      "license": "MIT"
+    },
+    "node_modules/safer-buffer": {
+      "version": "2.1.2",
+      "resolved": "https://registry.npmjs.org/safer-buffer/-/safer-buffer-2.1.2.tgz",
+      "integrity": "sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==",
+      "license": "MIT"
+    },
+    "node_modules/send": {
+      "version": "1.2.1",
+      "resolved": "https://registry.npmjs.org/send/-/send-1.2.1.tgz",
+      "integrity": "sha512-1gnZf7DFcoIcajTjTwjwuDjzuz4PPcY2StKPlsGAQ1+YH20IRVrBaXSWmdjowTJ6u8Rc01PoYOGHXfP1mYcZNQ==",
+      "license": "MIT",
+      "dependencies": {
+        "debug": "^4.4.3",
+        "encodeurl": "^2.0.0",
+        "escape-html": "^1.0.3",
+        "etag": "^1.8.1",
+        "fresh": "^2.0.0",
+        "http-errors": "^2.0.1",
+        "mime-types": "^3.0.2",
+        "ms": "^2.1.3",
+        "on-finished": "^2.4.1",
+        "range-parser": "^1.2.1",
+        "statuses": "^2.0.2"
+      },
+      "engines": {
+        "node": ">= 18"
+      },
+      "funding": {
+        "type": "opencollective",
+        "url": "https://opencollective.com/express"
+      }
+    },
+    "node_modules/serve-static": {
+      "version": "2.2.1",
+      "resolved": "https://registry.npmjs.org/serve-static/-/serve-static-2.2.1.tgz",
+      "integrity": "sha512-xRXBn0pPqQTVQiC8wyQrKs2MOlX24zQ0POGaj0kultvoOCstBQM5yvOhAVSUwOMjQtTvsPWoNCHfPGwaaQJhTw==",
+      "license": "MIT",
+      "dependencies": {
+        "encodeurl": "^2.0.0",
+        "escape-html": "^1.0.3",
+        "parseurl": "^1.3.3",
+        "send": "^1.2.0"
+      },
+      "engines": {
+        "node": ">= 18"
+      },
+      "funding": {
+        "type": "opencollective",
+        "url": "https://opencollective.com/express"
+      }
+    },
+    "node_modules/setimmediate": {
+      "version": "1.0.5",
+      "resolved": "https://registry.npmjs.org/setimmediate/-/setimmediate-1.0.5.tgz",
+      "integrity": "sha512-MATJdZp8sLqDl/68LfQmbP8zKPLQNV6BIZoIgrscFDQ+RsvK/BxeDQOgyxKKoh0y/8h3BqVFnCqQ/gd+reiIXA==",
+      "license": "MIT"
+    },
+    "node_modules/setprototypeof": {
+      "version": "1.2.0",
+      "resolved": "https://registry.npmjs.org/setprototypeof/-/setprototypeof-1.2.0.tgz",
+      "integrity": "sha512-E5LDX7Wrp85Kil5bhZv46j8jOeboKq5JMmYM3gVGdGH8xFpPWXUMsNrlODCrkoxMEeNi/XZIwuRvY4XNwYMJpw==",
+      "license": "ISC"
+    },
+    "node_modules/side-channel": {
+      "version": "1.1.0",
+      "resolved": "https://registry.npmjs.org/side-channel/-/side-channel-1.1.0.tgz",
+      "integrity": "sha512-ZX99e6tRweoUXqR+VBrslhda51Nh5MTQwou5tnUDgbtyM0dBgmhEDtWGP/xbKn6hqfPRHujUNwz5fy/wbbhnpw==",
+      "license": "MIT",
+      "dependencies": {
+        "es-errors": "^1.3.0",
+        "object-inspect": "^1.13.3",
+        "side-channel-list": "^1.0.0",
+        "side-channel-map": "^1.0.1",
+        "side-channel-weakmap": "^1.0.2"
+      },
+      "engines": {
+        "node": ">= 0.4"
+      },
+      "funding": {
+        "url": "https://github.com/sponsors/ljharb"
+      }
+    },
+    "node_modules/side-channel-list": {
+      "version": "1.0.1",
+      "resolved": "https://registry.npmjs.org/side-channel-list/-/side-channel-list-1.0.1.tgz",
+      "integrity": "sha512-mjn/0bi/oUURjc5Xl7IaWi/OJJJumuoJFQJfDDyO46+hBWsfaVM65TBHq2eoZBhzl9EchxOijpkbRC8SVBQU0w==",
+      "license": "MIT",
+      "dependencies": {
+        "es-errors": "^1.3.0",
+        "object-inspect": "^1.13.4"
+      },
+      "engines": {
+        "node": ">= 0.4"
+      },
+      "funding": {
+        "url": "https://github.com/sponsors/ljharb"
+      }
+    },
+    "node_modules/side-channel-map": {
+      "version": "1.0.1",
+      "resolved": "https://registry.npmjs.org/side-channel-map/-/side-channel-map-1.0.1.tgz",
+      "integrity": "sha512-VCjCNfgMsby3tTdo02nbjtM/ewra6jPHmpThenkTYh8pG9ucZ/1P8So4u4FGBek/BjpOVsDCMoLA/iuBKIFXRA==",
+      "license": "MIT",
+      "dependencies": {
+        "call-bound": "^1.0.2",
+        "es-errors": "^1.3.0",
+        "get-intrinsic": "^1.2.5",
+        "object-inspect": "^1.13.3"
+      },
+      "engines": {
+        "node": ">= 0.4"
+      },
+      "funding": {
+        "url": "https://github.com/sponsors/ljharb"
+      }
+    },
+    "node_modules/side-channel-weakmap": {
+      "version": "1.0.2",
+      "resolved": "https://registry.npmjs.org/side-channel-weakmap/-/side-channel-weakmap-1.0.2.tgz",
+      "integrity": "sha512-WPS/HvHQTYnHisLo9McqBHOJk2FkHO/tlpvldyrnem4aeQp4hai3gythswg6p01oSoTl58rcpiFAjF2br2Ak2A==",
+      "license": "MIT",
+      "dependencies": {
+        "call-bound": "^1.0.2",
+        "es-errors": "^1.3.0",
+        "get-intrinsic": "^1.2.5",
+        "object-inspect": "^1.13.3",
+        "side-channel-map": "^1.0.1"
+      },
+      "engines": {
+        "node": ">= 0.4"
+      },
+      "funding": {
+        "url": "https://github.com/sponsors/ljharb"
+      }
+    },
+    "node_modules/statuses": {
+      "version": "2.0.2",
+      "resolved": "https://registry.npmjs.org/statuses/-/statuses-2.0.2.tgz",
+      "integrity": "sha512-DvEy55V3DB7uknRo+4iOGT5fP1slR8wQohVdknigZPMpMstaKJQWhwiYBACJE3Ul2pTnATihhBYnRhZQHGBiRw==",
+      "license": "MIT",
+      "engines": {
+        "node": ">= 0.8"
+      }
+    },
+    "node_modules/streamsearch": {
+      "version": "1.1.0",
+      "resolved": "https://registry.npmjs.org/streamsearch/-/streamsearch-1.1.0.tgz",
+      "integrity": "sha512-Mcc5wHehp9aXz1ax6bZUyY5afg9u2rv5cqQI3mRrYkGC8rW2hM02jWuwjtL++LS5qinSyhj2QfLyNsuc+VsExg==",
+      "engines": {
+        "node": ">=10.0.0"
+      }
+    },
+    "node_modules/string_decoder": {
+      "version": "1.3.0",
+      "resolved": "https://registry.npmjs.org/string_decoder/-/string_decoder-1.3.0.tgz",
+      "integrity": "sha512-hkRX8U1WjJFd8LsDJ2yQ/wWWxaopEsABU1XfkM8A+j0+85JAGppt16cr1Whg6KIbb4okU6Mql6BOj+uup/wKeA==",
+      "license": "MIT",
+      "dependencies": {
+        "safe-buffer": "~5.2.0"
+      }
+    },
+    "node_modules/toidentifier": {
+      "version": "1.0.1",
+      "resolved": "https://registry.npmjs.org/toidentifier/-/toidentifier-1.0.1.tgz",
+      "integrity": "sha512-o5sSPKEkg/DIQNmH43V0/uerLrpzVedkUh8tGNvaeXpfpuwjKenlSox/2O/BTlZUtEe+JG7s5YhEz608PlAHRA==",
+      "license": "MIT",
+      "engines": {
+        "node": ">=0.6"
+      }
+    },
+    "node_modules/type-is": {
+      "version": "2.0.1",
+      "resolved": "https://registry.npmjs.org/type-is/-/type-is-2.0.1.tgz",
+      "integrity": "sha512-OZs6gsjF4vMp32qrCbiVSkrFmXtG/AZhY3t0iAMrMBiAZyV9oALtXO8hsrHbMXF9x6L3grlFuwW2oAz7cav+Gw==",
+      "license": "MIT",
+      "dependencies": {
+        "content-type": "^1.0.5",
+        "media-typer": "^1.1.0",
+        "mime-types": "^3.0.0"
+      },
+      "engines": {
+        "node": ">= 0.6"
+      }
+    },
+    "node_modules/typedarray": {
+      "version": "0.0.6",
+      "resolved": "https://registry.npmjs.org/typedarray/-/typedarray-0.0.6.tgz",
+      "integrity": "sha512-/aCDEGatGvZ2BIk+HmLf4ifCJFwvKFNb9/JeZPMulfgFracn9QFcAf5GO8B/mweUjSoblS5In0cWhqpfs/5PQA==",
+      "license": "MIT"
+    },
+    "node_modules/undici-types": {
+      "version": "6.21.0",
+      "resolved": "https://registry.npmjs.org/undici-types/-/undici-types-6.21.0.tgz",
+      "integrity": "sha512-iwDZqg0QAGrg9Rav5H4n0M64c3mkR59cJ6wQp+7C4nI0gsmExaedaYLNO44eT4AtBBwjbTiGPMlt2Md0T9H9JQ==",
+      "license": "MIT"
+    },
+    "node_modules/unpipe": {
+      "version": "1.0.0",
+      "resolved": "https://registry.npmjs.org/unpipe/-/unpipe-1.0.0.tgz",
+      "integrity": "sha512-pjy2bYhSsufwWlKwPc+l3cN7+wuJlK6uz0YdJEOlQDbl6jo/YlPi4mb8agUkVC8BF7V8NuzeyPNqRksA3hztKQ==",
+      "license": "MIT",
+      "engines": {
+        "node": ">= 0.8"
+      }
+    },
+    "node_modules/util-deprecate": {
+      "version": "1.0.2",
+      "resolved": "https://registry.npmjs.org/util-deprecate/-/util-deprecate-1.0.2.tgz",
+      "integrity": "sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==",
+      "license": "MIT"
+    },
+    "node_modules/vary": {
+      "version": "1.1.2",
+      "resolved": "https://registry.npmjs.org/vary/-/vary-1.1.2.tgz",
+      "integrity": "sha512-BNGbWLfd0eUPabhkXUVm0j8uuvREyTh5ovRa/dyow/BqAbZJyC+5fU+IzQOzmAKzYqYRAISoRhdQr3eIZ/PXqg==",
+      "license": "MIT",
+      "engines": {
+        "node": ">= 0.8"
+      }
+    },
+    "node_modules/wrappy": {
+      "version": "1.0.2",
+      "resolved": "https://registry.npmjs.org/wrappy/-/wrappy-1.0.2.tgz",
+      "integrity": "sha512-l4Sp/DRseor9wL6EvV2+TuQn63dMkPjZ/sp9XkghTEbV9KlPS1xUsZ3u7/IQO4wxtcFB4bgpQPRcR3QCvezPcQ==",
+      "license": "ISC"
+    }
+  }
+}
+
+{
+  "name": "fitblueprint-form",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
+    "multer": "^2.1.1",
+    "nodemailer": "^8.0.5",
+    "pptxgenjs": "^4.0.1"
+  }
+}
+
+/**
+ * iKengaFit — Pre-Fit Blueprint Backend
+ *
+ * Handles:
+ *  1. Calendly webhook → email client the form link on booking
+ *  2. Form submission → generate personalized PPTX → email to coach
+ *
+ * SMTP: ikengafit@gmail.com (App Password auth)
+ * Notify: d.r.clary25@gmail.com
+ */
+
+const express    = require('express');
+const cors       = require('cors');
+const fs         = require('fs');
+const path       = require('path');
+const nodemailer = require('nodemailer');
+const PptxGenJS  = require('pptxgenjs');
+
+const app  = express();
+const PORT = process.env.PORT || 4000;
+
+app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, 'public')));
+app.use('/generated', express.static(path.join(__dirname, 'generated')));
+
+// Ensure required directories exist (important on fresh deploys e.g. Render)
+fs.mkdirSync(path.join(__dirname, 'submissions'), { recursive: true });
+fs.mkdirSync(path.join(__dirname, 'generated'),  { recursive: true });
+
+// ─── CONFIG ──────────────────────────────────────────────────────────────────
+const CONFIG = {
+  // Sender Gmail + app password
+  smtp: {
+    user: 'ikengafit@gmail.com',
+    pass: 'gyof yxtp cfew mppu'.replace(/\s/g, ''), // strip spaces
+  },
+  // Where completed form + PPTX emails go
+  coachEmail: 'ikengafit@gmail.com',
+  coachName:  'David Clary',
+  // The deployed form URL — update this after hosting the backend publicly
+  formUrl: process.env.FORM_URL || 'https://ikengafit-blueprint.onrender.com',
+  // Calendly Fit Blueprint event type URI
+  fitBlueprintEventType: 'https://api.calendly.com/event_types/305ed985-c8d8-407a-8642-35218407d007',
+};
+
+// ─── NODEMAILER TRANSPORTER ───────────────────────────────────────────────────
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: CONFIG.smtp.user,
+    pass: CONFIG.smtp.pass,
+  },
+});
+
+// Verify SMTP connection on startup
+transporter.verify((err, success) => {
+  if (err) console.error('❌ SMTP connection failed:', err.message);
+  else     console.log('✅ SMTP ready — emails will send from', CONFIG.smtp.user);
+});
+
+// ─── EMAIL HELPERS ────────────────────────────────────────────────────────────
+
+/** Email 1: Sent to client right after they book on Calendly */
+async function sendFormLinkEmail({ clientName, clientEmail, sessionDate }) {
+  const firstName = clientName.split(' ')[0];
+  const html = `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+</head>
+<body style="margin:0;padding:0;background:#111110;font-family:'Helvetica Neue',Arial,sans-serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background:#111110;padding:40px 20px;">
+    <tr><td align="center">
+      <table width="100%" style="max-width:560px;background:#1A1917;border-radius:12px;overflow:hidden;border:1px solid #2C2B29;">
+
+        <!-- Header bar -->
+        <tr><td style="background:#028381;padding:0;line-height:0;">
+          <div style="height:4px;background:linear-gradient(90deg,#028381,#8A2C0E,#028381);"></div>
+        </td></tr>
+
+        <!-- Logo row -->
+        <tr><td style="padding:28px 36px 0;background:#151414;">
+          <table cellpadding="0" cellspacing="0"><tr>
+            <td style="font-family:'Helvetica Neue',Arial,sans-serif;font-size:20px;font-weight:800;color:#FFFFFF;letter-spacing:0.02em;">
+              &#9644; iKengaFit
+            </td>
+            <td style="padding-left:12px;">
+              <span style="font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#028381;border:1px solid #028381;padding:3px 8px;border-radius:100px;">Fit Blueprint</span>
+            </td>
+          </tr></table>
+        </td></tr>
+
+        <!-- Hero -->
+        <tr><td style="padding:24px 36px 28px;background:#151414;border-bottom:1px solid #2C2B29;">
+          <p style="margin:0 0 8px;font-size:12px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:#028381;">Your session is confirmed</p>
+          <h1 style="margin:0 0 16px;font-size:28px;font-weight:800;color:#FFFFFF;line-height:1.15;">
+            Complete your Pre-Fit Blueprint, ${firstName}
+          </h1>
+          <p style="margin:0;font-size:15px;color:#8A8784;line-height:1.7;">
+            Your Fit Blueprint session with Coach David Clary is scheduled${sessionDate ? ' for <strong style="color:#E8E5E0;">' + sessionDate + '</strong>' : ''}. 
+            Before we meet, please complete a short questionnaire — it takes about 5 minutes and lets Coach Clary build your personalized coaching proposal before the session.
+          </p>
+        </td></tr>
+
+        <!-- CTA -->
+        <tr><td style="padding:32px 36px;">
+          <p style="margin:0 0 24px;font-size:14px;color:#8A8784;line-height:1.6;">
+            Your answers will be used to pre-fill your coaching package proposal, so your Fit Blueprint session is focused on strategy — not paperwork.
+          </p>
+          <table cellpadding="0" cellspacing="0"><tr><td>
+            <a href="${CONFIG.formUrl}" style="display:inline-block;background:#028381;color:#FFFFFF;font-size:15px;font-weight:700;text-decoration:none;padding:14px 28px;border-radius:6px;letter-spacing:0.01em;">
+              Complete My Pre-Fit Blueprint &rarr;
+            </a>
+          </td></tr></table>
+          <p style="margin:16px 0 0;font-size:12px;color:#5A5856;">
+            Or copy this link: <a href="${CONFIG.formUrl}" style="color:#028381;">${CONFIG.formUrl}</a>
+          </p>
+        </td></tr>
+
+        <!-- What to expect -->
+        <tr><td style="padding:0 36px 28px;">
+          <div style="background:#211F1D;border-radius:8px;padding:20px;border:1px solid #2C2B29;">
+            <p style="margin:0 0 12px;font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#5A5856;">What to expect</p>
+            <table cellpadding="0" cellspacing="0" width="100%">
+              <tr>
+                <td style="padding:6px 0;font-size:13px;color:#8A8784;">&#10003;&nbsp;&nbsp;Fill out your goals, fitness background &amp; schedule</td>
+              </tr>
+              <tr>
+                <td style="padding:6px 0;font-size:13px;color:#8A8784;">&#10003;&nbsp;&nbsp;Select the package that fits your timeline</td>
+              </tr>
+              <tr>
+                <td style="padding:6px 0;font-size:13px;color:#8A8784;">&#10003;&nbsp;&nbsp;Your personalized proposal is auto-generated</td>
+              </tr>
+              <tr>
+                <td style="padding:6px 0;font-size:13px;color:#8A8784;">&#10003;&nbsp;&nbsp;Coach Clary reviews it before your session</td>
+              </tr>
+            </table>
+          </div>
+        </td></tr>
+
+        <!-- Footer -->
+        <tr><td style="padding:20px 36px;border-top:1px solid #2C2B29;text-align:center;">
+          <p style="margin:0 0 4px;font-size:12px;color:#5A5856;font-style:italic;">Find Your Place of Strength™</p>
+          <p style="margin:0;font-size:11px;color:#3A3836;">
+            iKengaFit · Washington, DC &amp; Virtual Nationwide · 
+            <a href="https://www.ikengafit.com" style="color:#028381;">ikengafit.com</a>
+          </p>
+        </td></tr>
+
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>`;
+
+  await transporter.sendMail({
+    from:    `"Coach David Clary · iKengaFit" <${CONFIG.smtp.user}>`,
+    to:      `"${clientName}" <${clientEmail}>`,
+    subject: `Complete your Pre-Fit Blueprint before our session, ${firstName} 💪`,
+    html,
+    text: `Hi ${firstName},\n\nYour Fit Blueprint session is confirmed! Before we meet, please complete your Pre-Fit Blueprint questionnaire so Coach Clary can build your personalized coaching proposal.\n\nComplete it here: ${CONFIG.formUrl}\n\nSee you soon,\nCoach David Clary\niKengaFit`,
+  });
+
+  console.log(`✅ Form link email sent to ${clientEmail}`);
+}
+
+/** Email 2: Sent to coach after client submits the form, with PPTX attached */
+async function sendPptxToCoach({ clientName, clientEmail, filePath, fileName, data }) {
+  const firstName = clientName.split(' ')[0];
+  const fieldsHtml = [
+    ['Primary Goal',         data.primaryGoal],
+    ['Fitness Level',        data.fitnessLevel],
+    ['Training History',     data.trainingHistory],
+    ['Availability',         data.availability],
+    ['Key Focus Areas',      data.focusAreas],
+    ['Recommended Package',  data.recommendedPkg],
+    ['Preferred Mode',       data.preferredMode],
+    ['Motivation',           data.motivation],
+    ['Past Barriers',        data.barriers],
+    ['Injuries / Limits',    data.injuries],
+    ['Nutrition Goals',      data.nutritionGoals],
+    ['Notes',                data.additionalNotes],
+  ].filter(([,v]) => v && v.trim())
+   .map(([label, value]) => `
+    <tr>
+      <td style="padding:8px 12px;font-size:12px;font-weight:700;color:#5A5856;text-transform:uppercase;letter-spacing:0.08em;width:140px;vertical-align:top;">${label}</td>
+      <td style="padding:8px 12px;font-size:13px;color:#E8E5E0;line-height:1.6;">${value}</td>
+    </tr>`)
+   .join('');
+
+  const html = `
+<!DOCTYPE html>
+<html>
+<body style="margin:0;padding:0;background:#111110;font-family:'Helvetica Neue',Arial,sans-serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background:#111110;padding:40px 20px;">
+    <tr><td align="center">
+      <table width="100%" style="max-width:600px;background:#1A1917;border-radius:12px;overflow:hidden;border:1px solid #2C2B29;">
+
+        <tr><td style="height:4px;background:linear-gradient(90deg,#028381,#8A2C0E,#028381);line-height:0;font-size:0;">&nbsp;</td></tr>
+
+        <tr><td style="padding:28px 36px 20px;background:#151414;border-bottom:1px solid #2C2B29;">
+          <p style="margin:0 0 6px;font-size:12px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:#028381;">New Blueprint Submission</p>
+          <h1 style="margin:0;font-size:24px;font-weight:800;color:#FFFFFF;line-height:1.2;">
+            ${clientName} completed their Pre-Fit Blueprint
+          </h1>
+          <p style="margin:8px 0 0;font-size:13px;color:#5A5856;">
+            ${clientEmail} &nbsp;·&nbsp; Submitted ${new Date().toLocaleString('en-US', { timeZone: 'America/New_York', dateStyle: 'medium', timeStyle: 'short' })} ET
+          </p>
+        </td></tr>
+
+        <tr><td style="padding:24px 36px;">
+          <p style="margin:0 0 16px;font-size:14px;color:#8A8784;">
+            The personalized coaching proposal for <strong style="color:#FFFFFF;">${firstName}</strong> is attached as a <code style="background:#211F1D;padding:2px 6px;border-radius:4px;font-size:12px;color:#028381;">.pptx</code> file. Their answers are pre-filled into the "Where You Are Today" slide.
+          </p>
+
+          <table width="100%" cellpadding="0" cellspacing="0" style="background:#211F1D;border-radius:8px;border:1px solid #2C2B29;margin-bottom:0;">
+            <tr><td style="padding:12px 12px 4px;">
+              <p style="margin:0;font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#5A5856;">Client Responses</p>
+            </td></tr>
+            ${fieldsHtml}
+          </table>
+        </td></tr>
+
+        <tr><td style="padding:0 36px 28px;">
+          <div style="background:#1E1A17;border:1px solid #8A2C0E;border-radius:8px;padding:16px 20px;">
+            <p style="margin:0;font-size:13px;color:#E8E5E0;">
+              <strong style="color:#FFCAB0;">Attached:</strong> ${fileName}<br/>
+              Open it in PowerPoint or Google Slides to review before the Fit Blueprint session.
+            </p>
+          </div>
+        </td></tr>
+
+        <tr><td style="padding:20px 36px;border-top:1px solid #2C2B29;text-align:center;">
+          <p style="margin:0;font-size:11px;color:#3A3836;">iKengaFit · Automated via Pre-Fit Blueprint System</p>
+        </td></tr>
+
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>`;
+
+  await transporter.sendMail({
+    from:    `"iKengaFit Blueprint System" <${CONFIG.smtp.user}>`,
+    to:      `"${CONFIG.coachName}" <${CONFIG.coachEmail}>`,
+    replyTo: clientEmail,
+    subject: `📋 New Blueprint: ${clientName} is ready for their session`,
+    html,
+    text: `${clientName} (${clientEmail}) completed their Pre-Fit Blueprint.\n\nGoal: ${data.primaryGoal}\nFitness Level: ${data.fitnessLevel}\nPackage: ${data.recommendedPkg}\n\nPersonalized deck attached.`,
+    attachments: [{
+      filename: fileName,
+      path:     filePath,
+    }],
+  });
+
+  console.log(`✅ PPTX emailed to coach for ${clientName}`);
+}
+
+// ─── BRAND / PPTX CONSTANTS ───────────────────────────────────────────────────
+const TEAL      = '028381';
+const TEAL_DARK = '01605F';
+const CRIMSON   = '8A2C0E';
+const DARK      = '151414';
+const CREAM     = 'F5F1EB';
+const WHITE     = 'FFFFFF';
+const MUTED     = '767574';
+const GRAY_DK   = '1E1E1E';
+const GRAY_LT   = 'E8E4DD';
+
+const W = 13.33, H = 7.5, M = 0.38;
+const CONTENT_W = W - 2 * M;
+
+const LOGO_LIGHT   = path.join(__dirname, '..', 'logo_light_transparent.png');
+const LH = 0.72;
+const LW = LH * (1742 / 614);
+
+function addLogoDark(s) {
+  if (fs.existsSync(LOGO_LIGHT)) s.addImage({ path: LOGO_LIGHT, x: W-M-LW, y: M, w: LW, h: LH });
+}
+function addLogoInTealHeader(s, hdrH) {
+  if (fs.existsSync(LOGO_LIGHT)) s.addImage({ path: LOGO_LIGHT, x: W-M-LW, y: (hdrH-LH)/2, w: LW, h: LH });
+}
+function addLogoInDarkHeader(s, hdrH) {
+  if (fs.existsSync(LOGO_LIGHT)) s.addImage({ path: LOGO_LIGHT, x: W-M-LW, y: (hdrH-LH)/2, w: LW, h: LH });
+}
+function lbl(s, text, color, y) {
+  s.addText(text.toUpperCase(), { x:M, y, w:CONTENT_W, h:0.24, fontSize:8, bold:true, color, charSpacing:3.5, fontFace:'Trebuchet MS' });
+}
+function rule(s, x, y, w, color=CRIMSON) {
+  s.addShape('rect', { x, y, w, h:0.04, fill:{color}, line:{type:'none'} });
+}
+
+// ─── PPTX GENERATION ─────────────────────────────────────────────────────────
+function generateDeck(data) {
+  const prs = new PptxGenJS();
+  prs.layout = 'LAYOUT_WIDE';
+
+  const {
+    clientName='[Client Name]', primaryGoal='[Not specified]',
+    fitnessLevel='[Not specified]', trainingHistory='[Not specified]',
+    availability='[Not specified]', focusAreas='[Not specified]',
+    recommendedPkg='To be determined',
+  } = data;
+
+  // ── SLIDE 1 — COVER ─────────────────────────────────────────────────────────
+  {
+    const s = prs.addSlide();
+    s.background = { color: DARK };
+    s.addShape('rect', {x:0,y:0,w:0.22,h:H,fill:{color:TEAL},line:{type:'none'}});
+    lbl(s, 'Personalized Fitness Coaching', TEAL, M);
+    s.addText('YOUR COACHING\nPACKAGE PROPOSAL', {x:M,y:0.88,w:9.2,h:2.4,fontSize:54,bold:true,color:WHITE,fontFace:'Trebuchet MS',lineSpacingMultiple:1.07});
+    s.addText('Find Your Place of Strength\u2122', {x:M,y:3.42,w:8,h:0.46,fontSize:18,color:TEAL,fontFace:'Trebuchet MS',italic:true});
+    rule(s,M,3.98,2.8);
+    s.addText(`Prepared exclusively for ${clientName} following your iKengaFit Fitness Assessment`, {x:M,y:4.15,w:9,h:0.36,fontSize:12.5,color:'AAAAAA',fontFace:'Trebuchet MS'});
+    s.addText('iKengaFit', {x:M,y:6.68,w:3.5,h:0.44,fontSize:20,bold:true,color:WHITE,fontFace:'Trebuchet MS'});
+    addLogoDark(s);
+    const bW=3.3,bH=1.9,bX=W-M-bW,bY=H-M-bH;
+    s.addShape('rect',{x:bX,y:bY,w:bW,h:bH,fill:{color:CRIMSON},line:{type:'none'}});
+    s.addText('Washington, DC\n& Virtual Nationwide',{x:bX+0.18,y:bY+0.22,w:bW-0.36,h:0.88,fontSize:12,bold:true,color:WHITE,align:'center',fontFace:'Trebuchet MS',lineSpacingMultiple:1.3});
+    s.addText('ikengafit.com',{x:bX+0.18,y:bY+1.2,w:bW-0.36,h:0.34,fontSize:11,color:'FFCAB0',align:'center',fontFace:'Trebuchet MS'});
+  }
+
+  // ── SLIDE 2 — TRAINER ────────────────────────────────────────────────────────
+  {
+    const s = prs.addSlide();
+    s.background = { color: CREAM };
+    const hH=1.55;
+    s.addShape('rect',{x:0,y:0,w:W,h:hH,fill:{color:TEAL},line:{type:'none'}});
+    addLogoInTealHeader(s,hH);
+    s.addText('ABOUT iKENGAFIT',{x:M,y:0.22,w:8.5,h:0.26,fontSize:9,bold:true,color:WHITE,charSpacing:4,fontFace:'Trebuchet MS'});
+    s.addText('Your Trainer & Credentials',{x:M,y:0.56,w:8.5,h:0.72,fontSize:30,bold:true,color:WHITE,fontFace:'Trebuchet MS'});
+    const lX=M,lW=5.9,cTop=hH+0.22;
+    s.addText('Who We Are',{x:lX,y:cTop,w:lW,h:0.4,fontSize:18,bold:true,color:TEAL,fontFace:'Trebuchet MS'});
+    rule(s,lX,cTop+0.46,1.2);
+    s.addText('iKengaFit is a Washington, DC-based personal training and coaching practice serving clients in-person in the NOMA area and virtually nationwide. Every program is built around you — your goals, your schedule, your life.',{x:lX,y:cTop+0.6,w:lW,h:1.48,fontSize:13,color:DARK,fontFace:'Trebuchet MS',lineSpacingMultiple:1.5});
+    const bsY=cTop+2.26;
+    s.addShape('rect',{x:lX,y:bsY,w:lW,h:0.76,fill:{color:TEAL_DARK},line:{type:'none'}});
+    s.addText('"Grab YOUR health by the horns."',{x:lX+0.18,y:bsY+0.12,w:lW-0.36,h:0.52,fontSize:13.5,bold:true,color:WHITE,italic:true,fontFace:'Trebuchet MS'});
+    s.addText('In-person: Washington, DC (NOMA area)\nVirtually nationwide',{x:lX,y:bsY+0.96,w:lW,h:0.62,fontSize:12,color:DARK,fontFace:'Trebuchet MS',lineSpacingMultiple:1.4});
+    const cX=7.05,cW=W-M-cX,cY=hH+0.22,cH=H-M-cY;
+    s.addShape('rect',{x:cX,y:cY,w:cW,h:cH,fill:{color:DARK},line:{type:'none'}});
+    const ci=0.25;
+    s.addText('MEET YOUR TRAINER',{x:cX+ci,y:cY+0.2,w:cW-ci*2,h:0.24,fontSize:8,bold:true,color:TEAL,charSpacing:3,fontFace:'Trebuchet MS'});
+    s.addText('David Clary',{x:cX+ci,y:cY+0.5,w:cW-ci*2,h:0.55,fontSize:28,bold:true,color:WHITE,fontFace:'Trebuchet MS'});
+    s.addText('BS, MS, CSCS, Pn1',{x:cX+ci,y:cY+1.1,w:cW-ci*2,h:0.3,fontSize:12.5,color:TEAL,italic:true,fontFace:'Trebuchet MS'});
+    rule(s,cX+ci,cY+1.5,1.6);
+    [['M.S.','Clinical Exercise Science — Liberty University'],['B.S.','Human Performance — Howard University'],['CSCS','Certified Strength & Conditioning Specialist'],['Pn1','Precision Nutrition Coach, Level 1'],['NASM','Nationally Certified Personal Trainer'],['Bio.','Dartfish Biomechanical Analysis Technician']].forEach(([a,d],i)=>{
+      const ry=cY+1.72+i*0.48;
+      s.addText(a,{x:cX+ci,y:ry,w:0.68,h:0.36,fontSize:10,bold:true,color:TEAL,fontFace:'Trebuchet MS'});
+      s.addText(d,{x:cX+ci+0.75,y:ry,w:cW-ci*2-0.75,h:0.36,fontSize:10,color:'CCCCCC',fontFace:'Trebuchet MS'});
+    });
+    s.addText('Human Performance Expert  ·  DMV Area',{x:cX+ci,y:cY+cH-0.36,w:cW-ci*2,h:0.28,fontSize:9,color:MUTED,fontFace:'Trebuchet MS'});
+  }
+
+  // ── SLIDE 3 — ASSESSMENT RECAP (CLIENT DATA) ──────────────────────────────
+  {
+    const s = prs.addSlide();
+    s.background = { color: DARK };
+    s.addShape('rect',{x:0,y:0,w:0.22,h:H,fill:{color:TEAL},line:{type:'none'}});
+    addLogoDark(s);
+    lbl(s,'Your Fitness Assessment Recap','AAAAAA',M);
+    s.addText('Where You Are Today',{x:M,y:0.7,w:CONTENT_W,h:0.72,fontSize:38,bold:true,color:WHITE,fontFace:'Trebuchet MS'});
+    rule(s,M,1.5,2.2);
+    s.addText(`Assessment summary for ${clientName}:`,{x:M,y:1.64,w:CONTENT_W-0.5,h:0.34,fontSize:12,color:'AAAAAA',fontFace:'Trebuchet MS'});
+
+    const gStartY=2.1,gEndY=H-M-0.25,tGridH=gEndY-gStartY,rowGap=0.2,rowH=(tGridH-rowGap)/2;
+    const gStartX=M,gEndX=W-M,colGap=0.2,colW=(gEndX-gStartX-2*colGap)/3;
+
+    const boxes=[
+      ['Primary Goal',        primaryGoal],
+      ['Fitness Level',       fitnessLevel],
+      ['Training History',    trainingHistory],
+      ['Availability',        availability],
+      ['Key Focus Areas',     focusAreas],
+      ['Recommended Package', recommendedPkg],
+    ];
+    boxes.forEach(([l,v],idx)=>{
+      const col=idx%3,row=Math.floor(idx/3);
+      const bx=gStartX+col*(colW+colGap),by=gStartY+row*(rowH+rowGap);
+      s.addShape('rect',{x:bx,y:by,w:colW,h:rowH,fill:{color:GRAY_DK},line:{color:TEAL,pt:1}});
+      s.addText(l.toUpperCase(),{x:bx+0.22,y:by+0.22,w:colW-0.44,h:0.26,fontSize:8,bold:true,color:TEAL,charSpacing:2,fontFace:'Trebuchet MS'});
+      s.addText(v,{x:bx+0.22,y:by+0.62,w:colW-0.44,h:rowH-0.88,fontSize:14,bold:true,color:WHITE,fontFace:'Trebuchet MS',lineSpacingMultiple:1.3});
+    });
+  }
+
+  // ── SLIDES 4–9 (packages, benefits, comparison, CTA, testimonials, closing) ──
+  // (identical to existing deck — reused from ikengafit_deck_v6.js)
+  // Packages slide
+  {
+    const s=prs.addSlide();
+    s.background={color:CREAM};
+    const hH=1.55;
+    s.addShape('rect',{x:0,y:0,w:W,h:hH,fill:{color:TEAL},line:{type:'none'}});
+    addLogoInTealHeader(s,hH);
+    s.addText('STANDARD COACHING PACKAGES',{x:M,y:0.22,w:8.5,h:0.26,fontSize:9,bold:true,color:WHITE,charSpacing:4,fontFace:'Trebuchet MS'});
+    s.addText('Choose the package that fits your timeline',{x:M,y:0.56,w:8.5,h:0.72,fontSize:28,bold:true,color:WHITE,fontFace:'Trebuchet MS'});
+    const pkgs=[{title:'6-Session Package',tag:'STARTER',dur:'2–3 Weeks · Min 2x/Week',virt:'$270',ip:'$600',tc:'444444'},{title:'12-Session Package',tag:'MOST POPULAR',dur:'4–6 Weeks · Min 2x/Week',virt:'$600',ip:'$1,080',tc:CRIMSON},{title:'24-Session Package',tag:'BEST VALUE',dur:'8–12 Weeks · Min 2x/Week',virt:'$1,080',ip:'$1,920',tc:TEAL_DARK}];
+    const cGap=0.25,cW=(CONTENT_W-2*cGap)/3,cTop=hH+0.2,cH=H-M-cTop;
+    const feats=['Customized training plan','Coach-led sessions','Goal & metric tracking','One-time payment','Split-pay on request'];
+    pkgs.forEach((pkg,i)=>{
+      const cx=M+i*(cW+cGap),cy=cTop;
+      s.addShape('rect',{x:cx,y:cy,w:cW,h:cH,fill:{color:DARK},line:{type:'none'}});
+      s.addShape('rect',{x:cx,y:cy,w:cW,h:0.38,fill:{color:pkg.tc},line:{type:'none'}});
+      s.addText(pkg.tag,{x:cx,y:cy+0.07,w:cW,h:0.24,fontSize:8,bold:true,color:WHITE,align:'center',charSpacing:2,fontFace:'Trebuchet MS'});
+      s.addText(pkg.title,{x:cx+0.2,y:cy+0.5,w:cW-0.4,h:0.46,fontSize:19,bold:true,color:WHITE,fontFace:'Trebuchet MS'});
+      s.addText(pkg.dur,{x:cx+0.2,y:cy+1.0,w:cW-0.4,h:0.28,fontSize:9.5,color:TEAL,fontFace:'Trebuchet MS'});
+      const pbY=cy+1.38,pbH=1.18,c1W=(cW-0.28)/2-0.05,c2X=cx+0.14+c1W+0.1;
+      s.addShape('rect',{x:cx+0.14,y:pbY,w:cW-0.28,h:pbH,fill:{color:GRAY_DK},line:{type:'none'}});
+      s.addText('VIRTUAL',{x:cx+0.22,y:pbY+0.1,w:c1W,h:0.22,fontSize:7,bold:true,color:TEAL,charSpacing:2,fontFace:'Trebuchet MS'});
+      s.addText(pkg.virt,{x:cx+0.22,y:pbY+0.34,w:c1W,h:0.6,fontSize:28,bold:true,color:WHITE,fontFace:'Trebuchet MS'});
+      s.addText('IN-PERSON',{x:c2X,y:pbY+0.1,w:c1W,h:0.22,fontSize:7,bold:true,color:CRIMSON,charSpacing:2,fontFace:'Trebuchet MS'});
+      s.addText(pkg.ip,{x:c2X,y:pbY+0.34,w:c1W,h:0.6,fontSize:28,bold:true,color:WHITE,fontFace:'Trebuchet MS'});
+      const fStart=cy+2.74,fRowH=(cH-2.74-0.3)/feats.length;
+      feats.forEach((f,fi)=>s.addText('\u2713  '+f,{x:cx+0.2,y:fStart+fi*fRowH,w:cW-0.4,h:fRowH,fontSize:11,color:'CCCCCC',fontFace:'Trebuchet MS',valign:'middle'}));
+    });
+  }
+
+  // Benefits slide
+  {
+    const s=prs.addSlide();
+    s.background={color:DARK};
+    s.addShape('rect',{x:0,y:0,w:0.22,h:H,fill:{color:TEAL},line:{type:'none'}});
+    addLogoDark(s);
+    lbl(s,'What You Get With Every Package','AAAAAA',M);
+    s.addText('Built for You. Built to Perform.',{x:M,y:0.7,w:CONTENT_W,h:0.72,fontSize:38,bold:true,color:WHITE,fontFace:'Trebuchet MS'});
+    rule(s,M,1.5,2.2);
+    const bens=[['01','Customized Workouts','Every session is designed around your goals, movement patterns, and fitness level — no cookie-cutter plans.'],['02','Expert Coaching & Feedback','Real-time instruction and corrections from a CSCS-certified trainer with an M.S. in Clinical Exercise Science.'],['03','Virtual or In-Person','Train in-person in Washington, DC (NOMA area) or virtually from anywhere in the country — same quality.'],['04','Performance Tracking','App access to track goals and performance metrics so you can measure and visualize your progress over time.'],['05','Flexible Payment','One-time package purchases with no monthly commitment. Split-payment available on 12- and 24-session packages.'],['06','A Clear Path Forward','Standard packages are a strong starting point — many clients upgrade to Elite Coaching after their first package.']];
+    const bTop=1.68,bBot=H-M-0.25,tBH=bBot-bTop,rH=tBH/3,bLeft=M,bRight=W-M,cg2=0.55,bCW=(bRight-bLeft-cg2)/2;
+    bens.forEach(([n,t,b],i)=>{
+      const col=i%2,row=Math.floor(i/2),bx=bLeft+col*(bCW+cg2),by=bTop+row*rH;
+      s.addText(n,{x:bx,y:by+0.08,w:0.58,h:0.44,fontSize:20,bold:true,color:TEAL,fontFace:'Trebuchet MS'});
+      s.addText(t,{x:bx+0.64,y:by+0.1,w:bCW-0.64,h:0.36,fontSize:13.5,bold:true,color:WHITE,fontFace:'Trebuchet MS'});
+      s.addText(b,{x:bx+0.64,y:by+0.5,w:bCW-0.64,h:rH-0.6,fontSize:11,color:'AAAAAA',fontFace:'Trebuchet MS',lineSpacingMultiple:1.38});
+    });
+  }
+
+  // Comparison slide
+  {
+    const s=prs.addSlide();
+    s.background={color:CREAM};
+    const hH=1.55;
+    s.addShape('rect',{x:0,y:0,w:W,h:hH,fill:{color:DARK},line:{type:'none'}});
+    addLogoInDarkHeader(s,hH);
+    s.addText('COACHING COMPARISON',{x:M,y:0.22,w:8.5,h:0.26,fontSize:9,bold:true,color:TEAL,charSpacing:4,fontFace:'Trebuchet MS'});
+    s.addText('Standard Coaching vs. Elite Coaching',{x:M,y:0.56,w:8.5,h:0.72,fontSize:28,bold:true,color:WHITE,fontFace:'Trebuchet MS'});
+    const tL=M,tR=W-M,tW=tR-tL,cWs=[tW*0.26,tW*0.26,tW*0.24,tW*0.24],cXs=[tL,tL+cWs[0],tL+cWs[0]+cWs[1],tL+cWs[0]+cWs[1]+cWs[2]];
+    const tHY=hH+0.12,tHH=0.5;
+    s.addShape('rect',{x:tL,y:tHY,w:tW,h:tHH,fill:{color:TEAL},line:{type:'none'}});
+    ['Feature','Standard Coaching','Elite — Precision (2x/wk)','Elite — Signature (3x/wk)'].forEach((h,i)=>s.addText(h,{x:cXs[i]+0.1,y:tHY+0.06,w:cWs[i]-0.12,h:tHH-0.08,fontSize:10,bold:true,color:WHITE,align:i===0?'left':'center',fontFace:'Trebuchet MS'}));
+    const rows=[['Coaching Model','Session-based','Monthly program','Monthly program'],['Personalized Plan','\u2713','\u2713','\u2713'],['Ongoing Accountability','\u2717','\u2713','\u2713'],['Weekly Check-Ins','\u2717','\u2713','\u2713'],['Habit & Nutrition Guidance','\u2717','\u2713','\u2713'],['Progress Reviews','\u2717','\u2713','\u2713'],['Application Required','Not required','Required','Required'],['Schedule Flexibility','High','Moderate','Moderate'],['Investment','From $270','$1,000/mo','$1,500/mo']];
+    const tDT=tHY+tHH,tDB=H-M-0.38,rH2=(tDB-tDT)/rows.length;
+    rows.forEach((row,ri)=>{
+      const ry=tDT+ri*rH2,bg=ri%2===0?GRAY_LT:CREAM;
+      s.addShape('rect',{x:tL,y:ry,w:tW,h:rH2,fill:{color:bg},line:{type:'none'}});
+      s.addShape('rect',{x:cXs[1],y:ry,w:cWs[1],h:rH2,fill:{color:'D8ECEB'},line:{type:'none'}});
+      row.forEach((cell,ci)=>{
+        const ic=cell==='\u2713',ix=cell==='\u2717';
+        const cc=ic?(ci===1?TEAL_DARK:'5A9EA0'):ix?'888888':DARK;
+        s.addText(cell,{x:cXs[ci]+0.1,y:ry+0.04,w:cWs[ci]-0.12,h:rH2-0.06,fontSize:ci===0?10.5:12,bold:ic&&ci===1,color:cc,align:ci===0?'left':'center',fontFace:'Trebuchet MS',valign:'middle'});
+      });
+    });
+    s.addText('Elite Coaching requires an application and a 3-month minimum commitment.',{x:tL,y:tDB+0.06,w:10,h:0.28,fontSize:9.5,color:DARK,italic:true,fontFace:'Trebuchet MS'});
+  }
+
+  // Pricing CTA slide
+  {
+    const s=prs.addSlide();
+    s.background={color:TEAL};
+    s.addShape('rect',{x:0,y:0,w:0.22,h:H,fill:{color:TEAL_DARK},line:{type:'none'}});
+    if(fs.existsSync(LOGO_LIGHT)) s.addImage({path:LOGO_LIGHT,x:W-M-LW,y:M,w:LW,h:LH});
+    lbl(s,'Pricing & Next Steps',WHITE,M);
+    s.addText("Ready to Start? Let's Get to Work.",{x:M,y:0.7,w:CONTENT_W,h:0.72,fontSize:36,bold:true,color:WHITE,fontFace:'Trebuchet MS'});
+    rule(s,M,1.5,2.8,CRIMSON);
+    const pD=[{pkg:'6 Sessions',virt:'$270',ip:'$600',weeks:'2–3 weeks  ·  Min 2x/week'},{pkg:'12 Sessions',virt:'$600',ip:'$1,080',weeks:'4–6 weeks  ·  Min 2x/week'},{pkg:'24 Sessions',virt:'$1,080',ip:'$1,920',weeks:'8–12 weeks  ·  Min 2x/week'}];
+    const ctaH=1.5,ctaY=H-M-ctaH,cTop2=1.68,cHp=ctaY-0.22-cTop2,cg2=0.25,cWp=(CONTENT_W-2*cg2)/3;
+    pD.forEach((p,i)=>{
+      const bx=M+i*(cWp+cg2),by=cTop2;
+      s.addShape('rect',{x:bx,y:by,w:cWp,h:cHp,fill:{color:TEAL_DARK},line:{type:'none'}});
+      s.addText(p.pkg,{x:bx+0.2,y:by+0.2,w:cWp-0.4,h:0.42,fontSize:16,bold:true,color:WHITE,fontFace:'Trebuchet MS'});
+      s.addText(p.weeks,{x:bx+0.2,y:by+0.66,w:cWp-0.4,h:0.28,fontSize:9.5,color:'CCE8E8',fontFace:'Trebuchet MS'});
+      s.addShape('rect',{x:bx+0.2,y:by+1.04,w:cWp-0.4,h:0.03,fill:{color:'035E5D'},line:{type:'none'}});
+      const pCW=(cWp-0.4)/2-0.08,pC2X=bx+0.2+pCW+0.16;
+      s.addText('VIRTUAL',{x:bx+0.2,y:by+1.18,w:pCW,h:0.22,fontSize:7.5,bold:true,color:'CCE8E8',charSpacing:1,fontFace:'Trebuchet MS'});
+      s.addText(p.virt,{x:bx+0.2,y:by+1.42,w:pCW,h:0.64,fontSize:30,bold:true,color:WHITE,fontFace:'Trebuchet MS'});
+      s.addText('IN-PERSON',{x:pC2X,y:by+1.18,w:pCW,h:0.22,fontSize:7.5,bold:true,color:'FFCAB0',charSpacing:1,fontFace:'Trebuchet MS'});
+      s.addText(p.ip,{x:pC2X,y:by+1.42,w:pCW,h:0.64,fontSize:30,bold:true,color:WHITE,fontFace:'Trebuchet MS'});
+      s.addText('Customized plan  \u00B7  Coach-led sessions\nOne-time payment  \u00B7  Split-pay available',{x:bx+0.2,y:by+cHp-0.72,w:cWp-0.4,h:0.62,fontSize:9,color:'CCE8E8',fontFace:'Trebuchet MS',lineSpacingMultiple:1.4});
+    });
+    s.addShape('rect',{x:M,y:ctaY,w:CONTENT_W,h:ctaH,fill:{color:CRIMSON},line:{type:'none'}});
+    s.addText('Book Your Package Today',{x:M+0.25,y:ctaY+0.18,w:8,h:0.46,fontSize:21,bold:true,color:WHITE,fontFace:'Trebuchet MS'});
+    s.addText('Visit ikengafit.com/standardcoaching — no application required.',{x:M+0.25,y:ctaY+0.7,w:8.5,h:0.34,fontSize:11.5,color:'FFCAB0',fontFace:'Trebuchet MS'});
+    const bW2=2.55,bX2=W-M-bW2-0.2,bY2=ctaY+0.35,bH2=0.72;
+    s.addShape('rect',{x:bX2,y:bY2,w:bW2,h:bH2,fill:{color:DARK},line:{type:'none'}});
+    s.addText('BOOK NOW  \u2192',{x:bX2,y:bY2,w:bW2,h:bH2,fontSize:12,bold:true,color:WHITE,align:'center',fontFace:'Trebuchet MS',hyperlink:{url:'https://www.ikengafit.com/standardcoaching'}});
+  }
+
+  // Testimonials slide
+  {
+    const s=prs.addSlide();
+    s.background={color:DARK};
+    s.addShape('rect',{x:0,y:0,w:0.22,h:H,fill:{color:TEAL},line:{type:'none'}});
+    addLogoDark(s);
+    lbl(s,'Client Results & Testimonials','AAAAAA',M);
+    s.addText('What Clients Are Saying',{x:M,y:0.7,w:CONTENT_W,h:0.65,fontSize:38,bold:true,color:WHITE,fontFace:'Trebuchet MS'});
+    rule(s,M,1.42,2.2);
+    const fqY=1.6,fqH=2.25;
+    s.addShape('rect',{x:M,y:fqY,w:CONTENT_W,h:fqH,fill:{color:GRAY_DK},line:{color:TEAL,pt:1}});
+    s.addText('\u201C',{x:M+0.2,y:fqY+0.1,w:0.7,h:0.8,fontSize:60,bold:true,color:TEAL,fontFace:'Trebuchet MS'});
+    s.addText("iKengaFit has not only given me the body I have been looking for within 3 months, but I also found an accountability partner to keep me motivated when I'm feeling stuck with working out.",{x:M+0.88,y:fqY+0.2,w:CONTENT_W-0.9,h:1.5,fontSize:14.5,color:WHITE,italic:true,fontFace:'Trebuchet MS',lineSpacingMultiple:1.42});
+    s.addText('Arya C.  —  iKengaFit Client',{x:M+0.88,y:fqY+1.82,w:6,h:0.32,fontSize:11,bold:true,color:TEAL,fontFace:'Trebuchet MS'});
+    const phT=fqY+fqH+0.2,phB=H-M,phH=phB-phT,phG=0.25,phW=(CONTENT_W-phG)/2;
+    [[M,phT],[M+phW+phG,phT]].forEach(([bx,by])=>{
+      s.addShape('rect',{x:bx,y:by,w:phW,h:phH,fill:{color:GRAY_DK},line:{color:'3A3A3A',pt:1}});
+      s.addText('TESTIMONIAL PLACEHOLDER',{x:bx+0.22,y:by+0.22,w:phW-0.44,h:0.26,fontSize:8,bold:true,color:TEAL,charSpacing:2,fontFace:'Trebuchet MS'});
+      s.addText('"Add a client quote here to personalize this slide for each prospect."',{x:bx+0.22,y:by+0.6,w:phW-0.44,h:phH-1.1,fontSize:12.5,color:MUTED,italic:true,fontFace:'Trebuchet MS',lineSpacingMultiple:1.5});
+      s.addText('— [Client Name]',{x:bx+0.22,y:by+phH-0.44,w:phW-0.44,h:0.35,fontSize:10.5,bold:true,color:'505050',fontFace:'Trebuchet MS'});
+    });
+  }
+
+  // Closing slide
+  {
+    const s=prs.addSlide();
+    s.background={color:TEAL};
+    const pW=5.5;
+    s.addShape('rect',{x:0,y:0,w:pW,h:H,fill:{color:DARK},line:{type:'none'}});
+    const lx=M,lw=pW-M-0.3;
+    s.addText('iKengaFit',{x:lx,y:0.82,w:lw,h:0.6,fontSize:32,bold:true,color:WHITE,fontFace:'Trebuchet MS'});
+    rule(s,lx,1.5,1.8,CRIMSON);
+    s.addText('Find Your Place of Strength\u2122',{x:lx,y:1.65,w:lw,h:0.6,fontSize:17,color:TEAL,italic:true,fontFace:'Trebuchet MS'});
+    s.addText('David Clary, MS, CSCS, Pn1',{x:lx,y:2.55,w:lw,h:0.32,fontSize:11.5,color:'AAAAAA',fontFace:'Trebuchet MS'});
+    s.addText('Personal Trainer & Coach',{x:lx,y:2.9,w:lw,h:0.3,fontSize:11.5,color:'AAAAAA',fontFace:'Trebuchet MS'});
+    s.addText('CONTACT & LINKS',{x:lx,y:4.08,w:lw,h:0.22,fontSize:7.5,bold:true,color:TEAL,charSpacing:2.5,fontFace:'Trebuchet MS'});
+    rule(s,lx,4.36,lw,TEAL);
+    ['ikengafit.com','ikengafit.com/standardcoaching','Washington, DC & Virtual'].forEach((c,i)=>s.addText(c,{x:lx,y:4.52+i*0.46,w:lw,h:0.38,fontSize:11,color:TEAL,fontFace:'Trebuchet MS'}));
+    if(fs.existsSync(LOGO_LIGHT)) s.addImage({path:LOGO_LIGHT,x:lx,y:H-M-LH-0.1,w:LW,h:LH});
+    const rx=pW+M,rw=W-rx-M;
+    s.addText('YOUR NEXT STEP',{x:rx,y:0.82,w:rw,h:0.26,fontSize:8.5,bold:true,color:TEAL_DARK,charSpacing:3.5,fontFace:'Trebuchet MS'});
+    s.addText("Let's Build\nYour Strongest Self.",{x:rx,y:1.15,w:rw,h:1.95,fontSize:38,bold:true,color:WHITE,fontFace:'Trebuchet MS',lineSpacingMultiple:1.1});
+    rule(s,rx,3.22,2.8,CRIMSON);
+    s.addText("Your assessment is complete. Your program is ready to be built. The next step is yours — select a package, book your sessions, and let's get to work.",{x:rx,y:3.4,w:rw,h:1.2,fontSize:13,color:WHITE,fontFace:'Trebuchet MS',lineSpacingMultiple:1.5});
+    const bY3=4.88,bH3=0.72;
+    s.addShape('rect',{x:rx,y:bY3,w:rw,h:bH3,fill:{color:CRIMSON},line:{type:'none'}});
+    s.addText('BOOK YOUR PACKAGE  \u2192',{x:rx,y:bY3,w:rw,h:bH3,fontSize:13,bold:true,color:WHITE,align:'center',fontFace:'Trebuchet MS',hyperlink:{url:'https://www.ikengafit.com/standardcoaching'}});
+    s.addText('Questions? Visit ikengafit.com or book a free Fitness Assessment.',{x:rx,y:H-M-0.38,w:rw,h:0.3,fontSize:9.5,color:DARK,fontFace:'Trebuchet MS'});
+  }
+
+  return prs;
+}
+
+// ─── API ROUTES ───────────────────────────────────────────────────────────────
+
+app.get('/api/health', (req, res) => res.json({ ok: true, smtp: CONFIG.smtp.user }));
+
+// ── CALENDLY WEBHOOK ─────────────────────────────────────────────────────────
+// Calendly will POST here when a new Fit Blueprint booking is made
+// Register this URL in Calendly Dashboard → Integrations → Webhooks
+// Endpoint: https://YOUR-DOMAIN/api/calendly-webhook
+app.post('/api/calendly-webhook', async (req, res) => {
+  try {
+    const event = req.body;
+    const payload = event.payload || event;
+
+    // Only handle new invitee created events for the Fit Blueprint event type
+    const eventType = payload?.event_type?.uri || payload?.event?.uri || '';
+    const isNewBooking = event.event === 'invitee.created';
+
+    console.log('📅 Calendly webhook received:', event.event, '| Event type:', eventType);
+
+    if (!isNewBooking) {
+      return res.json({ received: true, action: 'ignored — not a new booking' });
+    }
+
+    // Check if it's the Fit Blueprint event type
+    const isFitBlueprint = eventType.includes('305ed985-c8d8-407a-8642-35218407d007') ||
+                           (payload?.event_type?.name || '').toLowerCase().includes('fit blueprint') ||
+                           (payload?.event_type?.name || '').toLowerCase().includes('blueprint');
+
+    if (!isFitBlueprint) {
+      console.log('ℹ️  Not a Fit Blueprint booking — skipping.');
+      return res.json({ received: true, action: 'ignored — not Fit Blueprint event' });
+    }
+
+    // Extract invitee info
+    const invitee   = payload.invitee || payload;
+    const clientName  = invitee.name  || 'New Client';
+    const clientEmail = invitee.email || '';
+    const startTime   = payload?.event?.start_time || payload?.start_time || '';
+    const sessionDate = startTime
+      ? new Date(startTime).toLocaleString('en-US', { timeZone: 'America/New_York', dateStyle: 'full', timeStyle: 'short' })
+      : null;
+
+    console.log(`📧 Sending form link to ${clientName} <${clientEmail}>`);
+
+    if (!clientEmail) {
+      return res.json({ received: true, action: 'skipped — no email address' });
+    }
+
+    await sendFormLinkEmail({ clientName, clientEmail, sessionDate });
+    res.json({ received: true, action: 'form_link_sent', clientEmail });
+
+  } catch (err) {
+    console.error('❌ Webhook error:', err.message);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// ── FORM SUBMISSION → PPTX → EMAIL COACH ────────────────────────────────────
+app.post('/api/submit', async (req, res) => {
+  try {
+    const data = req.body;
+    const clientName = data.fullName || 'Client';
+
+    // Map form fields to Assessment Recap boxes
+    data.clientName      = clientName;
+    data.primaryGoal     = data.primaryGoal     || '[Not specified]';
+    data.fitnessLevel    = data.fitnessLevel     || '[Not specified]';
+    data.trainingHistory = data.trainingHistory  || '[Not specified]';
+    data.availability    = [data.sessionDays, data.sessionTime].filter(Boolean).join(' · ') || '[Not specified]';
+    data.focusAreas      = data.focusAreas       || '[Not specified]';
+    data.recommendedPkg  = data.recommendedPkg   || 'To be determined';
+
+    // Save submission JSON
+    const ts       = Date.now();
+    const safeName = clientName.replace(/[^a-z0-9]/gi, '_');
+    const subDir   = path.join(__dirname, 'submissions');
+    const genDir   = path.join(__dirname, 'generated');
+    fs.writeFileSync(
+      path.join(subDir, `${safeName}_${ts}.json`),
+      JSON.stringify({ ...data, submittedAt: new Date().toISOString() }, null, 2)
+    );
+
+    // Generate PPTX
+    const prs      = generateDeck(data);
+    const fileName = `iKengaFit_Blueprint_${safeName}_${ts}.pptx`;
+    const filePath = path.join(genDir, fileName);
+    await prs.writeFile({ fileName: filePath });
+    console.log(`✅ PPTX generated: ${fileName}`);
+
+    // Email PPTX to coach
+    await sendPptxToCoach({
+      clientName,
+      clientEmail: data.email || '',
+      filePath,
+      fileName,
+      data,
+    });
+
+    res.json({
+      success:     true,
+      clientName,
+      downloadUrl: `/generated/${fileName}`,
+      fileName,
+    });
+  } catch (err) {
+    console.error('❌ Submit error:', err.message);
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// ── SUBMISSIONS LIST ─────────────────────────────────────────────────────────
+app.get('/api/submissions', (req, res) => {
+  const subDir = path.join(__dirname, 'submissions');
+  const files  = fs.readdirSync(subDir).filter(f => f.endsWith('.json'));
+  const list   = files.map(f => {
+    const d = JSON.parse(fs.readFileSync(path.join(subDir, f), 'utf8'));
+    return { file: f, clientName: d.clientName || d.fullName, email: d.email, submittedAt: d.submittedAt };
+  });
+  res.json(list.reverse());
+});
+
+app.listen(PORT, () => {
+  console.log(`\n🏋️  iKengaFit Blueprint server on port ${PORT}`);
+  console.log(`📋  Form:           ${CONFIG.formUrl}`);
+  console.log(`🔗  Webhook URL:    ${CONFIG.formUrl}/api/calendly-webhook`);
+  console.log(`📬  PPTX emails to: ${CONFIG.coachEmail}\n`);
+});
