@@ -274,7 +274,7 @@ const GRAY_LT   = 'E8E4DD';
 const W = 13.33, H = 7.5, M = 0.38;
 const CONTENT_W = W - 2 * M;
 
-const LOGO_LIGHT   = path.join(__dirname, '..', 'logo_light_transparent.png');
+const LOGO_LIGHT   = path.join(__dirname, 'logo_light_transparent.png');
 const LH = 0.72;
 const LW = LH * (1742 / 614);
 
