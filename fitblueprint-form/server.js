@@ -15,6 +15,7 @@ const fs         = require('fs');
 const path       = require('path');
 const nodemailer = require('nodemailer');
 const PptxGenJS  = require('pptxgenjs');
+const { execFile } = require('child_process');
 
 const app  = express();
 const PORT = process.env.PORT || 4000;
@@ -207,8 +208,27 @@ async function sendFormLinkEmail({ clientName, clientEmail, sessionDate, locatio
   console.log(`✅ Form link email sent to ${clientEmail}`);
 }
 
-/** Email 2: Sent to coach after client submits the form, with PPTX attached */
-async function sendPptxToCoach({ clientName, clientEmail, filePath, fileName, data }) {
+/**
+ * Generate a PDF receipt by calling generate_receipt.py as a subprocess.
+ * Returns the path to the generated PDF, or null if generation fails.
+ */
+function generateReceipt(submissionPath, receiptPath) {
+  return new Promise((resolve) => {
+    const scriptPath = path.join(__dirname, 'generate_receipt.py');
+    execFile('python3', [scriptPath, submissionPath, receiptPath], { timeout: 30000 }, (err, stdout, stderr) => {
+      if (err) {
+        console.error('⚠️  Receipt generation failed:', err.message, stderr);
+        resolve(null); // non-fatal — PPTX still sends
+      } else {
+        console.log('✅ Receipt PDF generated:', receiptPath);
+        resolve(receiptPath);
+      }
+    });
+  });
+}
+
+/** Email 2: Sent to coach after client submits the form, with PPTX + Receipt attached */
+async function sendPptxToCoach({ clientName, clientEmail, filePath, fileName, receiptPath, receiptFileName, data }) {
   const firstName = clientName.split(' ')[0];
   const fieldsHtml = [
     ['Primary Goal',         data.primaryGoal],
@@ -268,7 +288,8 @@ async function sendPptxToCoach({ clientName, clientEmail, filePath, fileName, da
           <div style="background:#1E1A17;border:1px solid #8A2C0E;border-radius:8px;padding:16px 20px;">
             <p style="margin:0;font-size:13px;color:#E8E5E0;">
               <strong style="color:#FFCAB0;">Attached:</strong> ${fileName}<br/>
-              Open it in PowerPoint or Google Slides to review before the Fit Blueprint session.
+              ${receiptPath ? `<strong style="color:#FFCAB0;">Also attached:</strong> ${receiptFileName} — insurance-ready PDF receipt<br/>` : ''}
+              Open the deck in PowerPoint or Google Slides to review before the Fit Blueprint session.
             </p>
           </div>
         </td></tr>
@@ -290,10 +311,16 @@ async function sendPptxToCoach({ clientName, clientEmail, filePath, fileName, da
     subject: `📋 New Blueprint: ${clientName} is ready for their session`,
     html,
     text: `${clientName} (${clientEmail}) completed their Pre-Fit Blueprint.\n\nGoal: ${data.primaryGoal}\nFitness Level: ${data.fitnessLevel}\nPackage: ${data.recommendedPkg}\n\nPersonalized deck attached.`,
-    attachments: [{
-      filename: fileName,
-      path:     filePath,
-    }],
+    attachments: [
+      {
+        filename: fileName,
+        path:     filePath,
+      },
+      ...(receiptPath && fs.existsSync(receiptPath) ? [{
+        filename: receiptFileName || 'iKengaFit_Receipt.pdf',
+        path:     receiptPath,
+      }] : []),
+    ],
   });
 
   console.log(`✅ PPTX emailed to coach for ${clientName}`);
@@ -686,12 +713,20 @@ app.post('/api/submit', async (req, res) => {
     await prs.writeFile({ fileName: filePath });
     console.log(`✅ PPTX generated: ${fileName}`);
 
-    // Email PPTX to coach
+    // Generate PDF receipt (non-fatal if Python fails)
+    const subJsonPath    = path.join(subDir, `${safeName}_${ts}.json`);
+    const receiptFileName = `iKengaFit_Receipt_${safeName}_${ts}.pdf`;
+    const receiptPath    = path.join(genDir, receiptFileName);
+    const receiptResult  = await generateReceipt(subJsonPath, receiptPath);
+
+    // Email PPTX + receipt to coach
     await sendPptxToCoach({
       clientName,
       clientEmail: data.email || '',
       filePath,
       fileName,
+      receiptPath:     receiptResult,
+      receiptFileName,
       data,
     });
 
