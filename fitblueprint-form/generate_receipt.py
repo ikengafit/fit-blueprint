@@ -161,8 +161,7 @@ def build_receipt(submission: dict, output_path: str):
             Paragraph("David Clary, MS, CSCS, PN1", s["body"]),
             Paragraph("1140 3rd St NE, Washington, DC 20002", s["body"]),
             Paragraph("david.clary@ikengafit.com  \u00b7  ikengafit.com", s["body"]),
-            Paragraph("<font color='#CC2200'><b>EIN: [REQUIRED — add before sending]</b></font>", s["small"]),
-            Paragraph("<font color='#CC2200'><b>NPI: [REQUIRED — add before sending]</b></font>", s["small"]),
+            Paragraph("<font color='#5A5754'>Provider tax identification available upon request from plan administrator.</font>", s["small"]),
         ]),
         col_list([
             Paragraph("CLIENT / PATIENT", s["label"]),
