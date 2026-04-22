@@ -56,8 +56,8 @@ def S():
                                 textColor=MUTED, spaceAfter=1),
         "label": ParagraphStyle("label", fontName="DM-B", fontSize=6.5, leading=9,
                                 textColor=LABEL, spaceAfter=1),
-        "notice":ParagraphStyle("notice",fontName="DM",   fontSize=7.5, leading=11,
-                                textColor=MUTED, spaceAfter=5),
+        "notice":ParagraphStyle("notice",fontName="DM",   fontSize=7, leading=10,
+                                textColor=MUTED, spaceAfter=3),
     }
 
 # ─── PACKAGE MAP ───────────────────────────────────────────────────────────────
@@ -85,7 +85,7 @@ def rule(color=BORDER, thickness=0.4, space=4):
                       spaceBefore=space, spaceAfter=space)
 
 # ─── HEADER / FOOTER ──────────────────────────────────────────────────────────
-def make_hf(W, H, MARGIN, total_ref):
+def make_hf(W, H, MARGIN):
     def draw(canvas, doc):
         canvas.saveState()
         canvas.setFillColor(TEAL)
@@ -105,9 +105,7 @@ def make_hf(W, H, MARGIN, total_ref):
         canvas.drawString(MARGIN, 0.34*inch,
             "iKengaFit  \u00b7  Washington, DC & Virtual  \u00b7  "
             "ikengafit.com  \u00b7  david.clary@ikengafit.com")
-        total = total_ref[0] or ""
-        suffix = f" of {total}" if total else ""
-        canvas.drawRightString(W - MARGIN, 0.34*inch, f"Page {doc.page}{suffix}")
+        canvas.drawRightString(W - MARGIN, 0.34*inch, f"Page {doc.page}")
         canvas.restoreState()
     return draw
 
@@ -115,7 +113,7 @@ def make_hf(W, H, MARGIN, total_ref):
 def build_receipt(submission: dict, output_path: str):
     s = S()
     W, H = letter
-    MARGIN = 0.72 * inch
+    MARGIN = 0.62 * inch
     COL    = W - 2 * MARGIN
 
     # Parse submission
@@ -139,7 +137,11 @@ def build_receipt(submission: dict, output_path: str):
         rec_no   = "IKF-" + datetime.now().strftime("%Y%m%d%H%M")
 
     sessions, price, weeks, mode = parse_package(pkg_raw, pref)
-    unit_price = round(price / sessions, 2) if isinstance(sessions, int) and sessions else 0
+    # Fit Blueprint is always 1 session; multi-session packages retain their session count
+    qty = 1 if (not isinstance(sessions, int) or sessions == 0) else sessions
+    is_fit_blueprint = qty == 1 or (not pkg_raw)
+    display_qty = 1  # Receipt covers this single assessment session
+    unit_price = price if is_fit_blueprint else round(price / sessions, 2) if isinstance(sessions, int) and sessions else 0
 
     # ── Story ──────────────────────────────────────────────────────────────────
     story = []
@@ -207,28 +209,45 @@ def build_receipt(submission: dict, output_path: str):
     # 3. ITEMIZED SERVICES ─────────────────────────────────────────────────────
     story.append(Paragraph("ITEMIZED SERVICES", s["h2"]))
 
-    c1 = 2.68*inch; c2 = 1.0*inch; c3 = 0.46*inch; c4 = 0.82*inch; c5 = 0.97*inch
-    # verify: 2.9+0.78+0.46+0.82+0.97 = 5.93 < 6.56 (COL at 0.72 margin) — fine
+    # No CPT codes — columns: Description | Qty | Unit Price | Total
+    c1 = 3.68*inch; c3 = 0.46*inch; c4 = 0.96*inch; c5 = 1.04*inch
+
+    svc_desc = (
+        "<b>Comprehensive Fitness Assessment &amp; Individualized Exercise Prescription "
+        "— iKengaFit Fit Blueprint Session</b><br/>"
+        "<font size='7' color='#5A5754'>"
+        "This session constitutes a comprehensive health and fitness evaluation "
+        "conducted by a Certified Strength &amp; Conditioning Specialist (CSCS, NSCA) "
+        "with an M.S. in Clinical Exercise Science. Services rendered include: "
+        "(1) <b>Resting Health Measurements</b> — resting blood pressure, resting "
+        "heart rate, and grip strength dynamometry; "
+        "(2) <b>Body Composition Analysis</b> — segmental body composition via "
+        "InBody bioelectrical impedance scale and manual body circumference measurements "
+        "(waist, hip, chest, arm, thigh); "
+        "(3) <b>Functional Movement Screening (FMS)</b> — standardized 7-pattern "
+        "movement screen to identify functional limitations, asymmetries, and injury risk; "
+        "(4) <b>Muscular Strength &amp; Endurance Assessment</b> — push test, core "
+        "endurance holds, and lower-body strength evaluation; "
+        "(5) <b>Cardiovascular Fitness Assessment</b> — submaximal cardiorespiratory "
+        "recovery test performed on a treadmill to estimate aerobic capacity and "
+        "cardiovascular recovery rate; "
+        "(6) <b>Individualized Exercise Prescription</b> — personalized program design "
+        "based on assessment findings, client health history, reported limitations, and "
+        "stated goals, with written coaching proposal delivered to client. "
+        f"Modality: {mode}."
+        "</font>"
+    )
 
     svc = Table([
         [Paragraph("Description of Service",  s["label"]),
-         Paragraph("CPT Code",                s["label"]),
          Paragraph("Qty",                     s["label"]),
          Paragraph("Unit Price",              s["label"]),
          Paragraph("Total",                   s["label"])],
-        [Paragraph(
-            "<b>Individualized Personal Training Program</b><br/>"
-            f"<font size='7' color='#5A5754'>"
-            f"Prescribed exercise program supervised by a Certified Strength &amp; "
-            f"Conditioning Specialist (CSCS). Includes fitness assessment, individualized "
-            f"exercise prescription, and progress monitoring. "
-            f"Modality: {mode}. Duration: {weeks}, min. 2x/week."
-            f"</font>", s["body"]),
-         Paragraph("97110 / 97150",  s["small"]),   # separated with slash
-         Paragraph(str(sessions),     s["bold"]),
-         Paragraph(f"${unit_price:,.2f}", s["bold"]),
-         Paragraph(f"${price:,.2f}",      s["bold"])],
-    ], colWidths=[c1, c2, c3, c4, c5])
+        [Paragraph(svc_desc, s["body"]),
+         Paragraph(str(display_qty),          s["bold"]),
+         Paragraph(f"${price:,.2f}",          s["bold"]),
+         Paragraph(f"${price:,.2f}",          s["bold"])],
+    ], colWidths=[c1, c3, c4, c5])
     svc.setStyle(TableStyle([
         ("BACKGROUND",  (0,0),(-1,0), ROW_BG),
         ("LINEBELOW",   (0,0),(-1,0), 0.4, BORDER),
@@ -238,12 +257,12 @@ def build_receipt(submission: dict, output_path: str):
         ("RIGHTPADDING",(0,0),(-1,-1),5),
         ("TOPPADDING",  (0,0),(-1,-1),5),
         ("BOTTOMPADDING",(0,0),(-1,-1),5),
-        ("ALIGN",       (2,0),(-1,-1),"RIGHT"),
+        ("ALIGN",       (1,0),(-1,-1),"RIGHT"),
     ]))
     story.append(svc)
 
-    # Totals — columns aligned exactly to c4+c5 of service table
-    pad = c1 + c2 + c3
+    # Totals — columns aligned to c4+c5 of service table
+    pad = c1 + c3
     totals = Table([
         ["", Paragraph("Subtotal",          s["body"]),  Paragraph(f"${price:,.2f}",   s["body"])],
         ["", Paragraph("<b>TOTAL PAID</b>",  s["bold"]),  Paragraph(f"<b>${price:,.2f}</b>", s["bold"])],
@@ -266,19 +285,21 @@ def build_receipt(submission: dict, output_path: str):
     clin = Table([
         [Paragraph("PROVIDER CREDENTIALS",        s["label"]),
          Paragraph("SERVICE CATEGORY",             s["label"]),
-         Paragraph("NPI / CERTIFICATION",          s["label"])],
+         Paragraph("CERTIFICATIONS / JURISDICTION", s["label"])],
         [Paragraph("David Clary, MS, CSCS, PN1<br/>"
-                   "Cert. Strength &amp; Conditioning Specialist<br/>"
-                   "Precision Nutrition Level 1",  s["body"]),
-         Paragraph("Therapeutic Exercise (97110)<br/>"
-                   "Therapeutic Activities (97150)<br/>"
-                   "Preventive Health Services",   s["body"]),
-         Paragraph("<font color='#CC2200'><b>[REQUIRED — add NPI]</b></font><br/>"
-                   "NSCA-CSCS Certified<br/>"
-                   "Jurisdiction: DC",             s["body"])],
+                   "M.S. Clinical Exercise Science<br/>"
+                   "Cert. Strength &amp; Conditioning Specialist (NSCA)<br/>"
+                   "Precision Nutrition Coach, Level 1",  s["body"]),
+         Paragraph("Comprehensive Fitness Assessment<br/>"
+                   "Individualized Exercise Prescription<br/>"
+                   "Preventive &amp; Corrective Health Services",   s["body"]),
+         Paragraph("NSCA-CSCS  \u00b7  NASM-CPT<br/>"
+                   "Precision Nutrition PN1<br/>"
+                   "FMS Certified Practitioner<br/>"
+                   "Jurisdiction: Washington, DC",        s["body"])],
         [Paragraph("CLIENT-REPORTED HEALTH GOAL",  s["label"]),
          Paragraph("FUNCTIONAL FITNESS LEVEL",     s["label"]),
-         Paragraph("REPORTED LIMITATIONS",         s["label"])],
+         Paragraph("REPORTED LIMITATIONS / INJURIES", s["label"])],
         [Paragraph(goal,   s["body"]),
          Paragraph(level,  s["body"]),
          Paragraph(injury, s["body"])],
@@ -302,39 +323,50 @@ def build_receipt(submission: dict, output_path: str):
     story.append(rule(space=3))
 
     # 5. REIMBURSEMENT GUIDANCE ────────────────────────────────────────────────
-    story.append(KeepTogether([
-        Paragraph("REIMBURSEMENT GUIDANCE", s["h2"]),
-        Paragraph(
-            "<b>HSA / FSA:</b> Personal training may be reimbursable when prescribed as "
-            "medically necessary by a licensed physician. Submit this receipt plus a "
-            "<b>Letter of Medical Necessity (LMN)</b> to your HSA/FSA administrator. "
-            "The LMN must include your diagnosis, clinical rationale, and recommended "
-            "frequency and duration of treatment.",
-            s["notice"]),
-        Paragraph(
-            "<b>Employer Wellness / Medicare Advantage:</b> Many plans reimburse fitness "
-            "expenses. Submit this receipt with your member ID and check your plan\u2019s "
-            "Evidence of Coverage for eligible categories and annual limits.",
-            s["notice"]),
-        Paragraph(
-            "<b>Important:</b> Eligibility is determined solely by your plan administrator. "
-            "iKengaFit does not guarantee reimbursement. Retain all documentation for 7 years.",
-            s["notice"]),
-    ]))
+    story.append(Paragraph("REIMBURSEMENT GUIDANCE &amp; LETTER OF MEDICAL NECESSITY SUPPORT", s["h2"]))
+    story.append(Paragraph(
+        "<b>Basis for Medical Necessity:</b> The Fit Blueprint session is a clinically "
+        "structured health evaluation documenting objective biometric markers "
+        "(resting blood pressure, heart rate, grip strength), body composition (InBody "
+        "bioelectrical impedance and circumference measurements), functional movement "
+        "capacity (Functional Movement Screen), muscular strength and endurance, and "
+        "cardiorespiratory fitness (submaximal treadmill recovery test). These "
+        "measurements produce evidence-based data used to design a corrective and "
+        "preventive exercise program supporting the management of chronic conditions "
+        "including obesity, hypertension, type 2 diabetes, musculoskeletal dysfunction, "
+        "and cardiovascular deconditioning.",
+        s["notice"]))
+    story.append(Paragraph(
+        "<b>HSA / FSA:</b> Exercise services may qualify for reimbursement when accompanied "
+        "by a <b>Letter of Medical Necessity (LMN)</b> from a licensed physician referencing "
+        "the client\u2019s diagnosis, clinical rationale for supervised fitness assessment and "
+        "exercise prescription, and recommended frequency and duration. Submit this receipt "
+        "with the LMN to your HSA/FSA plan administrator.",
+        s["notice"]))
+    story.append(Paragraph(
+        "<b>Employer Wellness &amp; Medicare Advantage:</b> Many plans reimburse preventive "
+        "fitness and health screening services. Submit this receipt with your member ID and "
+        "refer to your plan\u2019s Evidence of Coverage for eligible categories and annual limits.",
+        s["notice"]))
+    story.append(Paragraph(
+        "<b>Important:</b> Reimbursement eligibility is determined solely by your plan "
+        "administrator. iKengaFit does not guarantee reimbursement. Retain all documentation "
+        "for a minimum of 7 years.",
+        s["notice"]))
     story.append(rule(space=3))
 
     # 6. PROVIDER CERTIFICATION + SIGNATURE ────────────────────────────────────
     sig_w  = 2.2*inch
     date_w = 2.2*inch
 
+    story.append(Paragraph("PROVIDER CERTIFICATION", s["h2"]))
+    story.append(Paragraph(
+        "I certify that the services listed were rendered as described, that all "
+        "information is accurate and complete, and that this receipt reflects actual "
+        "charges for services provided to the named client.",
+        s["notice"]))
+    story.append(Spacer(1, 0.1*inch))
     story.append(KeepTogether([
-        Paragraph("PROVIDER CERTIFICATION", s["h2"]),
-        Paragraph(
-            "I certify that the services listed were rendered as described, that all "
-            "information is accurate and complete, and that this receipt reflects actual "
-            "charges for services provided to the named client.",
-            s["notice"]),
-        Spacer(1, 0.14*inch),
         Table([[
             Table([
                 [HRFlowable(width=sig_w, thickness=0.75, color=DARK)],
@@ -356,30 +388,18 @@ def build_receipt(submission: dict, output_path: str):
                   ("TOPPADDING",(0,0),(-1,-1),0),("BOTTOMPADDING",(0,0),(-1,-1),0)]),
     ]))
 
-    # ── TWO-PASS BUILD for "Page X of Y" ──────────────────────────────────────
-    from io import BytesIO
-    total_ref = [None]
-
-    def _count_pass():
-        buf = BytesIO()
-        tmp = SimpleDocTemplate(buf, pagesize=letter,
-            leftMargin=MARGIN, rightMargin=MARGIN,
-            topMargin=0.54*inch, bottomMargin=0.68*inch)
-        tmp.build(story[:])
-        total_ref[0] = tmp.page
-
-    _count_pass()
-    hf = make_hf(W, H, MARGIN, total_ref)
+    # ── BUILD ──────────────────────────────────────────────────────────────────
+    hf = make_hf(W, H, MARGIN)
 
     doc = SimpleDocTemplate(
         output_path, pagesize=letter,
         title="iKengaFit Personal Training Receipt",
         author="iKengaFit",
         leftMargin=MARGIN, rightMargin=MARGIN,
-        topMargin=0.54*inch, bottomMargin=0.68*inch,
+        topMargin=0.48*inch, bottomMargin=0.62*inch,
     )
     doc.build(story, onFirstPage=hf, onLaterPages=hf)
-    print(f"Receipt saved: {output_path}  ({total_ref[0]} page(s))")
+    print(f"Receipt saved: {output_path}")
 
 
 if __name__ == "__main__":
