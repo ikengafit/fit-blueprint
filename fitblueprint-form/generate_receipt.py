@@ -103,7 +103,7 @@ def make_hf(W, H, MARGIN):
         canvas.setFont("Helvetica", 6.5)
         canvas.setFillColor(MUTED)
         canvas.drawString(MARGIN, 0.34*inch,
-            "iKengaFit  \u00b7  Washington, DC & Virtual  \u00b7  "
+            "iKengaFit  \u00b7  Washington, DC & Virtual  \u00b7  (202) 936-7657  \u00b7  "
             "ikengafit.com  \u00b7  david.clary@ikengafit.com")
         canvas.drawRightString(W - MARGIN, 0.34*inch, f"Page {doc.page}")
         canvas.restoreState()
@@ -160,7 +160,7 @@ def build_receipt(submission: dict, output_path: str):
             Paragraph("<b>iKengaFit</b>", s["body"]),
             Paragraph("David Clary, MS, CSCS, PN1", s["body"]),
             Paragraph("1140 3rd St NE, Washington, DC 20002", s["body"]),
-            Paragraph("david.clary@ikengafit.com  \u00b7  ikengafit.com", s["body"]),
+            Paragraph("(202) 936-7657  \u00b7  david.clary@ikengafit.com  \u00b7  ikengafit.com", s["body"]),
             Paragraph("<font color='#5A5754'>Provider tax identification available upon request from plan administrator.</font>", s["small"]),
         ]),
         col_list([
@@ -314,55 +314,57 @@ def build_receipt(submission: dict, output_path: str):
     # 5. REIMBURSEMENT GUIDANCE ────────────────────────────────────────────────
     story.append(Paragraph("REIMBURSEMENT GUIDANCE &amp; LETTER OF MEDICAL NECESSITY SUPPORT", s["h2"]))
     story.append(Paragraph(
-        "<b>Medical Necessity:</b> This session documents objective biometric markers "
-        "(blood pressure, heart rate, grip strength), body composition (InBody impedance + circumference), "
-        "functional movement capacity (FMS), muscular strength &amp; endurance, and cardiorespiratory "
-        "fitness (submaximal treadmill test) to design a corrective and preventive exercise program "
-        "for conditions including obesity, hypertension, type 2 diabetes, musculoskeletal dysfunction, "
-        "and cardiovascular deconditioning.",
-        s["notice"]))
-    story.append(Paragraph(
-        "<b>HSA / FSA:</b> May qualify with a <b>Letter of Medical Necessity (LMN)</b> from a licensed "
-        "physician referencing the client\u2019s diagnosis and clinical rationale for supervised fitness "
-        "assessment and exercise prescription. Submit this receipt with the LMN to your plan administrator.",
-        s["notice"]))
-    story.append(Paragraph(
-        "<b>Employer Wellness &amp; Medicare Advantage:</b> Many plans reimburse preventive fitness and "
-        "health screening services. Submit with your member ID and refer to your Evidence of Coverage "
-        "for eligible categories. <b>Important:</b> Eligibility is determined by your plan administrator. "
-        "iKengaFit does not guarantee reimbursement. Retain documentation for 7 years.",
+        "<b>HSA / FSA / Employer Wellness:</b> Services may qualify for reimbursement when accompanied by a "
+        "<b>Letter of Medical Necessity (LMN)</b> from a licensed physician citing the client\u2019s diagnosis "
+        "and clinical rationale for supervised fitness assessment and corrective exercise prescription. "
+        "Submit this itemized receipt with the LMN to your plan administrator or HSA/FSA provider. "
+        "Eligibility is determined solely by your plan. iKengaFit does not guarantee reimbursement. "
+        "Retain documentation for 7 years.",
         s["notice"]))
     story.append(rule(space=3))
 
-    # 6. PROVIDER CERTIFICATION + SIGNATURE ────────────────────────────────────
-    sig_w  = 2.2*inch
-    date_w = 2.2*inch
-
-    story.append(Paragraph("PROVIDER CERTIFICATION", s["h2"]))
-    story.append(Paragraph(
-        "I certify that the services listed were rendered as described, that all "
-        "information is accurate and complete, and that this receipt reflects actual "
-        "charges for services provided to the named client.",
-        s["notice"]))
-    story.append(Spacer(1, 0.08*inch))
-    # Signature block — all rows in one table so it stays atomic
+    # 6. PROVIDER CERTIFICATION + SIGNATURE — wrapped in KeepTogether so it
+    # never splits across pages regardless of content above it.
+    sig_w  = 2.2 * inch
+    date_w = 2.2 * inch
     gap = COL - sig_w - date_w
-    story.append(Table(
-        [[HRFlowable(width=sig_w, thickness=0.75, color=DARK),
-          Spacer(gap, 1),
-          HRFlowable(width=date_w, thickness=0.75, color=DARK)],
-         [Paragraph("David Clary, MS, CSCS, PN1", s["small"]),
-          Spacer(gap, 1),
-          Paragraph(svc_date, s["small"])],
-         [Paragraph("<font color='#8A9090'>Provider Signature</font>", s["label"]),
-          Spacer(gap, 1),
-          Paragraph("<font color='#8A9090'>Date</font>", s["label"])]],
-        colWidths=[sig_w, gap, date_w],
-        style=[("LEFTPADDING",  (0,0),(-1,-1), 0),
-               ("RIGHTPADDING", (0,0),(-1,-1), 0),
-               ("TOPPADDING",   (0,0),(-1,-1), 1),
-               ("BOTTOMPADDING",(0,0),(-1,-1), 1),
-               ("SPLITBYROW",   (0,0),(-1,-1), 1)]))
+
+    # Digital signature style — italic teal, sized to look handwritten
+    sig_style = ParagraphStyle("sig", fontName="DM", fontSize=13, leading=16,
+                               textColor=TEAL, spaceAfter=0)
+
+    sig_block = KeepTogether([
+        Paragraph("PROVIDER CERTIFICATION", s["h2"]),
+        Paragraph(
+            "I certify that the services listed were rendered as described, that all "
+            "information is accurate and complete, and that this receipt reflects "
+            "actual charges for services provided to the named client.",
+            s["notice"]),
+        Spacer(1, 0.06*inch),
+        # Digital signature name above the line
+        Table(
+            [[Paragraph("<i>David Clary</i>", sig_style),
+              Spacer(gap, 1),
+              Paragraph("", sig_style)]],
+            colWidths=[sig_w, gap, date_w],
+            style=[("LEFTPADDING",(0,0),(-1,-1),0),("RIGHTPADDING",(0,0),(-1,-1),0),
+                   ("TOPPADDING",(0,0),(-1,-1),0),("BOTTOMPADDING",(0,0),(-1,-1),0)]),
+        # Signature lines
+        Table(
+            [[HRFlowable(width=sig_w, thickness=0.75, color=DARK),
+              Spacer(gap, 1),
+              HRFlowable(width=date_w, thickness=0.75, color=DARK)],
+             [Paragraph("David Clary, MS, CSCS, PN1", s["small"]),
+              Spacer(gap, 1),
+              Paragraph(svc_date, s["small"])],
+             [Paragraph("<font color='#8A9090'>Provider Signature</font>", s["label"]),
+              Spacer(gap, 1),
+              Paragraph("<font color='#8A9090'>Date</font>", s["label"])]],
+            colWidths=[sig_w, gap, date_w],
+            style=[("LEFTPADDING",(0,0),(-1,-1),0),("RIGHTPADDING",(0,0),(-1,-1),0),
+                   ("TOPPADDING",(0,0),(-1,-1),1),("BOTTOMPADDING",(0,0),(-1,-1),1)]),
+    ])
+    story.append(sig_block)
 
     # ── BUILD ──────────────────────────────────────────────────────────────────
     hf = make_hf(W, H, MARGIN)
