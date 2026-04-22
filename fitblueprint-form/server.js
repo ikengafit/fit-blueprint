@@ -1,5 +1,5 @@
 /**
- * iKengaFit — Pre-Fit Blueprint Backend v2
+ * iKengaFit — Pre-Fit Blueprint Backend
  *
  * Handles:
  *  1. Calendly webhook → email client the form link on booking
@@ -63,8 +63,13 @@ transporter.verify((err, success) => {
 // ─── EMAIL HELPERS ────────────────────────────────────────────────────────────
 
 /** Email 1: Sent to client right after they book on Calendly */
-async function sendFormLinkEmail({ clientName, clientEmail, sessionDate }) {
+async function sendFormLinkEmail({ clientName, clientEmail, sessionDate, locationStr, cancelUrl, rescheduleUrl }) {
   const firstName = clientName.split(' ')[0];
+  const isVirtual = locationStr && locationStr.startsWith('http');
+  const locationDisplay = isVirtual
+    ? `<a href="${locationStr}" style="color:#028381;">Join virtual session</a>`
+    : `<span style="color:#E8E5E0;">${locationStr || '1140 3rd St NE, Washington, DC'}</span>`;
+
   const html = `
 <!DOCTYPE html>
 <html>
@@ -98,18 +103,60 @@ async function sendFormLinkEmail({ clientName, clientEmail, sessionDate }) {
         <tr><td style="padding:24px 36px 28px;background:#151414;border-bottom:1px solid #2C2B29;">
           <p style="margin:0 0 8px;font-size:12px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:#028381;">Your session is confirmed</p>
           <h1 style="margin:0 0 16px;font-size:28px;font-weight:800;color:#FFFFFF;line-height:1.15;">
-            Complete your Pre-Fit Blueprint, ${firstName}
+            You're booked, ${firstName}
           </h1>
           <p style="margin:0;font-size:15px;color:#8A8784;line-height:1.7;">
-            Your Fit Blueprint session with Coach David Clary is scheduled${sessionDate ? ' for <strong style="color:#E8E5E0;">' + sessionDate + '</strong>' : ''}. 
-            Before we meet, please complete a short questionnaire — it takes about 5 minutes and lets Coach Clary build your personalized coaching proposal before the session.
+            Your Fit Blueprint session with Coach David Clary is confirmed. See the details below and complete your Pre-Fit Blueprint before we meet.
           </p>
         </td></tr>
 
+        <!-- Booking details card -->
+        <tr><td style="padding:28px 36px 8px;">
+          <div style="background:#211F1D;border-radius:8px;overflow:hidden;border:1px solid #2C2B29;">
+            <div style="background:#028381;padding:10px 20px;">
+              <p style="margin:0;font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#FFFFFF;">Session Details</p>
+            </div>
+            <table cellpadding="0" cellspacing="0" width="100%" style="padding:4px 0;">
+              <tr>
+                <td style="padding:12px 20px;border-bottom:1px solid #2C2B29;">
+                  <p style="margin:0 0 3px;font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#5A5856;">Event</p>
+                  <p style="margin:0;font-size:14px;font-weight:700;color:#E8E5E0;">Fit Blueprint Session</p>
+                </td>
+              </tr>
+              <tr>
+                <td style="padding:12px 20px;border-bottom:1px solid #2C2B29;">
+                  <p style="margin:0 0 3px;font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#5A5856;">Date &amp; Time</p>
+                  <p style="margin:0;font-size:14px;font-weight:700;color:#E8E5E0;">${sessionDate || 'See your calendar invite'}</p>
+                </td>
+              </tr>
+              <tr>
+                <td style="padding:12px 20px;border-bottom:1px solid #2C2B29;">
+                  <p style="margin:0 0 3px;font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#5A5856;">Location</p>
+                  <p style="margin:0;font-size:14px;font-weight:700;">${locationDisplay}</p>
+                </td>
+              </tr>
+              <tr>
+                <td style="padding:12px 20px;">
+                  <p style="margin:0 0 3px;font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#5A5856;">Coach</p>
+                  <p style="margin:0;font-size:14px;font-weight:700;color:#E8E5E0;">David Clary, MS, CSCS, Pn1</p>
+                </td>
+              </tr>
+            </table>
+            ${(cancelUrl || rescheduleUrl) ? `
+            <div style="padding:12px 20px;border-top:1px solid #2C2B29;">
+              <table cellpadding="0" cellspacing="0"><tr>
+                ${rescheduleUrl ? `<td style="padding-right:16px;"><a href="${rescheduleUrl}" style="font-size:12px;color:#028381;text-decoration:none;font-weight:600;">Reschedule</a></td>` : ''}
+                ${cancelUrl ? `<td><a href="${cancelUrl}" style="font-size:12px;color:#5A5856;text-decoration:none;">Cancel</a></td>` : ''}
+              </tr></table>
+            </div>` : ''}
+          </div>
+        </td></tr>
+
         <!-- CTA -->
-        <tr><td style="padding:32px 36px;">
+        <tr><td style="padding:24px 36px 8px;">
+          <p style="margin:0 0 8px;font-size:16px;font-weight:700;color:#FFFFFF;">One thing to do before we meet</p>
           <p style="margin:0 0 24px;font-size:14px;color:#8A8784;line-height:1.6;">
-            Your answers will be used to pre-fill your coaching package proposal, so your Fit Blueprint session is focused on strategy — not paperwork.
+            Complete your Pre-Fit Blueprint — a 5-minute questionnaire that lets Coach Clary build your personalized coaching proposal before the session, so we spend our time on strategy, not paperwork.
           </p>
           <table cellpadding="0" cellspacing="0"><tr><td>
             <a href="${CONFIG.formUrl}" style="display:inline-block;background:#028381;color:#FFFFFF;font-size:15px;font-weight:700;text-decoration:none;padding:14px 28px;border-radius:6px;letter-spacing:0.01em;">
@@ -122,22 +169,14 @@ async function sendFormLinkEmail({ clientName, clientEmail, sessionDate }) {
         </td></tr>
 
         <!-- What to expect -->
-        <tr><td style="padding:0 36px 28px;">
+        <tr><td style="padding:20px 36px 28px;">
           <div style="background:#211F1D;border-radius:8px;padding:20px;border:1px solid #2C2B29;">
             <p style="margin:0 0 12px;font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#5A5856;">What to expect</p>
             <table cellpadding="0" cellspacing="0" width="100%">
-              <tr>
-                <td style="padding:6px 0;font-size:13px;color:#8A8784;">&#10003;&nbsp;&nbsp;Fill out your goals, fitness background &amp; schedule</td>
-              </tr>
-              <tr>
-                <td style="padding:6px 0;font-size:13px;color:#8A8784;">&#10003;&nbsp;&nbsp;Select the package that fits your timeline</td>
-              </tr>
-              <tr>
-                <td style="padding:6px 0;font-size:13px;color:#8A8784;">&#10003;&nbsp;&nbsp;Your personalized proposal is auto-generated</td>
-              </tr>
-              <tr>
-                <td style="padding:6px 0;font-size:13px;color:#8A8784;">&#10003;&nbsp;&nbsp;Coach Clary reviews it before your session</td>
-              </tr>
+              <tr><td style="padding:6px 0;font-size:13px;color:#8A8784;">&#10003;&nbsp;&nbsp;Fill out your goals, fitness background &amp; schedule</td></tr>
+              <tr><td style="padding:6px 0;font-size:13px;color:#8A8784;">&#10003;&nbsp;&nbsp;Select the package that fits your timeline</td></tr>
+              <tr><td style="padding:6px 0;font-size:13px;color:#8A8784;">&#10003;&nbsp;&nbsp;Your personalized proposal is auto-generated</td></tr>
+              <tr><td style="padding:6px 0;font-size:13px;color:#8A8784;">&#10003;&nbsp;&nbsp;Coach Clary reviews it before your session</td></tr>
             </table>
           </div>
         </td></tr>
@@ -146,7 +185,7 @@ async function sendFormLinkEmail({ clientName, clientEmail, sessionDate }) {
         <tr><td style="padding:20px 36px;border-top:1px solid #2C2B29;text-align:center;">
           <p style="margin:0 0 4px;font-size:12px;color:#5A5856;font-style:italic;">Find Your Place of Strength™</p>
           <p style="margin:0;font-size:11px;color:#3A3836;">
-            iKengaFit · Washington, DC &amp; Virtual Nationwide · 
+            iKengaFit · Washington, DC &amp; Virtual Nationwide ·
             <a href="https://www.ikengafit.com" style="color:#028381;">ikengafit.com</a>
           </p>
         </td></tr>
@@ -160,9 +199,9 @@ async function sendFormLinkEmail({ clientName, clientEmail, sessionDate }) {
   await transporter.sendMail({
     from:    `"Coach David Clary · iKengaFit" <${CONFIG.smtp.user}>`,
     to:      `"${clientName}" <${clientEmail}>`,
-    subject: `Complete your Pre-Fit Blueprint before our session, ${firstName} 💪`,
+    subject: `You're confirmed for your Fit Blueprint, ${firstName} — one thing to do before we meet`,
     html,
-    text: `Hi ${firstName},\n\nYour Fit Blueprint session is confirmed! Before we meet, please complete your Pre-Fit Blueprint questionnaire so Coach Clary can build your personalized coaching proposal.\n\nComplete it here: ${CONFIG.formUrl}\n\nSee you soon,\nCoach David Clary\niKengaFit`,
+    text: `Hi ${firstName},\n\nYour Fit Blueprint session is confirmed!\n\nDate & Time: ${sessionDate || 'See your calendar invite'}\nLocation: ${locationStr || '1140 3rd St NE, Washington, DC'}\nCoach: David Clary, MS, CSCS, Pn1\n${rescheduleUrl ? '\nReschedule: ' + rescheduleUrl : ''}${cancelUrl ? '\nCancel: ' + cancelUrl : ''}\n\nBefore we meet, please complete your Pre-Fit Blueprint questionnaire (5 min) so Coach Clary can build your personalized proposal before the session:\n${CONFIG.formUrl}\n\nSee you soon,\nCoach David Clary\niKengaFit`,
   });
 
   console.log(`✅ Form link email sent to ${clientEmail}`);
@@ -585,13 +624,17 @@ app.post('/api/calendly-webhook', async (req, res) => {
     }
 
     // Extract invitee info
-    const invitee   = payload.invitee || payload;
-    const clientName  = invitee.name  || 'New Client';
-    const clientEmail = invitee.email || '';
-    const startTime   = payload?.event?.start_time || payload?.start_time || '';
-    const sessionDate = startTime
+    const invitee      = payload.invitee || payload;
+    const clientName   = invitee.name  || 'New Client';
+    const clientEmail  = invitee.email || '';
+    const cancelUrl    = invitee.cancel_url    || '';
+    const rescheduleUrl = invitee.reschedule_url || '';
+    const startTime    = payload?.event?.start_time || payload?.start_time || '';
+    const sessionDate  = startTime
       ? new Date(startTime).toLocaleString('en-US', { timeZone: 'America/New_York', dateStyle: 'full', timeStyle: 'short' })
       : null;
+    const locationRaw  = payload?.event?.location || payload?.location || {};
+    const locationStr  = locationRaw.location || locationRaw.join_url || locationRaw.description || '1140 3rd St NE, Washington, DC';
 
     console.log(`📧 Sending form link to ${clientName} <${clientEmail}>`);
 
@@ -599,7 +642,7 @@ app.post('/api/calendly-webhook', async (req, res) => {
       return res.json({ received: true, action: 'skipped — no email address' });
     }
 
-    await sendFormLinkEmail({ clientName, clientEmail, sessionDate });
+    await sendFormLinkEmail({ clientName, clientEmail, sessionDate, locationStr, cancelUrl, rescheduleUrl });
     res.json({ received: true, action: 'form_link_sent', clientEmail });
 
   } catch (err) {
