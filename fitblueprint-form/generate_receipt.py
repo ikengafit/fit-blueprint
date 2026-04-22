@@ -15,7 +15,7 @@ from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.platypus import (
     SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle,
-    HRFlowable, KeepTogether
+    HRFlowable, KeepTogether, Image
 )
 from reportlab.lib.styles import ParagraphStyle
 from reportlab.lib.enums import TA_LEFT, TA_CENTER, TA_RIGHT
@@ -329,9 +329,11 @@ def build_receipt(submission: dict, output_path: str):
     date_w = 2.2 * inch
     gap = COL - sig_w - date_w
 
-    # Digital signature style — italic teal, sized to look handwritten
-    sig_style = ParagraphStyle("sig", fontName="DM", fontSize=13, leading=16,
-                               textColor=TEAL, spaceAfter=0)
+    # Signature image — scale to fit above the line naturally
+    sig_img_path = Path(__file__).parent / "signature.png"
+    # Display at ~1.4 inch wide, proportional height (205x71 px → ratio 0.346)
+    sig_img_w = 1.4 * inch
+    sig_img_h = sig_img_w * (71 / 205)
 
     sig_block = KeepTogether([
         Paragraph("PROVIDER CERTIFICATION", s["h2"]),
@@ -341,14 +343,15 @@ def build_receipt(submission: dict, output_path: str):
             "actual charges for services provided to the named client.",
             s["notice"]),
         Spacer(1, 0.06*inch),
-        # Digital signature name above the line
+        # Signature image above the line
         Table(
-            [[Paragraph("<i>David Clary</i>", sig_style),
+            [[Image(str(sig_img_path), width=sig_img_w, height=sig_img_h),
               Spacer(gap, 1),
-              Paragraph("", sig_style)]],
+              Paragraph("", s["small"])]],
             colWidths=[sig_w, gap, date_w],
             style=[("LEFTPADDING",(0,0),(-1,-1),0),("RIGHTPADDING",(0,0),(-1,-1),0),
-                   ("TOPPADDING",(0,0),(-1,-1),0),("BOTTOMPADDING",(0,0),(-1,-1),0)]),
+                   ("TOPPADDING",(0,0),(-1,-1),0),("BOTTOMPADDING",(0,0),(-1,-1),2),
+                   ("VALIGN",(0,0),(-1,-1),"BOTTOM")]),
         # Signature lines
         Table(
             [[HRFlowable(width=sig_w, thickness=0.75, color=DARK),
