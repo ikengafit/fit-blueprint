@@ -216,24 +216,14 @@ def build_receipt(submission: dict, output_path: str):
         "<b>Comprehensive Fitness Assessment &amp; Individualized Exercise Prescription "
         "— iKengaFit Fit Blueprint Session</b><br/>"
         "<font size='7' color='#5A5754'>"
-        "This session constitutes a comprehensive health and fitness evaluation "
-        "conducted by a Certified Strength &amp; Conditioning Specialist (CSCS, NSCA) "
-        "with an M.S. in Clinical Exercise Science. Services rendered include: "
-        "(1) <b>Resting Health Measurements</b> — resting blood pressure, resting "
-        "heart rate, and grip strength dynamometry; "
-        "(2) <b>Body Composition Analysis</b> — segmental body composition via "
-        "InBody bioelectrical impedance scale and manual body circumference measurements "
-        "(waist, hip, chest, arm, thigh); "
-        "(3) <b>Functional Movement Screening (FMS)</b> — standardized 7-pattern "
-        "movement screen to identify functional limitations, asymmetries, and injury risk; "
-        "(4) <b>Muscular Strength &amp; Endurance Assessment</b> — push test, core "
-        "endurance holds, and lower-body strength evaluation; "
-        "(5) <b>Cardiovascular Fitness Assessment</b> — submaximal cardiorespiratory "
-        "recovery test performed on a treadmill to estimate aerobic capacity and "
-        "cardiovascular recovery rate; "
-        "(6) <b>Individualized Exercise Prescription</b> — personalized program design "
-        "based on assessment findings, client health history, reported limitations, and "
-        "stated goals, with written coaching proposal delivered to client. "
+        "Single-session evaluation by David Clary, CSCS (NSCA), M.S. Clinical Exercise Science. "
+        "Services rendered: "
+        "(1) <b>Resting Measurements</b> — blood pressure, heart rate, grip strength; "
+        "(2) <b>Body Composition</b> — InBody bioelectrical impedance + circumference (waist, hip, chest, arm, thigh); "
+        "(3) <b>Functional Movement Screen (FMS)</b> — 7-pattern screen for limitations, asymmetries &amp; injury risk; "
+        "(4) <b>Muscular Strength &amp; Endurance</b> — push test, core endurance holds, lower-body evaluation; "
+        "(5) <b>Cardiovascular Assessment</b> — submaximal treadmill recovery test for aerobic capacity; "
+        "(6) <b>Exercise Prescription</b> — personalized program based on findings, health history &amp; goals. "
         f"Modality: {mode}."
         "</font>"
     )
@@ -325,33 +315,23 @@ def build_receipt(submission: dict, output_path: str):
     # 5. REIMBURSEMENT GUIDANCE ────────────────────────────────────────────────
     story.append(Paragraph("REIMBURSEMENT GUIDANCE &amp; LETTER OF MEDICAL NECESSITY SUPPORT", s["h2"]))
     story.append(Paragraph(
-        "<b>Basis for Medical Necessity:</b> The Fit Blueprint session is a clinically "
-        "structured health evaluation documenting objective biometric markers "
-        "(resting blood pressure, heart rate, grip strength), body composition (InBody "
-        "bioelectrical impedance and circumference measurements), functional movement "
-        "capacity (Functional Movement Screen), muscular strength and endurance, and "
-        "cardiorespiratory fitness (submaximal treadmill recovery test). These "
-        "measurements produce evidence-based data used to design a corrective and "
-        "preventive exercise program supporting the management of chronic conditions "
-        "including obesity, hypertension, type 2 diabetes, musculoskeletal dysfunction, "
+        "<b>Medical Necessity:</b> This session documents objective biometric markers "
+        "(blood pressure, heart rate, grip strength), body composition (InBody impedance + circumference), "
+        "functional movement capacity (FMS), muscular strength &amp; endurance, and cardiorespiratory "
+        "fitness (submaximal treadmill test) to design a corrective and preventive exercise program "
+        "for conditions including obesity, hypertension, type 2 diabetes, musculoskeletal dysfunction, "
         "and cardiovascular deconditioning.",
         s["notice"]))
     story.append(Paragraph(
-        "<b>HSA / FSA:</b> Exercise services may qualify for reimbursement when accompanied "
-        "by a <b>Letter of Medical Necessity (LMN)</b> from a licensed physician referencing "
-        "the client\u2019s diagnosis, clinical rationale for supervised fitness assessment and "
-        "exercise prescription, and recommended frequency and duration. Submit this receipt "
-        "with the LMN to your HSA/FSA plan administrator.",
+        "<b>HSA / FSA:</b> May qualify with a <b>Letter of Medical Necessity (LMN)</b> from a licensed "
+        "physician referencing the client\u2019s diagnosis and clinical rationale for supervised fitness "
+        "assessment and exercise prescription. Submit this receipt with the LMN to your plan administrator.",
         s["notice"]))
     story.append(Paragraph(
-        "<b>Employer Wellness &amp; Medicare Advantage:</b> Many plans reimburse preventive "
-        "fitness and health screening services. Submit this receipt with your member ID and "
-        "refer to your plan\u2019s Evidence of Coverage for eligible categories and annual limits.",
-        s["notice"]))
-    story.append(Paragraph(
-        "<b>Important:</b> Reimbursement eligibility is determined solely by your plan "
-        "administrator. iKengaFit does not guarantee reimbursement. Retain all documentation "
-        "for a minimum of 7 years.",
+        "<b>Employer Wellness &amp; Medicare Advantage:</b> Many plans reimburse preventive fitness and "
+        "health screening services. Submit with your member ID and refer to your Evidence of Coverage "
+        "for eligible categories. <b>Important:</b> Eligibility is determined by your plan administrator. "
+        "iKengaFit does not guarantee reimbursement. Retain documentation for 7 years.",
         s["notice"]))
     story.append(rule(space=3))
 
@@ -365,28 +345,25 @@ def build_receipt(submission: dict, output_path: str):
         "information is accurate and complete, and that this receipt reflects actual "
         "charges for services provided to the named client.",
         s["notice"]))
-    story.append(Spacer(1, 0.1*inch))
-    story.append(KeepTogether([
-        Table([[
-            Table([
-                [HRFlowable(width=sig_w, thickness=0.75, color=DARK)],
-                [Paragraph("David Clary, MS, CSCS, PN1", s["small"])],
-                [Paragraph("Provider Signature", s["label"])],
-            ], colWidths=[sig_w + 0.3*inch],
-               style=[("LEFTPADDING",(0,0),(-1,-1),0),("RIGHTPADDING",(0,0),(-1,-1),0),
-                      ("TOPPADDING",(0,0),(-1,-1),2),("BOTTOMPADDING",(0,0),(-1,-1),2)]),
-            Table([
-                [HRFlowable(width=date_w, thickness=0.75, color=DARK)],
-                [Paragraph(svc_date, s["small"])],
-                [Paragraph("Date", s["label"])],
-            ], colWidths=[date_w + 0.3*inch],
-               style=[("LEFTPADDING",(0,0),(-1,-1),0),("RIGHTPADDING",(0,0),(-1,-1),0),
-                      ("TOPPADDING",(0,0),(-1,-1),2),("BOTTOMPADDING",(0,0),(-1,-1),2)]),
-        ]], colWidths=[COL*0.55, COL*0.45],
-           style=[("VALIGN",(0,0),(-1,-1),"TOP"),
-                  ("LEFTPADDING",(0,0),(-1,-1),0),("RIGHTPADDING",(0,0),(-1,-1),0),
-                  ("TOPPADDING",(0,0),(-1,-1),0),("BOTTOMPADDING",(0,0),(-1,-1),0)]),
-    ]))
+    story.append(Spacer(1, 0.08*inch))
+    # Signature block — all rows in one table so it stays atomic
+    gap = COL - sig_w - date_w
+    story.append(Table(
+        [[HRFlowable(width=sig_w, thickness=0.75, color=DARK),
+          Spacer(gap, 1),
+          HRFlowable(width=date_w, thickness=0.75, color=DARK)],
+         [Paragraph("David Clary, MS, CSCS, PN1", s["small"]),
+          Spacer(gap, 1),
+          Paragraph(svc_date, s["small"])],
+         [Paragraph("<font color='#8A9090'>Provider Signature</font>", s["label"]),
+          Spacer(gap, 1),
+          Paragraph("<font color='#8A9090'>Date</font>", s["label"])]],
+        colWidths=[sig_w, gap, date_w],
+        style=[("LEFTPADDING",  (0,0),(-1,-1), 0),
+               ("RIGHTPADDING", (0,0),(-1,-1), 0),
+               ("TOPPADDING",   (0,0),(-1,-1), 1),
+               ("BOTTOMPADDING",(0,0),(-1,-1), 1),
+               ("SPLITBYROW",   (0,0),(-1,-1), 1)]))
 
     # ── BUILD ──────────────────────────────────────────────────────────────────
     hf = make_hf(W, H, MARGIN)
@@ -396,7 +373,7 @@ def build_receipt(submission: dict, output_path: str):
         title="iKengaFit Personal Training Receipt",
         author="iKengaFit",
         leftMargin=MARGIN, rightMargin=MARGIN,
-        topMargin=0.48*inch, bottomMargin=0.62*inch,
+        topMargin=0.44*inch, bottomMargin=0.54*inch,
     )
     doc.build(story, onFirstPage=hf, onLaterPages=hf)
     print(f"Receipt saved: {output_path}")
