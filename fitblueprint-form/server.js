@@ -560,7 +560,7 @@ async function generateDeck(data) {
     s.addText('Scan to Apply  →',{x:M+0.25,y:ctaY+0.98,w:eliteQrX-M-0.5,h:0.3,fontSize:10,bold:true,color:WHITE,fontFace:'Trebuchet MS',hyperlink:{url:ELITE_URL}});
     // Standard clickable link button
     const bW2=2.55,bX2=M+0.25,bY2=ctaY+1.28,bH2=0.24;
-    s.addText(['\u2192  Book standard packages at ikengafit.com/standardcoaching'],{x:bX2,y:bY2,w:eliteQrX-M-0.5,h:bH2,fontSize:9,color:'CCE8E8',fontFace:'Trebuchet MS',hyperlink:{url:STANDARD_URL}});
+    s.addText('\u2192  Book standard packages at ikengafit.com/standardcoaching',{x:bX2,y:bY2,w:eliteQrX-M-0.5,h:bH2,fontSize:9,color:'CCE8E8',fontFace:'Trebuchet MS',hyperlink:{url:STANDARD_URL}});
   })();
 
   // Closing slide
