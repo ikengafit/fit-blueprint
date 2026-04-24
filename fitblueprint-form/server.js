@@ -546,7 +546,7 @@ async function generateDeck(data) {
       // QR code + tap-to-book link inside each card
       const qrX=bx+(cWp-qrSize)/2, qrY=by+cHp-qrSize-0.52;
       s.addImage({path:qrStdPath,x:qrX,y:qrY,w:qrSize,h:qrSize,hyperlink:{url:STANDARD_URL}});
-      s.addText('Tap to Book',{x:bx+0.1,y:qrY+qrSize+0.02,w:cWp-0.2,h:0.28,fontSize:8.5,color:'CCE8E8',align:'center',fontFace:'Trebuchet MS',hyperlink:{url:STANDARD_URL}});
+      s.addText('Tap to Book',{x:bx+0.1,y:qrY+qrSize+0.02,w:cWp-0.2,h:0.28,fontSize:8.5,color:'151414',align:'center',fontFace:'Trebuchet MS',hyperlink:{url:STANDARD_URL,color:'151414'}});
     });
 
     // Red Elite CTA section at bottom
@@ -557,10 +557,10 @@ async function generateDeck(data) {
     // Text on the left of the red section
     s.addText('Interested in Elite Coaching?',{x:M+0.25,y:ctaY+0.18,w:8.5,h:0.38,fontSize:18,bold:true,color:WHITE,fontFace:'Trebuchet MS'});
     s.addText('Apply at ikengafit.com/elitecoaching — Precision (2x/wk) $1,000/mo  ·  Signature (3x/wk) $1,500/mo',{x:M+0.25,y:ctaY+0.6,w:eliteQrX-M-0.5,h:0.32,fontSize:10,color:'FFCAB0',fontFace:'Trebuchet MS'});
-    s.addText('Scan to Apply  →',{x:M+0.25,y:ctaY+0.98,w:eliteQrX-M-0.5,h:0.3,fontSize:10,bold:true,color:WHITE,fontFace:'Trebuchet MS',hyperlink:{url:ELITE_URL}});
+    s.addText('Scan to Apply  →',{x:M+0.25,y:ctaY+0.98,w:eliteQrX-M-0.5,h:0.3,fontSize:10,bold:true,color:'151414',fontFace:'Trebuchet MS',hyperlink:{url:ELITE_URL,color:'151414'}});
     // Standard clickable link button
     const bW2=2.55,bX2=M+0.25,bY2=ctaY+1.28,bH2=0.24;
-    s.addText('\u2192  Book standard packages at ikengafit.com/standardcoaching',{x:bX2,y:bY2,w:eliteQrX-M-0.5,h:bH2,fontSize:9,color:'CCE8E8',fontFace:'Trebuchet MS',hyperlink:{url:STANDARD_URL}});
+    s.addText('\u2192  Book standard packages at ikengafit.com/standardcoaching',{x:bX2,y:bY2,w:eliteQrX-M-0.5,h:bH2,fontSize:9,color:'151414',fontFace:'Trebuchet MS',hyperlink:{url:STANDARD_URL,color:'151414'}});
   })();
 
   // Closing slide
@@ -586,11 +586,11 @@ async function generateDeck(data) {
     s.addText("Your assessment is complete. Your program is ready to be built. The next step is yours — select a package, book your sessions, and let's get to work.",{x:rx,y:3.4,w:rw,h:1.2,fontSize:13,color:WHITE,fontFace:'Trebuchet MS',lineSpacingMultiple:1.5});
     const bY3=4.88,bH3=0.72;
     s.addShape('rect',{x:rx,y:bY3,w:rw,h:bH3,fill:{color:CRIMSON},line:{type:'none'}});
-    s.addText('BOOK YOUR PACKAGE  \u2192',{x:rx,y:bY3,w:rw,h:bH3,fontSize:13,bold:true,color:WHITE,align:'center',fontFace:'Trebuchet MS',hyperlink:{url:'https://www.ikengafit.com/standardcoaching'}});
+    s.addText('BOOK YOUR PACKAGE  \u2192',{x:rx,y:bY3,w:rw,h:bH3,fontSize:13,bold:true,color:'151414',align:'center',fontFace:'Trebuchet MS',hyperlink:{url:'https://www.ikengafit.com/standardcoaching',color:'151414'}});
     // Free week CTA
     const fwY=bY3+bH3+0.18;
     s.addShape('rect',{x:rx,y:fwY,w:rw,h:0.5,fill:{color:TEAL_DARK},line:{type:'none'}});
-    s.addText('\u2728  Try 1 FREE Week of the Elite Performance System in the iKengaFit App',{x:rx+0.15,y:fwY+0.02,w:rw-0.3,h:0.46,fontSize:9.5,bold:true,color:WHITE,fontFace:'Trebuchet MS',hyperlink:{url:'https://www.trainerize.me/profile/ikengafit/?planGUID=2fb410d7fbb14be099af2438ffef93ce'}});
+    s.addText('\u2728  Try 1 FREE Week of the Elite Performance System in the iKengaFit App',{x:rx+0.15,y:fwY+0.02,w:rw-0.3,h:0.46,fontSize:9.5,bold:true,color:'151414',fontFace:'Trebuchet MS',hyperlink:{url:'https://www.trainerize.me/profile/ikengafit/?planGUID=2fb410d7fbb14be099af2438ffef93ce',color:'151414'}});
     s.addText('Questions? Visit ikengafit.com or book a free Fitness Assessment.',{x:rx,y:H-M-0.38,w:rw,h:0.3,fontSize:9.5,color:DARK,fontFace:'Trebuchet MS'});
   }
 
