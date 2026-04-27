@@ -611,7 +611,9 @@ app.post('/api/calendly-webhook', async (req, res) => {
     const payload = event.payload || event;
 
     // Only handle new invitee created events for the Fit Blueprint event type
-    const eventType = payload?.event_type?.uri || payload?.event?.uri || '';
+    // In real Calendly webhooks, event_type is a plain URI string, not an object
+    const rawEventType = payload?.event_type || '';
+    const eventType = typeof rawEventType === 'object' ? (rawEventType.uri || '') : String(rawEventType);
     const isNewBooking = event.event === 'invitee.created';
 
     console.log('📅 Calendly webhook received:', event.event, '| Event type:', eventType);
@@ -621,9 +623,10 @@ app.post('/api/calendly-webhook', async (req, res) => {
     }
 
     // Check if it's the Fit Blueprint event type
+    const eventTypeName = typeof rawEventType === 'object' ? (rawEventType.name || '') : '';
     const isFitBlueprint = eventType.includes('305ed985-c8d8-407a-8642-35218407d007') ||
-                           (payload?.event_type?.name || '').toLowerCase().includes('fit blueprint') ||
-                           (payload?.event_type?.name || '').toLowerCase().includes('blueprint');
+                           eventTypeName.toLowerCase().includes('fit blueprint') ||
+                           eventTypeName.toLowerCase().includes('blueprint');
 
     if (!isFitBlueprint) {
       console.log('ℹ️  Not a Fit Blueprint booking — skipping.');
@@ -636,11 +639,12 @@ app.post('/api/calendly-webhook', async (req, res) => {
     const clientEmail  = invitee.email || '';
     const cancelUrl    = invitee.cancel_url    || '';
     const rescheduleUrl = invitee.reschedule_url || '';
-    const startTime    = payload?.event?.start_time || payload?.start_time || '';
+    // payload.event is a URI string in real webhooks; start_time is on scheduled_event
+    const startTime    = payload?.scheduled_event?.start_time || payload?.start_time || '';
     const sessionDate  = startTime
       ? new Date(startTime).toLocaleString('en-US', { timeZone: 'America/New_York', dateStyle: 'full', timeStyle: 'short' })
       : null;
-    const locationRaw  = payload?.event?.location || payload?.location || {};
+    const locationRaw  = payload?.scheduled_event?.location || payload?.location || {};
     const locationStr  = locationRaw.location || locationRaw.join_url || locationRaw.description || '1140 3rd St NE, Washington, DC';
 
     console.log(`📧 Sending form link to ${clientName} <${clientEmail}>`);
