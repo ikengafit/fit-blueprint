@@ -605,7 +605,12 @@ app.get('/api/health', (req, res) => res.json({ ok: true, smtp: CONFIG.smtp.user
 // Calendly will POST here when a new Fit Blueprint booking is made
 // Register this URL in Calendly Dashboard → Integrations → Webhooks
 // Endpoint: https://YOUR-DOMAIN/api/calendly-webhook
-app.post('/api/calendly-webhook', async (req, res) => {
+app.post('/api/calendly-webhook', (req, res) => {
+  // Respond to Calendly IMMEDIATELY (within ms) so it never times out on a cold start
+  res.json({ received: true });
+
+  // Process the booking asynchronously in the background
+  (async () => {
   try {
     const event = req.body;
     const payload = event.payload || event;
@@ -619,7 +624,8 @@ app.post('/api/calendly-webhook', async (req, res) => {
     console.log('📅 Calendly webhook received:', event.event, '| Event type:', eventType);
 
     if (!isNewBooking) {
-      return res.json({ received: true, action: 'ignored — not a new booking' });
+      console.log('ℹ️  Ignored — not a new booking');
+      return;
     }
 
     // Check if it's the Fit Blueprint event type
@@ -629,8 +635,8 @@ app.post('/api/calendly-webhook', async (req, res) => {
                            eventTypeName.toLowerCase().includes('blueprint');
 
     if (!isFitBlueprint) {
-      console.log('ℹ️  Not a Fit Blueprint booking — skipping.');
-      return res.json({ received: true, action: 'ignored — not Fit Blueprint event' });
+      console.log('ℹ️  Not a Fit Blueprint booking — skipping. eventType was:', eventType);
+      return;
     }
 
     // Extract invitee info
@@ -650,16 +656,17 @@ app.post('/api/calendly-webhook', async (req, res) => {
     console.log(`📧 Sending form link to ${clientName} <${clientEmail}>`);
 
     if (!clientEmail) {
-      return res.json({ received: true, action: 'skipped — no email address' });
+      console.log('⚠️  No client email found in payload — skipping.');
+      return;
     }
 
     await sendFormLinkEmail({ clientName, clientEmail, sessionDate, locationStr, cancelUrl, rescheduleUrl });
-    res.json({ received: true, action: 'form_link_sent', clientEmail });
+    console.log(`✅ Form link sent to ${clientEmail}`);
 
   } catch (err) {
-    console.error('❌ Webhook error:', err.message);
-    res.status(500).json({ error: err.message });
+    console.error('❌ Webhook async error:', err.message);
   }
+  })(); // end async IIFE
 });
 
 // ── FORM SUBMISSION → PPTX → EMAIL COACH ────────────────────────────────────
