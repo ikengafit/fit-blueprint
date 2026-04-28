@@ -512,16 +512,20 @@ body {
 input:invalid:not(:placeholder-shown) { border-color: transparent; }
 
 /* ─── Logo image in header/footer ─── */
+/* mix-blend-mode: lighten makes the white background invisible on dark surfaces,
+   while keeping white text, teal line, and red icon fully visible */
 .logo-img {
-  height: 36px;
+  height: 40px;
   width: auto;
   display: block;
   object-fit: contain;
+  mix-blend-mode: lighten;
 }
 .footer-logo-img {
-  height: 28px;
+  height: 30px;
   width: auto;
   display: block;
   object-fit: contain;
-  opacity: 0.85;
+  mix-blend-mode: lighten;
+  opacity: 0.9;
 }
