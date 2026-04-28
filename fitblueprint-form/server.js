@@ -612,59 +612,69 @@ app.post('/api/calendly-webhook', (req, res) => {
   // Process the booking asynchronously in the background
   (async () => {
   try {
-    const event = req.body;
+    const event   = req.body;
     const payload = event.payload || event;
 
-    // Only handle new invitee created events for the Fit Blueprint event type
-    // In real Calendly webhooks, event_type is a plain URI string, not an object
-    const rawEventType = payload?.event_type || '';
-    const eventType = typeof rawEventType === 'object' ? (rawEventType.uri || '') : String(rawEventType);
-    const isNewBooking = event.event === 'invitee.created';
+    console.log('📅 Calendly webhook received:', event.event);
+    console.log('   Raw payload keys:', Object.keys(payload).join(', '));
 
-    console.log('📅 Calendly webhook received:', event.event, '| Event type:', eventType);
-
-    if (!isNewBooking) {
-      console.log('ℹ️  Ignored — not a new booking');
+    if (event.event !== 'invitee.created') {
+      console.log('ℹ️  Ignored — not invitee.created');
       return;
     }
 
-    // Check if it's the Fit Blueprint event type
-    const eventTypeName = typeof rawEventType === 'object' ? (rawEventType.name || '') : '';
-    const isFitBlueprint = eventType.includes('305ed985-c8d8-407a-8642-35218407d007') ||
-                           eventTypeName.toLowerCase().includes('fit blueprint') ||
-                           eventTypeName.toLowerCase().includes('blueprint');
-
-    if (!isFitBlueprint) {
-      console.log('ℹ️  Not a Fit Blueprint booking — skipping. eventType was:', eventType);
-      return;
-    }
-
-    // Extract invitee info
-    const invitee      = payload.invitee || payload;
-    const clientName   = invitee.name  || 'New Client';
-    const clientEmail  = invitee.email || '';
-    const cancelUrl    = invitee.cancel_url    || '';
+    // In real Calendly webhooks the invitee IS the payload directly.
+    // payload.event is a URI string pointing to the scheduled event — NOT an object.
+    // payload.event_type is NOT present on the invitee; we must fetch the scheduled event.
+    const invitee       = payload;
+    const clientName    = invitee.name        || 'New Client';
+    const clientEmail   = invitee.email       || '';
+    const cancelUrl     = invitee.cancel_url  || '';
     const rescheduleUrl = invitee.reschedule_url || '';
-    // payload.event is a URI string in real webhooks; start_time is on scheduled_event
-    const startTime    = payload?.scheduled_event?.start_time || payload?.start_time || '';
-    const sessionDate  = startTime
-      ? new Date(startTime).toLocaleString('en-US', { timeZone: 'America/New_York', dateStyle: 'full', timeStyle: 'short' })
-      : null;
-    const locationRaw  = payload?.scheduled_event?.location || payload?.location || {};
-    const locationStr  = locationRaw.location || locationRaw.join_url || locationRaw.description || '1140 3rd St NE, Washington, DC';
-
-    console.log(`📧 Sending form link to ${clientName} <${clientEmail}>`);
+    const eventUri      = typeof invitee.event === 'string' ? invitee.event : '';
 
     if (!clientEmail) {
-      console.log('⚠️  No client email found in payload — skipping.');
+      console.log('⚠️  No client email — skipping.');
+      return;
+    }
+    if (!eventUri) {
+      console.log('⚠️  No event URI — skipping.');
       return;
     }
 
+    // Fetch the scheduled event from Calendly API to get event_type + start_time + location
+    const CALENDLY_PAT = process.env.CALENDLY_PAT || 'eyJraWQiOiIxY2UxZTEzNjE3ZGNmNzY2YjNjZWJjY2Y4ZGM1YmFmYThhNjVlNjg0MDIzZjdjMzJiZTgzNDliMjM4MDEzNWI0IiwidHlwIjoiUEFUIiwiYWxnIjoiRVMyNTYifQ.eyJpc3MiOiJodHRwczovL2F1dGguY2FsZW5kbHkuY29tIiwiaWF0IjoxNzc2ODA4MzU5LCJqdGkiOiI3ZjBlZDlkNS1jNzE1LTQ0NGEtOTliZS01NzY5ZjgwYzQ0YjkiLCJ1c2VyX3V1aWQiOiI2MjcwMTcyMC1mMGFjLTRjNTYtYjI0OS1kNDMzNDViNzA0OTkiLCJzY29wZSI6Imdyb3VwczpyZWFkIG9yZ2FuaXphdGlvbnM6cmVhZCBvcmdhbml6YXRpb25zOndyaXRlIHVzZXJzOnJlYWQgYXZhaWxhYmlsaXR5OnJlYWQgYXZhaWxhYmlsaXR5OndyaXRlIGV2ZW50X3R5cGVzOnJlYWQgZXZlbnRfdHlwZXM6d3JpdGUgbG9jYXRpb25zOnJlYWQgcm91dGluZ19mb3JtczpyZWFkIHNoYXJlczp3cml0ZSBzY2hlZHVsZWRfZXZlbnRzOnJlYWQgc2NoZWR1bGVkX2V2ZW50czp3cml0ZSBzY2hlZHVsaW5nX2xpbmtzOndyaXRlIGFjdGl2aXR5X2xvZzpyZWFkIGRhdGFfY29tcGxpYW5jZTp3cml0ZSBvdXRnb2luZ19jb21tdW5pY2F0aW9uczpyZWFkIHdlYmhvb2tzOnJlYWQgd2ViaG9va3M6d3JpdGUifQ.Mouh_NK5mkBip2-_RxCCgpq5qLuGKwVpwsC3lqJNtXKEgmCjaxdOFcw5fsCtSxfVOadE_fWEj1NpmTSlU5rryg';
+    const evtResp = await fetch(eventUri, {
+      headers: { 'Authorization': `Bearer ${CALENDLY_PAT}` }
+    });
+    const evtData = await evtResp.json();
+    const scheduledEvent = evtData.resource || evtData;
+
+    console.log('   Fetched event type URI:', scheduledEvent.event_type);
+
+    // Check if this is the Fit Blueprint event type
+    const eventTypeUri = scheduledEvent.event_type || '';
+    const isFitBlueprint = eventTypeUri.includes('305ed985-c8d8-407a-8642-35218407d007');
+
+    if (!isFitBlueprint) {
+      console.log('ℹ️  Not Fit Blueprint — skipping. event_type:', eventTypeUri);
+      return;
+    }
+
+    // Extract session details from the fetched event
+    const startTime   = scheduledEvent.start_time || '';
+    const sessionDate = startTime
+      ? new Date(startTime).toLocaleString('en-US', { timeZone: 'America/New_York', dateStyle: 'full', timeStyle: 'short' })
+      : null;
+    const locationRaw = scheduledEvent.location || {};
+    const locationStr = locationRaw.location || locationRaw.join_url || locationRaw.description || '1140 3rd St NE, Washington, DC';
+
+    console.log(`📧 Sending form link to ${clientName} <${clientEmail}> for session ${sessionDate}`);
     await sendFormLinkEmail({ clientName, clientEmail, sessionDate, locationStr, cancelUrl, rescheduleUrl });
     console.log(`✅ Form link sent to ${clientEmail}`);
 
   } catch (err) {
-    console.error('❌ Webhook async error:', err.message);
+    console.error('❌ Webhook async error:', err.message, err.stack);
   }
   })(); // end async IIFE
 });
