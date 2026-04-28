@@ -704,6 +704,22 @@ app.post('/api/submit', async (req, res) => {
     await prs.writeFile({ fileName: filePath });
     console.log(`✅ PPTX generated: ${fileName}`);
 
+    // Convert PPTX → PDF for client download (non-fatal if LibreOffice unavailable)
+    let pdfFileName = null;
+    let pdfFilePath = null;
+    try {
+      const { execSync } = require('child_process');
+      execSync(`libreoffice --headless --convert-to pdf --outdir "${genDir}" "${filePath}"`, { timeout: 60000 });
+      pdfFileName = fileName.replace('.pptx', '.pdf');
+      pdfFilePath = path.join(genDir, pdfFileName);
+      if (!fs.existsSync(pdfFilePath)) throw new Error('PDF not found after conversion');
+      console.log(`✅ PDF generated: ${pdfFileName}`);
+    } catch (pdfErr) {
+      console.warn('⚠️  PDF conversion failed (LibreOffice unavailable?), falling back to PPTX:', pdfErr.message);
+      pdfFileName = null;
+      pdfFilePath = null;
+    }
+
     // Generate PDF receipt (non-fatal if Python fails)
     const subJsonPath    = path.join(subDir, `${safeName}_${ts}.json`);
     const receiptFileName = `iKengaFit_Receipt_${safeName}_${ts}.pdf`;
@@ -722,10 +738,12 @@ app.post('/api/submit', async (req, res) => {
     });
 
     res.json({
-      success:     true,
+      success:      true,
       clientName,
-      downloadUrl: `/generated/${fileName}`,
-      fileName,
+      downloadUrl:  pdfFilePath ? `/generated/${pdfFileName}` : `/generated/${fileName}`,
+      fileName:     pdfFilePath ? pdfFileName : fileName,
+      pdfUrl:       pdfFilePath ? `/generated/${pdfFileName}` : null,
+      pdfFileName:  pdfFileName || null,
     });
   } catch (err) {
     console.error('❌ Submit error:', err.message);

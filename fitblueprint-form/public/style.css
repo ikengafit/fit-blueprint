@@ -510,3 +510,18 @@ body {
 
 /* ─── VALIDATION STYLES ─────────────────────────────────────── */
 input:invalid:not(:placeholder-shown) { border-color: transparent; }
+
+/* ─── Logo image in header/footer ─── */
+.logo-img {
+  height: 36px;
+  width: auto;
+  display: block;
+  object-fit: contain;
+}
+.footer-logo-img {
+  height: 28px;
+  width: auto;
+  display: block;
+  object-fit: contain;
+  opacity: 0.85;
+}
