@@ -239,7 +239,7 @@ def build_receipt(submission: dict, output_path: str):
     c1 = 3.68*inch; c3 = 0.46*inch; c4 = 0.96*inch; c5 = 1.04*inch
 
     svc_desc = (
-        "<b>Comprehensive Fitness Assessment &amp; Individualized Exercise Prescription "
+        "<b>Comprehensive Fitness Assessment &amp; Individualized Exercise Programming "
         "— iKengaFit Fit Blueprint Session</b><br/>"
         "<font size='7' color='#5A5754'>"
         "Single-session evaluation by David Clary, CSCS (NSCA), M.S. Clinical Exercise Science. "
@@ -249,7 +249,7 @@ def build_receipt(submission: dict, output_path: str):
         "(3) <b>Functional Movement Screen (FMS)</b> — 7-pattern screen for limitations, asymmetries &amp; injury risk; "
         "(4) <b>Muscular Strength &amp; Endurance</b> — push test, core endurance holds, lower-body evaluation; "
         "(5) <b>Cardiovascular Assessment</b> — submaximal treadmill recovery test for aerobic capacity; "
-        "(6) <b>Exercise Prescription</b> — personalized program based on findings, health history &amp; goals. "
+        "(6) <b>Exercise Programming</b> — personalized program based on findings, health history &amp; goals. "
         f"Modality: {mode}."
         "</font>"
     )
@@ -323,24 +323,22 @@ def build_receipt(submission: dict, output_path: str):
                    "Cert. Strength &amp; Conditioning Specialist (NSCA)<br/>"
                    "Precision Nutrition Coach, Level 1",  s["body"]),
          Paragraph("Comprehensive Fitness Assessment<br/>"
-                   "Individualized Exercise Prescription<br/>"
+                   "Individualized Exercise Programming<br/>"
                    "Preventive &amp; Corrective Health Services",   s["body"]),
-         Paragraph("NSCA-CSCS  \u00b7  NASM-CPT<br/>"
+         Paragraph("NSCA-CSCS  \u00b7  ACE-CPT<br/>"
                    "Precision Nutrition PN1<br/>"
                    "FMS Certified Practitioner<br/>"
                    "Jurisdiction: Washington, DC",        s["body"])],
-        [Paragraph("CLIENT-REPORTED HEALTH GOAL",  s["label"]),
-         Paragraph("FUNCTIONAL FITNESS LEVEL",     s["label"]),
-         Paragraph("REPORTED LIMITATIONS / INJURIES", s["label"])],
-        [Paragraph(goal,   s["body"]),
-         Paragraph(level,  s["body"]),
-         Paragraph(injury, s["body"])],
+        [Paragraph("REPORTED LIMITATIONS / INJURIES", s["label"]), "", ""],
+        [Paragraph(injury, s["body"]), "", ""],
     ], colWidths=[third, third, third])
     clin.setStyle(TableStyle([
         ("BACKGROUND",  (0,0),(-1,0), HexColor("#028381")),
         ("TEXTCOLOR",   (0,0),(-1,0), white),
         ("BACKGROUND",  (0,2),(-1,2), HexColor("#028381")),
         ("TEXTCOLOR",   (0,2),(-1,2), white),
+        ("SPAN",        (0,2),(-1,2)),
+        ("SPAN",        (0,3),(-1,3)),
         ("GRID",        (0,0),(-1,-1), 0.3, BORDER),
         ("VALIGN",      (0,0),(-1,-1),"TOP"),
         ("LEFTPADDING", (0,0),(-1,-1),5),
@@ -361,7 +359,7 @@ def build_receipt(submission: dict, output_path: str):
     story.append(Paragraph(
         "<b>HSA / FSA / Employer Wellness:</b> Services may qualify for reimbursement when accompanied by a "
         "<b>Letter of Medical Necessity (LMN)</b> from a licensed physician citing the client\u2019s diagnosis "
-        "and clinical rationale for supervised fitness assessment and corrective exercise prescription. "
+        "and clinical rationale for supervised fitness assessment and corrective exercise programming. "
         "Submit this itemized receipt with the LMN to your plan administrator or HSA/FSA provider. "
         "Eligibility is determined solely by your plan. iKengaFit does not guarantee reimbursement. "
         "Retain documentation for 7 years.",
@@ -422,7 +420,7 @@ def build_receipt(submission: dict, output_path: str):
         title="iKengaFit Personal Training Receipt",
         author="iKengaFit",
         leftMargin=MARGIN, rightMargin=MARGIN,
-        topMargin=0.38*inch, bottomMargin=0.48*inch,
+        topMargin=0.32*inch, bottomMargin=0.38*inch,
     )
     doc.build(story, onFirstPage=hf, onLaterPages=hf)
     print(f"Receipt saved: {output_path}")
