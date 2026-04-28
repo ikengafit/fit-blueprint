@@ -15,8 +15,9 @@ const fs         = require('fs');
 const path       = require('path');
 const nodemailer = require('nodemailer');
 const PptxGenJS  = require('pptxgenjs');
-const { execFile } = require('child_process');
+const { execFile, execSync } = require('child_process');
 const QRCode     = require('qrcode');
+const PDFDocument = require('pdfkit');
 
 const app  = express();
 const PORT = process.env.PORT || 4000;
@@ -65,7 +66,7 @@ transporter.verify((err, success) => {
 // ─── EMAIL HELPERS ────────────────────────────────────────────────────────────
 
 /** Email 1: Sent to client right after they book on Calendly */
-async function sendFormLinkEmail({ clientName, clientEmail, sessionDate, locationStr, cancelUrl, rescheduleUrl }) {
+async function sendFormLinkEmail({ clientName, clientEmail, sessionDate, locationStr, cancelUrl, rescheduleUrl, receiptPath }) {
   const firstName = clientName.split(' ')[0];
   const isVirtual = locationStr && locationStr.startsWith('http');
   const locationDisplay = isVirtual
@@ -198,13 +199,22 @@ async function sendFormLinkEmail({ clientName, clientEmail, sessionDate, locatio
 </body>
 </html>`;
 
-  await transporter.sendMail({
+  const mailOpts = {
     from:    `"Coach David Clary · iKengaFit" <${CONFIG.smtp.user}>`,
     to:      `"${clientName}" <${clientEmail}>`,
     subject: `You're confirmed for your Fit Blueprint, ${firstName} — one thing to do before we meet`,
     html,
     text: `Hi ${firstName},\n\nYour Fit Blueprint session is confirmed!\n\nDate & Time: ${sessionDate || 'See your calendar invite'}\nLocation: ${locationStr || '1140 3rd St NE, Washington, DC'}\nCoach: David Clary, MS, CSCS, Pn1\n${rescheduleUrl ? '\nReschedule: ' + rescheduleUrl : ''}${cancelUrl ? '\nCancel: ' + cancelUrl : ''}\n\nBefore we meet, please complete your Pre-Fit Blueprint questionnaire (5 min) so Coach Clary can build your personalized proposal before the session:\n${CONFIG.formUrl}\n\nSee you soon,\nCoach David Clary\niKengaFit`,
-  });
+    attachments: [],
+  };
+  if (receiptPath && fs.existsSync(receiptPath)) {
+    mailOpts.attachments.push({
+      filename: 'iKengaFit_FitBlueprint_Receipt.pdf',
+      path: receiptPath,
+      contentType: 'application/pdf',
+    });
+  }
+  await transporter.sendMail(mailOpts);
 
   console.log(`✅ Form link email sent to ${clientEmail}`);
 }
@@ -225,6 +235,120 @@ function generateReceipt(submissionPath, receiptPath) {
         resolve(receiptPath);
       }
     });
+  });
+}
+
+/**
+ * Generate a client-facing PDF summary using pdfkit (no LibreOffice needed).
+ * Contains key assessment recap + package recommendation in iKengaFit brand style.
+ */
+function generateClientPdf(data, outputPath) {
+  return new Promise((resolve, reject) => {
+    try {
+      const doc = new PDFDocument({ margin: 50, size: 'LETTER' });
+      const stream = fs.createWriteStream(outputPath);
+      doc.pipe(stream);
+
+      const TEAL   = '#028381';
+      const DARK   = '#151414';
+      const CREAM  = '#F5F1EB';
+      const GREY   = '#5A5856';
+      const WHITE  = '#FFFFFF';
+      const CRIMSON= '#8A2C0E';
+
+      const firstName = (data.fullName || 'Client').split(' ')[0];
+
+      // ── Header bar ────────────────────────────────────────────────────────
+      doc.rect(0, 0, 612, 56).fill(DARK);
+      doc.fillColor(TEAL).rect(0, 56, 612, 4).fill();
+      doc.fillColor(WHITE).fontSize(18).font('Helvetica-Bold')
+         .text('iKengaFit', 50, 18, { continued: true })
+         .fillColor(TEAL).fontSize(11).font('Helvetica')
+         .text('  ·  Fit Blueprint', { continued: false });
+      doc.fillColor(CREAM).fontSize(9).font('Helvetica')
+         .text('Find Your Place of Strength™', 50, 38);
+
+      doc.moveDown(2);
+
+      // ── Title ─────────────────────────────────────────────────────────────
+      doc.fillColor(DARK).fontSize(22).font('Helvetica-Bold')
+         .text(`${firstName}'s Fit Blueprint`, 50, 80);
+      doc.fillColor(GREY).fontSize(11).font('Helvetica')
+         .text(`Personalized Coaching Proposal · Prepared by Coach David Clary, MS, CSCS, Pn1`, 50, 106);
+      doc.moveDown(0.5);
+      doc.strokeColor(TEAL).lineWidth(1.5).moveTo(50, 128).lineTo(562, 128).stroke();
+
+      let y = 142;
+
+      // ── Section helper ────────────────────────────────────────────────────
+      const section = (title, color = TEAL) => {
+        doc.rect(50, y, 512, 22).fill(color);
+        doc.fillColor(WHITE).fontSize(9).font('Helvetica-Bold')
+           .text(title.toUpperCase(), 58, y + 6);
+        y += 30;
+      };
+
+      const row = (label, value) => {
+        if (!value || value === '[Not specified]') return;
+        doc.fillColor(GREY).fontSize(9).font('Helvetica-Bold')
+           .text(label.toUpperCase(), 58, y, { width: 140 });
+        doc.fillColor(DARK).fontSize(10).font('Helvetica')
+           .text(String(value), 205, y, { width: 357 });
+        y += doc.heightOfString(String(value), { width: 357 }) + 6;
+        if (y > 680) { doc.addPage(); y = 60; }
+      };
+
+      // ── Assessment Overview ───────────────────────────────────────────────
+      section('Assessment Overview');
+      row('Client',        data.fullName);
+      row('Primary Goal',  data.primaryGoal);
+      row('Fitness Level', data.fitnessLevel);
+      row('Training History', data.trainingHistory);
+      row('Availability',  data.availability);
+      row('Focus Areas',   data.focusAreas);
+      row('Injuries / Limitations', data.injuries);
+      row('Nutrition Goals', data.nutritionGoals);
+      row('Motivation',    data.motivation);
+      row('Past Barriers', data.barriers);
+      if (data.additionalNotes) row('Notes', data.additionalNotes);
+
+      y += 8;
+
+      // ── Package Recommendation ────────────────────────────────────────────
+      section('Package Recommendation', CRIMSON);
+      row('Recommended Package', data.recommendedPkg);
+      row('Preferred Mode',      data.preferredMode || data.trainingPreference);
+
+      y += 12;
+
+      // ── Next Steps ────────────────────────────────────────────────────────
+      section('Next Steps');
+      const steps = [
+        '1. Review this proposal with Coach Clary during your Fit Blueprint session.',
+        '2. Select your package and book your sessions at ikengafit.com/standardcoaching.',
+        '3. For Elite Coaching, apply at ikengafit.com/elitecoaching.',
+        '4. Try 1 free week of the Elite Performance System: trainerize.me/profile/ikengafit',
+      ];
+      steps.forEach(s => {
+        doc.fillColor(DARK).fontSize(10).font('Helvetica').text(s, 58, y, { width: 504 });
+        y += 18;
+      });
+
+      // ── Footer ────────────────────────────────────────────────────────────
+      doc.rect(0, 728, 612, 84).fill(DARK);
+      doc.fillColor(TEAL).fontSize(9).font('Helvetica-Bold')
+         .text('iKengaFit  ·  Washington, DC & Virtual Nationwide', 50, 738);
+      doc.fillColor(GREY).fontSize(8).font('Helvetica')
+         .text('(202) 936-7657  ·  ikengafit.com  ·  david.clary@ikengafit.com', 50, 752);
+      doc.fillColor(GREY).fontSize(8)
+         .text('Prepared by Coach David Clary, MS, CSCS, Pn1 — Certified Strength & Conditioning Specialist (NSCA)', 50, 764);
+
+      doc.end();
+      stream.on('finish', () => resolve(outputPath));
+      stream.on('error', reject);
+    } catch (e) {
+      reject(e);
+    }
   });
 }
 
@@ -669,9 +793,27 @@ app.post('/api/calendly-webhook', (req, res) => {
     const locationRaw = scheduledEvent.location || {};
     const locationStr = locationRaw.location || locationRaw.join_url || locationRaw.description || '1140 3rd St NE, Washington, DC';
 
-    console.log(`📧 Sending form link to ${clientName} <${clientEmail}> for session ${sessionDate}`);
-    await sendFormLinkEmail({ clientName, clientEmail, sessionDate, locationStr, cancelUrl, rescheduleUrl });
-    console.log(`✅ Form link sent to ${clientEmail}`);
+    // Generate receipt PDF using payment data from Calendly
+    const paymentAmount = invitee.payment?.amount ?? 100;
+    const ts            = Date.now();
+    const safeName      = clientName.replace(/[^a-zA-Z0-9]/g, '_').slice(0, 30);
+    const receiptData   = {
+      fullName:       clientName,
+      email:          clientEmail,
+      paymentAmount:  paymentAmount,
+      trainingPreference: locationRaw.type === 'zoom' || locationStr.startsWith('http') ? 'Virtual' : 'In-Person',
+      submittedAt:    new Date().toISOString(),
+    };
+    const subDir        = path.join(__dirname, 'submissions');
+    const genDir        = path.join(__dirname, 'generated');
+    const receiptJsonPath = path.join(subDir, `receipt_booking_${safeName}_${ts}.json`);
+    const receiptPdfPath  = path.join(genDir,  `iKengaFit_Receipt_${safeName}_${ts}.pdf`);
+    fs.writeFileSync(receiptJsonPath, JSON.stringify(receiptData, null, 2));
+    const receiptResult = await generateReceipt(receiptJsonPath, receiptPdfPath);
+
+    console.log(`📧 Sending form link + receipt to ${clientName} <${clientEmail}> for session ${sessionDate}`);
+    await sendFormLinkEmail({ clientName, clientEmail, sessionDate, locationStr, cancelUrl, rescheduleUrl, receiptPath: receiptResult });
+    console.log(`✅ Form link + receipt sent to ${clientEmail}`);
 
   } catch (err) {
     console.error('❌ Webhook async error:', err.message, err.stack);
@@ -714,18 +856,16 @@ app.post('/api/submit', async (req, res) => {
     await prs.writeFile({ fileName: filePath });
     console.log(`✅ PPTX generated: ${fileName}`);
 
-    // Convert PPTX → PDF for client download (non-fatal if LibreOffice unavailable)
+    // Generate client-facing PDF using pdfkit (no LibreOffice needed)
     let pdfFileName = null;
     let pdfFilePath = null;
     try {
-      const { execSync } = require('child_process');
-      execSync(`libreoffice --headless --convert-to pdf --outdir "${genDir}" "${filePath}"`, { timeout: 60000 });
       pdfFileName = fileName.replace('.pptx', '.pdf');
       pdfFilePath = path.join(genDir, pdfFileName);
-      if (!fs.existsSync(pdfFilePath)) throw new Error('PDF not found after conversion');
-      console.log(`✅ PDF generated: ${pdfFileName}`);
+      await generateClientPdf(data, pdfFilePath);
+      console.log(`✅ Client PDF generated: ${pdfFileName}`);
     } catch (pdfErr) {
-      console.warn('⚠️  PDF conversion failed (LibreOffice unavailable?), falling back to PPTX:', pdfErr.message);
+      console.warn('⚠️  Client PDF generation failed:', pdfErr.message);
       pdfFileName = null;
       pdfFilePath = null;
     }

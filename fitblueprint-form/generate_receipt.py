@@ -127,7 +127,8 @@ def build_receipt(submission: dict, output_path: str):
     level         = submission.get("fitnessLevel",       "Not specified")
     injury        = submission.get("injuries",           "None reported")
     iso           = submission.get("submittedAt",        datetime.now().isoformat())
-    discount_code = (submission.get("discountCode",      "") or "").strip()
+    discount_code  = (submission.get("discountCode",   "") or "").strip()
+    payment_amount = submission.get("paymentAmount", None)  # actual amount charged, from Calendly/Stripe
 
     try:
         dt       = datetime.fromisoformat(iso)
@@ -145,14 +146,29 @@ def build_receipt(submission: dict, output_path: str):
     display_qty  = 1
     unit_price   = BASE_PRICE
     price        = BASE_PRICE
-    discount_amt = 0.00
+
+    # Determine actual amount paid and discount
+    # paymentAmount comes from Calendly's payment.amount field (actual $ charged)
+    if payment_amount is not None:
+        try:
+            actual_paid = float(payment_amount)
+        except (ValueError, TypeError):
+            actual_paid = BASE_PRICE
+    else:
+        actual_paid = BASE_PRICE
+
+    discount_amt = max(0.0, round(BASE_PRICE - actual_paid, 2))
+    total_paid   = actual_paid
+
+    # Discount display: prefer explicit code, fall back to "Discount Applied" if amount < base
     if discount_code:
-        # If a discount code was entered, record it — actual discount amount
-        # can be adjusted here once codes/amounts are defined
         discount_code_display = discount_code.upper()
+    elif discount_amt > 0:
+        discount_code_display = "DISCOUNT APPLIED"
+    elif actual_paid == 0.0:
+        discount_code_display = "COMPLIMENTARY"
     else:
         discount_code_display = None
-    total_paid = price - discount_amt
 
     # ── Story ──────────────────────────────────────────────────────────────────
     story = []
@@ -269,7 +285,7 @@ def build_receipt(submission: dict, output_path: str):
     discount_row_idx = None
     if discount_code_display:
         discount_label = f"Discount Code: <b>{discount_code_display}</b>"
-        discount_val   = f"  -${discount_amt:,.2f}" if discount_amt else "  Applied"
+        discount_val   = f"  -${discount_amt:,.2f}" if discount_amt > 0 else "  Applied"
         discount_row_idx = len(totals_rows)
         totals_rows.append(
             ["", Paragraph(discount_label + discount_val, s["small"]), ""]
