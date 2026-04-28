@@ -121,12 +121,13 @@ def build_receipt(submission: dict, output_path: str):
     email   = submission.get("email",             "")
     phone   = submission.get("phone",             "")
     loc     = submission.get("location",          "")
-    pref    = submission.get("trainingPreference","virtual")
-    pkg_raw = submission.get("recommendedPkg",    "")
-    goal    = submission.get("primaryGoal",       "Not specified")
-    level   = submission.get("fitnessLevel",      "Not specified")
-    injury  = submission.get("injuries",          "None reported")
-    iso     = submission.get("submittedAt",       datetime.now().isoformat())
+    pref          = submission.get("trainingPreference", "virtual")
+    pkg_raw       = submission.get("recommendedPkg",     "")
+    goal          = submission.get("primaryGoal",        "Not specified")
+    level         = submission.get("fitnessLevel",       "Not specified")
+    injury        = submission.get("injuries",           "None reported")
+    iso           = submission.get("submittedAt",        datetime.now().isoformat())
+    discount_code = (submission.get("discountCode",      "") or "").strip()
 
     try:
         dt       = datetime.fromisoformat(iso)
@@ -136,12 +137,22 @@ def build_receipt(submission: dict, output_path: str):
         svc_date = datetime.now().strftime("%B %d, %Y")
         rec_no   = "IKF-" + datetime.now().strftime("%Y%m%d%H%M")
 
-    sessions, price, weeks, mode = parse_package(pkg_raw, pref)
-    # Fit Blueprint is always 1 session; multi-session packages retain their session count
-    qty = 1 if (not isinstance(sessions, int) or sessions == 0) else sessions
-    is_fit_blueprint = qty == 1 or (not pkg_raw)
-    display_qty = 1  # Receipt covers this single assessment session
-    unit_price = price if is_fit_blueprint else round(price / sessions, 2) if isinstance(sessions, int) and sessions else 0
+    # Derive training modality from preference
+    mode = "In-Person" if ("in-person" in pref.lower() or "in person" in pref.lower()) else "Virtual"
+
+    # Fit Blueprint is always a fixed $100 service
+    BASE_PRICE   = 100.00
+    display_qty  = 1
+    unit_price   = BASE_PRICE
+    price        = BASE_PRICE
+    discount_amt = 0.00
+    if discount_code:
+        # If a discount code was entered, record it — actual discount amount
+        # can be adjusted here once codes/amounts are defined
+        discount_code_display = discount_code.upper()
+    else:
+        discount_code_display = None
+    total_paid = price - discount_amt
 
     # ── Story ──────────────────────────────────────────────────────────────────
     story = []
@@ -252,21 +263,37 @@ def build_receipt(submission: dict, output_path: str):
 
     # Totals — columns aligned to c4+c5 of service table
     pad = c1 + c3
-    totals = Table([
+    totals_rows = [
         ["", Paragraph("Subtotal",          s["body"]),  Paragraph(f"${price:,.2f}",   s["body"])],
-        ["", Paragraph("<b>TOTAL PAID</b>",  s["bold"]),  Paragraph(f"<b>${price:,.2f}</b>", s["bold"])],
+    ]
+    discount_row_idx = None
+    if discount_code_display:
+        discount_label = f"Discount Code: <b>{discount_code_display}</b>"
+        discount_val   = f"  -${discount_amt:,.2f}" if discount_amt else "  Applied"
+        discount_row_idx = len(totals_rows)
+        totals_rows.append(
+            ["", Paragraph(discount_label + discount_val, s["small"]), ""]
+        )
+    totals_rows += [
+        ["", Paragraph("<b>TOTAL PAID</b>",  s["bold"]),  Paragraph(f"<b>${total_paid:,.2f}</b>", s["bold"])],
         ["", Paragraph("Pmt Method",     s["small"]), Paragraph("Paid in Full",     s["small"])],
-    ], colWidths=[pad, c4, c5])
-    totals.setStyle(TableStyle([
-        ("LINEABOVE",    (1,2),(-1,2), 0.75, TEAL),
-        ("LINEBELOW",    (1,2),(-1,2), 0.4,  BORDER),
+    ]
+    totals = Table(totals_rows, colWidths=[pad, c4, c5])
+    total_row = len(totals_rows) - 2  # TOTAL PAID row index
+    ts_cmds = [
+        ("LINEABOVE",    (1,total_row),(-1,total_row), 0.75, TEAL),
+        ("LINEBELOW",    (1,total_row),(-1,total_row), 0.4,  BORDER),
         ("VALIGN",       (0,0),(-1,-1),"TOP"),
         ("LEFTPADDING",  (0,0),(-1,-1),5),
         ("RIGHTPADDING", (0,0),(-1,-1),5),
         ("TOPPADDING",   (0,0),(-1,-1),3),
         ("BOTTOMPADDING",(0,0),(-1,-1),3),
         ("ALIGN",        (1,0),(-1,-1),"RIGHT"),
-    ]))
+    ]
+    if discount_row_idx is not None:
+        ts_cmds.append(("SPAN", (1, discount_row_idx), (2, discount_row_idx)))
+        ts_cmds.append(("ALIGN", (1, discount_row_idx), (2, discount_row_idx), "LEFT"))
+    totals.setStyle(TableStyle(ts_cmds))
     story.append(totals)
     story.append(rule(TEAL, 0.6, space=3))
 
@@ -305,6 +332,8 @@ def build_receipt(submission: dict, output_path: str):
         ("TOPPADDING",  (0,0),(-1,-1),4),
         ("BOTTOMPADDING",(0,0),(-1,-1),4),
     ]))
+    # Tighten spacing before clinical block when discount row adds extra height
+    story.append(Spacer(1, 2 if discount_code_display else 4))
     story.append(KeepTogether([
         Paragraph("CLINICAL DOCUMENTATION FOR REIMBURSEMENT", s["h2"]),
         clin,
@@ -377,7 +406,7 @@ def build_receipt(submission: dict, output_path: str):
         title="iKengaFit Personal Training Receipt",
         author="iKengaFit",
         leftMargin=MARGIN, rightMargin=MARGIN,
-        topMargin=0.44*inch, bottomMargin=0.54*inch,
+        topMargin=0.38*inch, bottomMargin=0.48*inch,
     )
     doc.build(story, onFirstPage=hf, onLaterPages=hf)
     print(f"Receipt saved: {output_path}")
