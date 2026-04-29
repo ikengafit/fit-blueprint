@@ -239,8 +239,27 @@ function generateReceipt(submissionPath, receiptPath) {
 }
 
 /**
- * Generate a client-facing PDF summary using pdfkit (no LibreOffice needed).
- * Contains key assessment recap + package recommendation in iKengaFit brand style.
+ * Generate client-facing PDF using the Python ReportLab script.
+ * Mirrors the PPTX deck exactly. Same pattern as generateReceipt().
+ */
+function generateClientPdfPython(submissionPath, pdfPath) {
+  return new Promise((resolve) => {
+    const scriptPath = path.join(__dirname, 'generate_client_pdf.py');
+    execFile('python3', [scriptPath, submissionPath, pdfPath], { timeout: 60000 }, (err, stdout, stderr) => {
+      if (err) {
+        console.error('⚠️  Client PDF generation failed:', err.message, stderr);
+        resolve(null);
+      } else {
+        console.log('✅ Client PDF (Python) generated:', pdfPath);
+        resolve(pdfPath);
+      }
+    });
+  });
+}
+
+/**
+ * [LEGACY] Generate a client-facing PDF summary using pdfkit.
+ * Kept for reference — replaced by generateClientPdfPython() above.
  */
 function generateClientPdf(data, outputPath) {
   return new Promise((resolve, reject) => {
@@ -862,14 +881,22 @@ app.post('/api/submit', async (req, res) => {
     await prs.writeFile({ fileName: filePath });
     console.log(`✅ PPTX generated: ${fileName}`);
 
-    // Generate client-facing PDF using pdfkit (no LibreOffice needed)
+    // Submission JSON path (already written above)
+    const subJsonPath = path.join(subDir, `${safeName}_${ts}.json`);
+
+    // Generate client-facing PDF using Python ReportLab script (mirrors PPTX)
     let pdfFileName = null;
     let pdfFilePath = null;
     try {
       pdfFileName = fileName.replace('.pptx', '.pdf');
       pdfFilePath = path.join(genDir, pdfFileName);
-      await generateClientPdf(data, pdfFilePath);
-      console.log(`✅ Client PDF generated: ${pdfFileName}`);
+      const pdfResult = await generateClientPdfPython(subJsonPath, pdfFilePath);
+      if (!pdfResult) {
+        pdfFileName = null;
+        pdfFilePath = null;
+      } else {
+        console.log(`✅ Client PDF generated: ${pdfFileName}`);
+      }
     } catch (pdfErr) {
       console.warn('⚠️  Client PDF generation failed:', pdfErr.message);
       pdfFileName = null;
@@ -877,7 +904,6 @@ app.post('/api/submit', async (req, res) => {
     }
 
     // Generate PDF receipt (non-fatal if Python fails)
-    const subJsonPath    = path.join(subDir, `${safeName}_${ts}.json`);
     const receiptFileName = `iKengaFit_Receipt_${safeName}_${ts}.pdf`;
     const receiptPath    = path.join(genDir, receiptFileName);
     const receiptResult  = await generateReceipt(subJsonPath, receiptPath);
