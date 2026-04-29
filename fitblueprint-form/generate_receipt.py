@@ -37,7 +37,7 @@ pdfmetrics.registerFont(TTFont("DM-B", reg))
 
 # ─── COLORS ────────────────────────────────────────────────────────────────────
 TEAL   = HexColor("#028381")
-DARK   = HexColor("#151414")
+DARK   = HexColor("#000000")
 ROW_BG = HexColor("#EEE9E2")
 LABEL  = HexColor("#2E2C29")   # near-black — survives fax/photocopy
 MUTED  = HexColor("#5A5754")
@@ -298,7 +298,8 @@ def build_receipt(submission: dict, output_path: str):
          Paragraph(f"${price:,.2f}",          s["bold"])],
     ], colWidths=[c1, c3, c4, c5])
     svc.setStyle(TableStyle([
-        ("BACKGROUND",  (0,0),(-1,0), ROW_BG),
+        ("BACKGROUND",  (0,0),(-1,0), TEAL),
+        ("TEXTCOLOR",   (0,0),(-1,0), white),
         ("LINEBELOW",   (0,0),(-1,0), 0.4, BORDER),
         ("LINEBELOW",   (0,1),(-1,1), 0.4, BORDER),
         ("VALIGN",      (0,0),(-1,-1),"TOP"),
