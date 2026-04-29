@@ -88,7 +88,7 @@ def rule(color=BORDER, thickness=0.4, space=4):
 def make_hf(W, H, MARGIN, logo_path=None):
     def draw(canvas, doc):
         canvas.saveState()
-        canvas.setFillColor(TEAL)
+        canvas.setFillColor(DARK)
         canvas.rect(0, H - 0.44*inch, W, 0.44*inch, fill=1, stroke=0)
         # Logo image (white-on-teal bar)
         if logo_path and Path(logo_path).exists():
