@@ -129,14 +129,23 @@ def build_receipt(submission: dict, output_path: str):
     iso           = submission.get("submittedAt",        datetime.now().isoformat())
     discount_code  = (submission.get("discountCode",   "") or "").strip()
     payment_amount = submission.get("paymentAmount", None)  # actual amount charged, from Calendly/Stripe
+    # Real order/transaction references from Calendly + Stripe
+    calendly_booking_id = (submission.get("calendlyBookingId", "") or "").strip()
+    stripe_receipt_id   = (submission.get("stripeReceiptId",   "") or "").strip()
 
     try:
         dt       = datetime.fromisoformat(iso)
         svc_date = dt.strftime("%B %d, %Y")
-        rec_no   = "IKF-" + dt.strftime("%Y%m%d%H%M")
     except Exception:
-        svc_date = datetime.now().strftime("%B %d, %Y")
-        rec_no   = "IKF-" + datetime.now().strftime("%Y%m%d%H%M")
+        dt       = datetime.now()
+        svc_date = dt.strftime("%B %d, %Y")
+
+    # Receipt number: Calendly invitee UUID (first 8 chars) prefixed with IKF-
+    # Falls back to timestamp if booking ID not available
+    if calendly_booking_id:
+        rec_no = "IKF-" + calendly_booking_id[:8].upper()
+    else:
+        rec_no = "IKF-" + dt.strftime("%Y%m%d%H%M")
 
     # Derive training modality from preference
     mode = "In-Person" if ("in-person" in pref.lower() or "in person" in pref.lower()) else "Virtual"
@@ -211,23 +220,37 @@ def build_receipt(submission: dict, output_path: str):
     story.append(rule())
 
     # 2. RECEIPT META ──────────────────────────────────────────────────────────
-    meta = Table(
-        [[Paragraph("RECEIPT NO.",       s["label"]),
-          Paragraph("DATE OF ISSUE",     s["label"]),
-          Paragraph("DATE OF SERVICE",   s["label"]),
-          Paragraph("MODALITY",          s["label"])],
-         [Paragraph(f"<b>{rec_no}</b>",  s["body"]),
-          Paragraph(svc_date,            s["body"]),
-          Paragraph(svc_date,            s["body"]),
-          Paragraph(f"<b>{mode}</b>",    s["body"])]],
-        colWidths=[qtr]*4
-    )
+    # Row 1: Receipt No. | Date of Issue | Date of Service | Modality
+    meta_rows = [
+        [Paragraph("RECEIPT NO.",       s["label"]),
+         Paragraph("DATE OF ISSUE",     s["label"]),
+         Paragraph("DATE OF SERVICE",   s["label"]),
+         Paragraph("MODALITY",          s["label"])],
+        [Paragraph(f"<b>{rec_no}</b>",  s["body"]),
+         Paragraph(svc_date,            s["body"]),
+         Paragraph(svc_date,            s["body"]),
+         Paragraph(f"<b>{mode}</b>",    s["body"])],
+    ]
+    # Row 2: Calendly Order ID + Stripe Processing #
+    # Uses a compact monospace-style body for long IDs
+    small_body = ParagraphStyle("small_body", parent=s["body"], fontSize=7.5, leading=10)
+    if calendly_booking_id or stripe_receipt_id:
+        cal_display    = calendly_booking_id if calendly_booking_id else "—"
+        stripe_display = stripe_receipt_id   if stripe_receipt_id   else "N/A (discount applied)"
+        meta_rows.append(
+            [Paragraph("CALENDLY ORDER ID",  s["label"]),
+             Paragraph(f"<b>{cal_display}</b>",    small_body),
+             Paragraph("STRIPE PROCESSING #", s["label"]),
+             Paragraph(f"<b>{stripe_display}</b>", small_body)]
+        )
+
+    meta = Table(meta_rows, colWidths=[qtr]*4)
     meta.setStyle(TableStyle([
         ("VALIGN",(0,0),(-1,-1),"TOP"),
         ("LEFTPADDING",(0,0),(-1,-1),0),
         ("RIGHTPADDING",(0,0),(-1,-1),6),
         ("TOPPADDING",(0,0),(-1,-1),1),
-        ("BOTTOMPADDING",(0,0),(-1,-1),1),
+        ("BOTTOMPADDING",(0,0),(-1,-1),4),
     ]))
     story.append(meta)
     story.append(Spacer(1, 0.08*inch))

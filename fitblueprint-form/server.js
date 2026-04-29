@@ -794,15 +794,21 @@ app.post('/api/calendly-webhook', (req, res) => {
     const locationStr = locationRaw.location || locationRaw.join_url || locationRaw.description || '1140 3rd St NE, Washington, DC';
 
     // Generate receipt PDF using payment data from Calendly
-    const paymentAmount = invitee.payment?.amount ?? 100;
-    const ts            = Date.now();
-    const safeName      = clientName.replace(/[^a-zA-Z0-9]/g, '_').slice(0, 30);
-    const receiptData   = {
-      fullName:       clientName,
-      email:          clientEmail,
-      paymentAmount:  paymentAmount,
+    const paymentAmount     = invitee.payment?.amount ?? 100;
+    // Calendly invitee UUID — used as the booking/order reference on the receipt
+    const calendlyBookingId = (invitee.uri || '').split('/').pop() || '';
+    // Stripe charge/payment-intent ID (e.g. ch_xxx or pi_xxx) — null when a 100% coupon was used
+    const stripeReceiptId   = invitee.payment?.external_id || null;
+    const ts                = Date.now();
+    const safeName          = clientName.replace(/[^a-zA-Z0-9]/g, '_').slice(0, 30);
+    const receiptData       = {
+      fullName:           clientName,
+      email:              clientEmail,
+      paymentAmount:      paymentAmount,
       trainingPreference: locationRaw.type === 'zoom' || locationStr.startsWith('http') ? 'Virtual' : 'In-Person',
-      submittedAt:    new Date().toISOString(),
+      submittedAt:        new Date().toISOString(),
+      calendlyBookingId:  calendlyBookingId,
+      stripeReceiptId:    stripeReceiptId,
     };
     const subDir        = path.join(__dirname, 'submissions');
     const genDir        = path.join(__dirname, 'generated');
