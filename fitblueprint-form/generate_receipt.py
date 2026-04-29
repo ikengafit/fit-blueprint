@@ -85,18 +85,28 @@ def rule(color=BORDER, thickness=0.4, space=4):
                       spaceBefore=space, spaceAfter=space)
 
 # ─── HEADER / FOOTER ──────────────────────────────────────────────────────────
-def make_hf(W, H, MARGIN):
+def make_hf(W, H, MARGIN, logo_path=None):
     def draw(canvas, doc):
         canvas.saveState()
         canvas.setFillColor(TEAL)
-        canvas.rect(0, H - 0.34*inch, W, 0.34*inch, fill=1, stroke=0)
+        canvas.rect(0, H - 0.44*inch, W, 0.44*inch, fill=1, stroke=0)
+        # Logo image (white-on-teal bar)
+        if logo_path and Path(logo_path).exists():
+            # Scale logo to fit in header bar: max height 0.32", preserve aspect
+            logo_h = 0.32 * inch
+            logo_w = logo_h * (1742 / 614)  # original pixel ratio
+            canvas.drawImage(str(logo_path), MARGIN, H - 0.38*inch,
+                             width=logo_w, height=logo_h,
+                             preserveAspectRatio=True, mask="auto")
+        else:
+            canvas.setFillColor(white)
+            canvas.setFont("Helvetica-Bold", 11)
+            canvas.drawString(MARGIN, H - 0.28*inch, "iKengaFit")
+            canvas.setFont("Helvetica", 8)
+            canvas.drawString(MARGIN + 62, H - 0.28*inch, "Personal Training")
         canvas.setFillColor(white)
-        canvas.setFont("Helvetica-Bold", 11)
-        canvas.drawString(MARGIN, H - 0.24*inch, "iKengaFit")
-        canvas.setFont("Helvetica", 8)
-        canvas.drawString(MARGIN + 62, H - 0.24*inch, "Personal Training")
         canvas.setFont("Helvetica-Bold", 7)
-        canvas.drawRightString(W - MARGIN, H - 0.24*inch, "ITEMIZED SERVICE RECEIPT")
+        canvas.drawRightString(W - MARGIN, H - 0.28*inch, "ITEMIZED SERVICE RECEIPT")
         canvas.setStrokeColor(BORDER)
         canvas.setLineWidth(0.4)
         canvas.line(MARGIN, 0.52*inch, W - MARGIN, 0.52*inch)
@@ -338,13 +348,11 @@ def build_receipt(submission: dict, output_path: str):
 
     # 4. CLINICAL DOCUMENTATION ────────────────────────────────────────────────
     clin = Table([
-        [Paragraph("PROVIDER CREDENTIALS",        s["label"]),
+        [Paragraph("PROVIDER EDUCATION",           s["label"]),
          Paragraph("SERVICE CATEGORY",             s["label"]),
          Paragraph("CERTIFICATIONS / JURISDICTION", s["label"])],
-        [Paragraph("David Clary, MS, CSCS, PN1<br/>"
-                   "M.S. Clinical Exercise Science<br/>"
-                   "Cert. Strength &amp; Conditioning Specialist (NSCA)<br/>"
-                   "Precision Nutrition Coach, Level 1",  s["body"]),
+        [Paragraph("M.S. Clinical Exercise Science — Liberty University<br/>"
+                   "B.S. Human Performance — Howard University",  s["body"]),
          Paragraph("Comprehensive Fitness Assessment<br/>"
                    "Individualized Exercise Programming<br/>"
                    "Preventive &amp; Corrective Health Services",   s["body"]),
@@ -352,16 +360,10 @@ def build_receipt(submission: dict, output_path: str):
                    "Precision Nutrition PN1<br/>"
                    "FMS Certified Practitioner<br/>"
                    "Jurisdiction: Washington, DC",        s["body"])],
-        [Paragraph("REPORTED LIMITATIONS / INJURIES", s["label"]), "", ""],
-        [Paragraph(injury, s["body"]), "", ""],
     ], colWidths=[third, third, third])
     clin.setStyle(TableStyle([
         ("BACKGROUND",  (0,0),(-1,0), HexColor("#028381")),
         ("TEXTCOLOR",   (0,0),(-1,0), white),
-        ("BACKGROUND",  (0,2),(-1,2), HexColor("#028381")),
-        ("TEXTCOLOR",   (0,2),(-1,2), white),
-        ("SPAN",        (0,2),(-1,2)),
-        ("SPAN",        (0,3),(-1,3)),
         ("GRID",        (0,0),(-1,-1), 0.3, BORDER),
         ("VALIGN",      (0,0),(-1,-1),"TOP"),
         ("LEFTPADDING", (0,0),(-1,-1),5),
@@ -436,14 +438,15 @@ def build_receipt(submission: dict, output_path: str):
     story.append(sig_block)
 
     # ── BUILD ──────────────────────────────────────────────────────────────────
-    hf = make_hf(W, H, MARGIN)
+    logo_path = Path(__file__).parent / "public" / "logo_form.jpg"
+    hf = make_hf(W, H, MARGIN, logo_path=logo_path)
 
     doc = SimpleDocTemplate(
         output_path, pagesize=letter,
         title="iKengaFit Personal Training Receipt",
         author="iKengaFit",
         leftMargin=MARGIN, rightMargin=MARGIN,
-        topMargin=0.32*inch, bottomMargin=0.38*inch,
+        topMargin=0.44*inch, bottomMargin=0.38*inch,
     )
     doc.build(story, onFirstPage=hf, onLaterPages=hf)
     print(f"Receipt saved: {output_path}")
