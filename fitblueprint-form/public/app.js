@@ -165,14 +165,6 @@ function showSuccess(data) {
   const firstName = (data.clientName || 'there').split(' ')[0];
   document.getElementById('successName').textContent = firstName + '!';
 
-  // Set download link — use a direct server URL
-  const downloadLink = document.getElementById('downloadLink');
-  const serverBase = window.location.origin;
-  // Use PDF download URL if available, fall back to PPTX
-  const pdfUrl = data.downloadUrl ? data.downloadUrl.replace('/generated/', '/generated/').replace('.pptx', '.pdf') : null;
-  downloadLink.href = serverBase + (data.pdfUrl || pdfUrl || data.downloadUrl);
-  downloadLink.setAttribute('download', (data.pdfFileName || data.fileName || 'iKengaFit_Blueprint.pdf').replace('.pptx', '.pdf'));
-
   // Scroll to success
   successScreen.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
